@@ -13,7 +13,6 @@ export class FlickrClient {
     private readonly flickrApiKey: string
     private flickrImageId: string | undefined
 
-    // FLICKR_API_KEY is expected in the environment variables
     constructor(flickrApiKey: string | undefined) {
         if (!flickrApiKey) {
             throw new Error('Flickr api key was not provided. Cannot continue.')
@@ -35,6 +34,10 @@ export class FlickrClient {
         this.flickrImageId = flickrImageId
     }
 
+    /**
+     * Returns the title of the Flickr image.
+     * TODO: Handling the case when the photo has no title.
+     */
     public async getImageTitle() {
         return await this.fetchImageInformation()
             .then(imageInformation => {
@@ -44,7 +47,7 @@ export class FlickrClient {
     }
 
     /**
-     * Requests meta information like author, title, description or tags for the selected image (see setContext()).
+     * Requests meta information like author, title, description or tags for the currently selected image (see setContext()).
      */
     private async fetchImageInformation() {
         const requestOptions = {
