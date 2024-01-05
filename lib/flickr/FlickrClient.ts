@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import axios from 'axios'
-import {FlickrPhotoTitleInformation} from "../../types/FlickrPhotoTitleInformation";
+import {FlickrPhotoTitleInformation} from "../../types/FlickrPhotoTitleInformation"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
