@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import axios from 'axios'
 import {FlickrPhotoTitleInformation} from "../../types/FlickrPhotoTitleInformation"
+import {FlickrImageSize} from "../../types/FlickrImageSize"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -46,6 +47,26 @@ export class FlickrClient {
             })
     }
 
+    public async getOriginalImageWidthInPixel() {
+        return await this.fetchImageSizes()
+            .then(imageSizes => {
+                const originalImage: FlickrImageSize = imageSizes.sizes.size.find((item: FlickrImageSize) => {
+                    return item.label === 'Original'
+                })
+                return originalImage.width
+            })
+    }
+
+    public async getOriginalImageHeightInPixel() {
+        return await this.fetchImageSizes()
+            .then(imageSizes => {
+                const originalImage: FlickrImageSize = imageSizes.sizes.size.find((item: FlickrImageSize) => {
+                    return item.label === 'Original'
+                })
+                return originalImage.height
+            })
+    }
+
     /**
      * Requests meta information like author, title, description or tags for the currently selected image (see setContext()).
      */
@@ -55,10 +76,28 @@ export class FlickrClient {
             'url': FLICKR_API_BASE_URL,
             'params': {
                 'api_key': this.flickrApiKey,
+                'photo_id': this.flickrImageId,
                 'format': 'json',
                 'nojsoncallback': '?',
                 'method': 'flickr.photos.getInfo',
+            }
+        }
+
+        let response = await axios(requestOptions)
+
+        return response.data
+    }
+
+    private async fetchImageSizes() {
+        const requestOptions = {
+            'method': 'get',
+            'url': FLICKR_API_BASE_URL,
+            'params': {
+                'api_key': this.flickrApiKey,
                 'photo_id': this.flickrImageId,
+                'format': 'json',
+                'nojsoncallback': '?',
+                'method': 'flickr.photos.getSizes',
             }
         }
 
