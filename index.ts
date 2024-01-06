@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import {FlickrClient} from "./lib/flickr/FlickrClient"
 
 (async function () {
