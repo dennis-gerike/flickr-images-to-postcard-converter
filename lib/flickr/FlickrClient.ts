@@ -41,11 +41,10 @@ export class FlickrClient {
      * TODO: Handling the case when the photo has no title.
      */
     public async getImageTitle() {
-        return await this.fetchImageInformation()
-            .then(imageInformation => {
-                const photoTitle: FlickrPhotoTitleInformation = imageInformation.photo.title
-                return photoTitle._content
-            })
+        const imageInformation = await this.fetchImageInformation()
+        const photoTitle: FlickrPhotoTitleInformation = imageInformation.photo.title
+
+        return photoTitle._content
     }
 
     public async getOriginalImageWidthInPixel() {
