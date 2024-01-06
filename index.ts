@@ -12,5 +12,6 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
 
     const jimpClient = new JimpClient()
     await jimpClient.setImage(`./data/raw/${process.env.FLICKR_IMAGE_ID}.jpg`)
+    jimpClient.setAspectRatio(1.5)
     await jimpClient.saveProcessedImage('./data/processed', `${process.env.FLICKR_IMAGE_ID}.jpg`)
 })()
