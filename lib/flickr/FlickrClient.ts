@@ -2,6 +2,7 @@ import 'dotenv/config'
 import axios from 'axios'
 import {FlickrPhotoTitleInformation} from "../../types/FlickrPhotoTitleInformation"
 import {FlickrImageSize} from "../../types/FlickrImageSize"
+import * as fs from "fs/promises"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -64,6 +65,24 @@ export class FlickrClient {
                     return item.label === 'Original'
                 })
                 return originalImage.height
+            })
+    }
+
+    /**
+     * Downloads the original image (not one of the resized versions) into the given folder.
+     * If the folder doesn't exist, it will be created.
+     */
+    public async downloadOriginalImage(targetPath: string) {
+        await fs.mkdir(`${targetPath}/`, {recursive: true})
+
+        this.fetchImageSizes()
+            .then(async imageSizes => {
+                const originalImage: FlickrImageSize = imageSizes.sizes.size.find((item: FlickrImageSize) => {
+                    return item.label === 'Original'
+                })
+                const response = await axios.get(originalImage.source, {responseType: 'arraybuffer'})
+                const image = Buffer.from(response.data, 'binary')
+                await fs.writeFile(`${targetPath}/${this.flickrImageId}.jpg`, image)
             })
     }
 

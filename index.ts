@@ -6,4 +6,5 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     console.log(await flickrClient.getImageTitle())
     console.log(await flickrClient.getOriginalImageWidthInPixel())
     console.log(await flickrClient.getOriginalImageHeightInPixel())
+    await flickrClient.downloadOriginalImage('./data/raw')
 })()
