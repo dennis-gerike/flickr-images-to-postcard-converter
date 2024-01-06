@@ -49,23 +49,15 @@ export class FlickrClient {
     }
 
     public async getOriginalImageWidthInPixel() {
-        return await this.fetchImageSizes()
-            .then(imageSizes => {
-                const originalImage: FlickrImageSize = imageSizes.sizes.size.find((item: FlickrImageSize) => {
-                    return item.label === 'Original'
-                })
-                return originalImage.width
-            })
+        const originalImage = await this.getOriginalImage()
+
+        return originalImage.width
     }
 
     public async getOriginalImageHeightInPixel() {
-        return await this.fetchImageSizes()
-            .then(imageSizes => {
-                const originalImage: FlickrImageSize = imageSizes.sizes.size.find((item: FlickrImageSize) => {
-                    return item.label === 'Original'
-                })
-                return originalImage.height
-            })
+        const originalImage = await this.getOriginalImage()
+
+        return originalImage.height
     }
 
     /**
@@ -74,16 +66,21 @@ export class FlickrClient {
      */
     public async downloadOriginalImage(targetPath: string) {
         await fs.mkdir(`${targetPath}/`, {recursive: true})
+        const originalImage = await this.getOriginalImage()
+        const response = await axios.get(originalImage.source, {responseType: 'arraybuffer'})
+        const image = Buffer.from(response.data, 'binary')
+        await fs.writeFile(`${targetPath}/${this.flickrImageId}.jpg`, image)
+    }
 
-        this.fetchImageSizes()
-            .then(async imageSizes => {
-                const originalImage: FlickrImageSize = imageSizes.sizes.size.find((item: FlickrImageSize) => {
-                    return item.label === 'Original'
-                })
-                const response = await axios.get(originalImage.source, {responseType: 'arraybuffer'})
-                const image = Buffer.from(response.data, 'binary')
-                await fs.writeFile(`${targetPath}/${this.flickrImageId}.jpg`, image)
-            })
+    /**
+     * Returns some basic information about the original image (e.g. dimensions and url).
+     */
+    public async getOriginalImage(): Promise<FlickrImageSize> {
+        const imageSizes = await this.fetchImageSizes()
+
+        return imageSizes.sizes.size.find((item: FlickrImageSize) => {
+            return item.label === 'Original'
+        })
     }
 
     /**
