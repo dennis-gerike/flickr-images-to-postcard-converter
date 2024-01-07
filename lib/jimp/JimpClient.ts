@@ -8,7 +8,7 @@ export class JimpClient {
     private photo: Jimp | undefined
 
     private textBox: Jimp | undefined
-    private textBoxText: string = "";
+    private textBoxText: string = ""
     private textBoxHeightPercentage: number = 20
 
     constructor() {
@@ -97,14 +97,29 @@ export class JimpClient {
     /**
      * Increases or decreases the dimensions of the canvas to match the size of the currently selected image.
      * The image is NOT yet rendered to the canvas, we just reserve the space for the future.
-     * The calculation considers the selected aspect ratio and make sure the image would not be accidentally cropped.
+     * The calculation considers the selected aspect ratio and make sure the image would not be accidentally cropped
+     * or resized (we want to keep every pixel of the orginal photo).
      */
     private resizeCanvasToMatchImageDimensions() {
-        // TODO: the current logic only works for widescreen image, portrait images will be cropped
         if (this.photo) {
-            this.canvasImageWidth = this.photo.getWidth()
-            this.canvasImageHeight = this.photo.getWidth() / this.aspectRatio
-            this.canvas.contain(this.canvasImageWidth, this.canvasImageHeight)
+            if (this.photoIsWidescreen()) {
+                this.canvas.resize(
+                    this.photo.getWidth(),
+                    this.photo.getWidth() / this.aspectRatio
+                )
+            } else {
+                if (this.textBox) {
+                    this.canvas.resize(
+                        (this.photo.getHeight() + this.textBox.getHeight()) * this.aspectRatio,
+                        this.photo.getHeight() + this.textBox.getHeight()
+                    )
+                } else {
+                    this.canvas.resize(
+                        this.photo.getHeight() * this.aspectRatio,
+                        this.photo.getHeight()
+                    )
+                }
+            }
         }
     }
 
