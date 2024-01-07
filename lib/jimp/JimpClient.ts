@@ -87,7 +87,7 @@ export class JimpClient {
      * Renders all layers onto the canvas, then saves the produced image at the given path.
      */
     public async saveProcessedImage(targetPath: string, targetFile: string) {
-        this.applyAllLayers()
+        await this.applyAllLayers()
 
         await fs.mkdir(`${targetPath}/`, {recursive: true})
 
@@ -126,7 +126,12 @@ export class JimpClient {
     /**
      * Renders the image and the text box onto the canvas.
      */
-    private applyAllLayers() {
+    private async applyAllLayers() {
+        if (this.textBox) { // TODO: text box size is not correctly applied the first time
+            await this.setTextBox(this.textBoxText, this.textBoxHeightPercentage)
+            await this.setTextBox(this.textBoxText, this.textBoxHeightPercentage)
+        }
+
         if (this.photo) {
             let x = 0
             if (!this.photoIsWidescreen()) {
