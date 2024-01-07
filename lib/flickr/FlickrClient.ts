@@ -37,7 +37,7 @@ export class FlickrClient {
 
     /**
      * Returns the title of the Flickr image.
-     * TODO: Handling the case when the photo has no title.
+     * When the image has no title, then an empty string will be returned.
      */
     public async getImageTitle() {
         const imageInformation = await this.fetchImageInformation()
