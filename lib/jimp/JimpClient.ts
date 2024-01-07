@@ -26,7 +26,7 @@ export class JimpClient {
      */
     public async setPhoto(path: string) {
         this.photo = await Jimp.read(path)
-        this.resizeCanvasToMatchImageDimensions()
+        this.resizeCanvasToCoverAllLayers()
     }
 
     /**
@@ -35,7 +35,7 @@ export class JimpClient {
      */
     public setAspectRatio(ratio: number) {
         this.aspectRatio = ratio
-        this.resizeCanvasToMatchImageDimensions()
+        this.resizeCanvasToCoverAllLayers()
     }
 
     /**
@@ -80,7 +80,7 @@ export class JimpClient {
         // and finally cutting the height down to the user requested value
         this.textBox.contain(this.canvas.getWidth(), targetHeight)
 
-        this.resizeCanvasToMatchImageDimensions()
+        this.resizeCanvasToCoverAllLayers()
     }
 
     /**
@@ -95,12 +95,13 @@ export class JimpClient {
     }
 
     /**
-     * Increases or decreases the dimensions of the canvas to match the size of the currently selected image.
-     * The image is NOT yet rendered to the canvas, we just reserve the space for the future.
-     * The calculation considers the selected aspect ratio and make sure the image would not be accidentally cropped
-     * or resized (we want to keep every pixel of the orginal photo).
+     * Increases or decreases the dimensions of the canvas, so it can house the currently selected photo and the text box.
+     * This does NOT render the photo or the text box onto the canvas, yet.
+     * We just reserve the space for the future.
+     * The calculations consider the selected aspect ratio and make sure the image would not be accidentally cropped
+     * or resized -> we want to keep every pixel of the original photo.
      */
-    private resizeCanvasToMatchImageDimensions() {
+    private resizeCanvasToCoverAllLayers() {
         if (this.photo) {
             if (this.photoIsWidescreen()) {
                 this.canvas.resize(
