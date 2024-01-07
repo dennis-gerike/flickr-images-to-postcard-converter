@@ -113,7 +113,11 @@ export class JimpClient {
      */
     private applyAllLayers() {
         if (this.photo) {
-            this.canvas.composite(this.photo, 0, 0, {
+            let x = 0
+            if (!this.photoIsWidescreen()) {
+                x = (this.canvas.getWidth() - this.photo.getWidth()) / 2
+            }
+            this.canvas.composite(this.photo, x, 0, {
                 mode: Jimp.BLEND_SOURCE_OVER,
                 opacitySource: 1,
                 opacityDest: 1,
