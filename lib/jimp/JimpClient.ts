@@ -10,6 +10,7 @@ export class JimpClient {
     private photo: Jimp | undefined
 
     private textBox: Jimp | undefined
+    private textBoxText: string = "";
     private textBoxHeightPercentage: number = 20
 
     constructor() {
@@ -47,26 +48,39 @@ export class JimpClient {
      * Calling this function multiple times will override any existing text box.
      */
     public async setTextBox(text: string, heightPercentage: number) {
+        this.textBoxText = text
         this.textBoxHeightPercentage = heightPercentage
 
-        // create the new layer (or override the existing one)
+        // Because the Jimp fonts are no vector graphics, but bitmaps we have to manually control the font size.
+        // We use a reference layer here, write the text onto it and then scale the whole layer up/down to the canvas size.
+        // This way, the (absolute) font size will stay the same for each photo - no matter if it is a big 4K image or just a small 720p image.
+        const referenceWidth = 4000
+        const referenceHeight = 300
+
+        // creating the new layer with the reference dimensions (or override the existing one)
         this.textBox = new Jimp(
-            this.canvasImageWidth,
-            this.canvasImageHeight * heightPercentage / 100,
-            0xff0000ff
+            referenceWidth,
+            referenceHeight,
+            0xff00ffff
         )
 
-        // print the given text onto the layer
-        const font = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK)
-        const height = this.canvasImageHeight * heightPercentage / 100
+        // printing the requested text onto the layer
+        const font = await Jimp.loadFont(Jimp.FONT_SANS_128_BLACK)
         this.textBox.print(font, 0, 0, {
                 text: text,
                 alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
                 alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
             },
-            this.canvasImageWidth,
-            height
+            referenceWidth,
+            referenceHeight
         )
+
+        // now, scaling the layer up/down to match the canvas size
+        const targetHeight = this.canvasImageHeight * heightPercentage / 100
+        this.textBox.resize(this.canvasImageWidth, Jimp.AUTO)
+
+        // and finally cutting the height down to the user requested value
+        this.textBox.contain(this.canvasImageWidth, targetHeight)
     }
 
     /**
