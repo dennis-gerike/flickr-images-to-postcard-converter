@@ -124,6 +124,27 @@ export class JimpClient {
     }
 
     /**
+     * Determines if the selected photo has a widescreen format or not.
+     * Widescreen means: the photo fills the canvas completely in horizontal direction - maybe leaving empty space above and/or below.
+     * Not widescreen means: the photo fills the canvas completely in vertical direction - maybe leaving empty space left and/or right.
+     * The calculation takes into account that the optional text box may change the available space for the photo on the canvas (photo and text box have to share the space).
+     */
+    private photoIsWidescreen() {
+        if (this.photo) {
+            let virtualWidth = this.photo.getWidth()
+            let virtualHeight = this.photo.getHeight()
+            if (this.textBox) {
+                virtualHeight += this.textBox.getHeight()
+            }
+            let virtualAspectRatio = virtualWidth / virtualHeight
+
+            return virtualAspectRatio > this.aspectRatio
+        }
+
+        return true
+    }
+
+    /**
      * Renders the image and the text box onto the canvas.
      */
     private async applyAllLayers() {
