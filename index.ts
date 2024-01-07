@@ -10,7 +10,7 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     await flickrClient.downloadOriginalImage('./data/raw', `${flickrImageId}.jpg`)
 
     const jimpClient = new JimpClient()
-    await jimpClient.setImage(`./data/raw/${flickrImageId}.jpg`)
+    await jimpClient.setPhoto(`./data/raw/${flickrImageId}.jpg`)
     jimpClient.setAspectRatio(1.5)
     await jimpClient.setTextBox(await flickrClient.getImageTitle(), 10)
     await jimpClient.saveProcessedImage('./data/processed', `${flickrImageId}.jpg`)

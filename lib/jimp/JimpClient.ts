@@ -7,7 +7,7 @@ export class JimpClient {
     private canvasImageWidth: number = 256
     private canvasImageHeight: number = this.canvasImageWidth / this.aspectRatio
 
-    private image: Jimp | undefined
+    private photo: Jimp | undefined
 
     private textBox: Jimp | undefined
     private textBoxHeightPercentage: number = 20
@@ -21,12 +21,12 @@ export class JimpClient {
     }
 
     /**
-     * Sets or replaces the current image.
+     * Sets or replaces the current photo.
      * The path can be relative or absolute.
      * The path must point to a valid (and supported) image file.
      */
-    public async setImage(path: string) {
-        this.image = await Jimp.read(path)
+    public async setPhoto(path: string) {
+        this.photo = await Jimp.read(path)
         this.resizeCanvasToMatchImageDimensions()
     }
 
@@ -87,9 +87,9 @@ export class JimpClient {
      */
     private resizeCanvasToMatchImageDimensions() {
         // TODO: the current logic only works for widescreen image, portrait images will be cropped
-        if (this.image) {
-            this.canvasImageWidth = this.image.getWidth()
-            this.canvasImageHeight = this.image.getWidth() / this.aspectRatio
+        if (this.photo) {
+            this.canvasImageWidth = this.photo.getWidth()
+            this.canvasImageHeight = this.photo.getWidth() / this.aspectRatio
             this.canvas.contain(this.canvasImageWidth, this.canvasImageHeight)
         }
     }
@@ -98,8 +98,8 @@ export class JimpClient {
      * Renders the image and the text box onto the canvas.
      */
     private applyAllLayers() {
-        if (this.image) {
-            this.canvas.composite(this.image, 0, 0, {
+        if (this.photo) {
+            this.canvas.composite(this.photo, 0, 0, {
                 mode: Jimp.BLEND_SOURCE_OVER,
                 opacitySource: 1,
                 opacityDest: 1,
