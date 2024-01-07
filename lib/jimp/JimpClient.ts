@@ -17,7 +17,7 @@ export class JimpClient {
         this.canvas = new Jimp(
             this.canvasImageWidth,
             this.canvasImageHeight,
-            0xfff000ff
+            0xffffffff
         )
     }
 
@@ -61,7 +61,7 @@ export class JimpClient {
         this.textBox = new Jimp(
             referenceWidth,
             referenceHeight,
-            0xff00ffff
+            0xffffffff
         )
 
         // printing the requested text onto the layer
