@@ -3,7 +3,7 @@ import fs from "fs/promises"
 
 export class JimpClient {
     private canvas: Jimp
-    private aspectRatio: number = 1 // e.g.: "1.5" equals "3:2" and "1.777777" equals "16:9"
+    private canvasAspectRatio: number = 1 // e.g.: "1.5" equals "3:2" and "1.777777" equals "16:9"
 
     private photo: Jimp | undefined
 
@@ -14,7 +14,7 @@ export class JimpClient {
     constructor() {
         this.canvas = new Jimp(
             256,
-            256 / this.aspectRatio,
+            256 / this.canvasAspectRatio,
             0xffffffff
         )
     }
@@ -34,7 +34,7 @@ export class JimpClient {
      * whilst taking into account the dimensions of the image.
      */
     public setAspectRatio(ratio: number) {
-        this.aspectRatio = ratio
+        this.canvasAspectRatio = ratio
         this.resizeCanvasToCoverAllLayers()
     }
 
@@ -106,17 +106,17 @@ export class JimpClient {
             if (this.photoIsWidescreen()) {
                 this.canvas.resize(
                     this.photo.getWidth(),
-                    this.photo.getWidth() / this.aspectRatio
+                    this.photo.getWidth() / this.canvasAspectRatio
                 )
             } else {
                 if (this.textBox) {
                     this.canvas.resize(
-                        (this.photo.getHeight() + this.textBox.getHeight()) * this.aspectRatio,
+                        (this.photo.getHeight() + this.textBox.getHeight()) * this.canvasAspectRatio,
                         this.photo.getHeight() + this.textBox.getHeight()
                     )
                 } else {
                     this.canvas.resize(
-                        this.photo.getHeight() * this.aspectRatio,
+                        this.photo.getHeight() * this.canvasAspectRatio,
                         this.photo.getHeight()
                     )
                 }
@@ -142,7 +142,7 @@ export class JimpClient {
         }
         let virtualAspectRatio = virtualWidth / virtualHeight
 
-        return virtualAspectRatio > this.aspectRatio
+        return virtualAspectRatio > this.canvasAspectRatio
     }
 
     /**
