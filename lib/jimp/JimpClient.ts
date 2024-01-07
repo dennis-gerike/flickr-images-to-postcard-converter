@@ -9,6 +9,9 @@ export class JimpClient {
 
     private image: Jimp | undefined
 
+    private textBox: Jimp | undefined
+    private textBoxHeightPercentage: number = 20
+
     constructor() {
         this.canvas = new Jimp(
             this.canvasImageWidth,
@@ -37,10 +40,40 @@ export class JimpClient {
     }
 
     /**
-     * Applies all filters, then saves the produced image at the given path.
+     * Adds a layer, which is responsible to print the given text onto the image.
+     * The text box is always located at the bottom, spanning the whole canvas.
+     * The height of the box can be adjusted via the "heightPercentage" parameter.
+     * Only one text box layer can exist at a time.
+     * Calling this function multiple times will override any existing text box.
+     */
+    public async setTextBox(text: string, heightPercentage: number) {
+        this.textBoxHeightPercentage = heightPercentage
+
+        // create the new layer (or override the existing one)
+        this.textBox = new Jimp(
+            this.canvasImageWidth,
+            this.canvasImageHeight * heightPercentage / 100,
+            0xff0000ff
+        )
+
+        // print the given text onto the layer
+        const font = await Jimp.loadFont(Jimp.FONT_SANS_64_BLACK)
+        const height = this.canvasImageHeight * heightPercentage / 100
+        this.textBox.print(font, 0, 0, {
+                text: text,
+                alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
+            },
+            this.canvasImageWidth,
+            height
+        )
+    }
+
+    /**
+     * Renders all layers onto the canvas, then saves the produced image at the given path.
      */
     public async saveProcessedImage(targetPath: string, targetFile: string) {
-        this.applyAllFilters()
+        this.applyAllLayers()
 
         await fs.mkdir(`${targetPath}/`, {recursive: true})
 
@@ -62,11 +95,20 @@ export class JimpClient {
     }
 
     /**
-     * Paints the image onto the canvas.
+     * Renders the image and the text box onto the canvas.
      */
-    private applyAllFilters() {
+    private applyAllLayers() {
         if (this.image) {
             this.canvas.composite(this.image, 0, 0, {
+                mode: Jimp.BLEND_SOURCE_OVER,
+                opacitySource: 1,
+                opacityDest: 1,
+            })
+        }
+
+        if (this.textBox) {
+            const y = this.canvasImageHeight * ((100 - this.textBoxHeightPercentage) / 100)
+            this.canvas.composite(this.textBox, 0, y, {
                 mode: Jimp.BLEND_SOURCE_OVER,
                 opacitySource: 1,
                 opacityDest: 1,

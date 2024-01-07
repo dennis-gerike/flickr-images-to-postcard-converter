@@ -7,13 +7,11 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     const flickrImageId = process.env.FLICKR_IMAGE_ID
 
     flickrClient.setContext(flickrImageId)
-    console.log(await flickrClient.getImageTitle())
-    console.log(await flickrClient.getOriginalImageWidthInPixel())
-    console.log(await flickrClient.getOriginalImageHeightInPixel())
     await flickrClient.downloadOriginalImage('./data/raw', `${flickrImageId}.jpg`)
 
     const jimpClient = new JimpClient()
-    await jimpClient.setImage(`./data/raw/${process.env.FLICKR_IMAGE_ID}.jpg`)
+    await jimpClient.setImage(`./data/raw/${flickrImageId}.jpg`)
     jimpClient.setAspectRatio(1.5)
+    await jimpClient.setTextBox(await flickrClient.getImageTitle(), 10)
     await jimpClient.saveProcessedImage('./data/processed', `${flickrImageId}.jpg`)
 })()
