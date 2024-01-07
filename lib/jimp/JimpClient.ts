@@ -4,8 +4,6 @@ import fs from "fs/promises"
 export class JimpClient {
     private canvas: Jimp
     private aspectRatio: number = 1 // e.g.: "1.5" equals "3:2" and "1.777777" equals "16:9"
-    private canvasImageWidth: number = 256
-    private canvasImageHeight: number = this.canvasImageWidth / this.aspectRatio
 
     private photo: Jimp | undefined
 
@@ -15,8 +13,8 @@ export class JimpClient {
 
     constructor() {
         this.canvas = new Jimp(
-            this.canvasImageWidth,
-            this.canvasImageHeight,
+            256,
+            256 / this.aspectRatio,
             0xffffffff
         )
     }
@@ -76,11 +74,11 @@ export class JimpClient {
         )
 
         // now, scaling the layer up/down to match the canvas size
-        const targetHeight = this.canvasImageHeight * heightPercentage / 100
-        this.textBox.resize(this.canvasImageWidth, Jimp.AUTO)
+        const targetHeight = this.canvas.getHeight() * heightPercentage / 100
+        this.textBox.resize(this.canvas.getWidth(), Jimp.AUTO)
 
         // and finally cutting the height down to the user requested value
-        this.textBox.contain(this.canvasImageWidth, targetHeight)
+        this.textBox.contain(this.canvas.getWidth(), targetHeight)
     }
 
     /**
@@ -121,7 +119,7 @@ export class JimpClient {
         }
 
         if (this.textBox) {
-            const y = this.canvasImageHeight * ((100 - this.textBoxHeightPercentage) / 100)
+            const y = this.canvas.getHeight() * ((100 - this.textBoxHeightPercentage) / 100)
             this.canvas.composite(this.textBox, 0, y, {
                 mode: Jimp.BLEND_SOURCE_OVER,
                 opacitySource: 1,
