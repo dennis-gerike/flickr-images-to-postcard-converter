@@ -55,7 +55,7 @@ export class JimpClient {
         // We use a reference layer here, write the text onto it and then scale the whole layer up/down to the canvas size.
         // This way, the (absolute) font size will stay the same for each photo - no matter if it is a big 4K image or just a small 720p image.
         const referenceWidth = 4000
-        const referenceHeight = 300
+        const referenceHeight = 400
 
         // creating the new layer with the reference dimensions (or override the existing one)
         this.textBox = new Jimp(
