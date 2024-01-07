@@ -131,18 +131,18 @@ export class JimpClient {
      * The calculation takes into account that the optional text box may change the available space for the photo on the canvas (photo and text box have to share the space).
      */
     private photoIsWidescreen() {
-        if (this.photo) {
-            let virtualWidth = this.photo.getWidth()
-            let virtualHeight = this.photo.getHeight()
-            if (this.textBox) {
-                virtualHeight += this.textBox.getHeight()
-            }
-            let virtualAspectRatio = virtualWidth / virtualHeight
-
-            return virtualAspectRatio > this.aspectRatio
+        if (!this.photo) {
+            return true
         }
 
-        return true
+        let virtualWidth = this.photo.getWidth()
+        let virtualHeight = this.photo.getHeight()
+        if (this.textBox) {
+            virtualHeight += this.textBox.getHeight()
+        }
+        let virtualAspectRatio = virtualWidth / virtualHeight
+
+        return virtualAspectRatio > this.aspectRatio
     }
 
     /**
