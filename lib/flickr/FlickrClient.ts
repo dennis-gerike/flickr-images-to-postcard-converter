@@ -62,12 +62,14 @@ export class FlickrClient {
      * Downloads the original image (not one of the resized versions) into the given folder.
      * If the folder doesn't exist, it will be created.
      */
-    public async downloadOriginalImage(targetPath: string) {
+    public async downloadOriginalImage(targetPath: string, targetFile: string) {
         await fs.mkdir(`${targetPath}/`, {recursive: true})
+
         const originalImage = await this.getOriginalImage()
         const response = await axios.get(originalImage.source, {responseType: 'arraybuffer'})
         const image = Buffer.from(response.data, 'binary')
-        await fs.writeFile(`${targetPath}/${this.flickrImageId}.jpg`, image)
+
+        await fs.writeFile(`${targetPath}/${targetFile}`, image)
     }
 
     /**
