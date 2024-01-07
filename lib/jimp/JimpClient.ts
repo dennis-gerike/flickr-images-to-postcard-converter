@@ -79,6 +79,8 @@ export class JimpClient {
 
         // and finally cutting the height down to the user requested value
         this.textBox.contain(this.canvas.getWidth(), targetHeight)
+
+        this.resizeCanvasToMatchImageDimensions()
     }
 
     /**
