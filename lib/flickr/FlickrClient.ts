@@ -8,7 +8,7 @@ const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 /**
  * The Flickr client encapsulates every request to the Flickr API.
  * The client can handle one image at a time.
- * A call to setContext() always needs to be the first interaction with the client.
+ * A call to selectPhoto() always needs to be the first interaction with the client.
  */
 export class FlickrClient {
     private readonly flickrApiKey: string
@@ -24,10 +24,10 @@ export class FlickrClient {
 
     /**
      * Specify the flickr image that should be worked on in the following commands.
-     * The client can (only) handle one image at a time.
-     * Changing this context allows the caller to switch between different images.
+     * This client can only handle one image at a time.
+     * Changing this context allows the caller to switch between different photos.
      */
-    public setContext(flickrImageId: string | undefined) {
+    public selectPhoto(flickrImageId: string | undefined) {
         if (!flickrImageId) {
             throw new Error('Flickr image ID was not provided. Cannot continue.')
         }
@@ -84,7 +84,7 @@ export class FlickrClient {
     }
 
     /**
-     * Requests meta information like author, title, description or tags for the currently selected image (see setContext()).
+     * Requests meta information like author, title, description or tags for the currently selected photo.
      */
     private async fetchImageInformation() {
         const requestOptions = {

@@ -6,7 +6,7 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
     const flickrImageId = process.env.FLICKR_IMAGE_ID
 
-    flickrClient.setContext(flickrImageId)
+    flickrClient.selectPhoto(flickrImageId)
     await flickrClient.downloadOriginalImage('./data/raw', `${flickrImageId}.jpg`)
 
     const jimpClient = new JimpClient()
