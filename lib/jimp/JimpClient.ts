@@ -1,178 +1,128 @@
-import Jimp from "jimp"
-import fs from "fs/promises"
+import {Canvas} from "./components/Canvas"
+import {Photo} from "./components/Photo"
+import {TextBox} from "./components/TextBox"
 
 export class JimpClient {
-    private canvas: Jimp
-    private canvasAspectRatio: number = 1 // e.g.: "1.5" equals "3:2" and "1.777777" equals "16:9"
-
-    private photo: Jimp | undefined
-
-    private textBox: Jimp | undefined
-    private textBoxText: string = ""
+    private canvas: Canvas
+    private photo: Photo
+    private textBox: TextBox
     private textBoxHeightPercentage: number = 20
 
     constructor() {
-        this.canvas = new Jimp(
-            256,
-            256 / this.canvasAspectRatio,
-            0xffffffff
-        )
+        this.canvas = new Canvas()
+        this.photo = new Photo()
+        this.textBox = new TextBox()
     }
 
     /**
      * Sets or replaces the current photo.
+     * Only one photo can exist at a time.
      * The path can be relative or absolute.
      * The path must point to a valid (and supported) image file.
      */
     public async setPhoto(path: string) {
-        this.photo = await Jimp.read(path)
-        this.resizeCanvasToCoverAllLayers()
+        await this.photo.load(path)
     }
 
     /**
-     * Changes the dimensions of the canvas to match the new aspect ratio,
-     * whilst taking into account the dimensions of the image.
+     * Changes the dimensions of the canvas to the given aspect ratio.
      */
     public setAspectRatio(ratio: number) {
-        this.canvasAspectRatio = ratio
-        this.resizeCanvasToCoverAllLayers()
+        this.canvas.setAspectRatio(ratio)
     }
 
     /**
-     * Adds a layer, which is responsible to print the given text onto the image.
-     * The text box is always located at the bottom, spanning the whole canvas.
-     * The height of the box can be adjusted via the "heightPercentage" parameter.
+     * Sets or replaces the current text box.
      * Only one text box layer can exist at a time.
-     * Calling this function multiple times will override any existing text box.
+     * The text box is always spanning the whole canvas horizontally.
+     * The height of the box can be adjusted via the "heightPercentage" parameter.
      */
     public async setTextBox(text: string, heightPercentage: number) {
-        this.textBoxText = text
+        await this.textBox.setText(text)
         this.textBoxHeightPercentage = heightPercentage
-
-        // Because the Jimp fonts are no vector graphics, but bitmaps we have to manually control the font size.
-        // We use a reference layer here, write the text onto it and then scale the whole layer up/down to the canvas size.
-        // This way, the (absolute) font size will stay the same for each photo - no matter if it is a big 4K image or just a small 720p image.
-        const referenceWidth = 4000
-        const referenceHeight = 400
-
-        // creating the new layer with the reference dimensions (or override the existing one)
-        this.textBox = new Jimp(
-            referenceWidth,
-            referenceHeight,
-            0xffffffff
-        )
-
-        // printing the requested text onto the layer
-        const font = await Jimp.loadFont(Jimp.FONT_SANS_128_BLACK)
-        this.textBox.print(font, 0, 0, {
-                text: text,
-                alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
-                alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
-            },
-            referenceWidth,
-            referenceHeight
-        )
-
-        // now, scaling the layer up/down to match the canvas size
-        const targetHeight = this.canvas.getHeight() * heightPercentage / 100
-        this.textBox.resize(this.canvas.getWidth(), Jimp.AUTO)
-
-        // and finally cutting the height down to the user requested value
-        this.textBox.contain(this.canvas.getWidth(), targetHeight)
-
-        this.resizeCanvasToCoverAllLayers()
     }
 
     /**
-     * Renders all layers onto the canvas, then saves the produced image at the given path.
+     * Renders all components onto the canvas, then saves the produced image at the given path.
      */
     public async saveProcessedImage(targetPath: string, targetFile: string) {
-        await this.applyAllLayers()
-
-        await fs.mkdir(`${targetPath}/`, {recursive: true})
-
-        this.canvas.write(`${targetPath}/${targetFile}`)
+        await this.renderAndResizeAllComponents()
+        this.applyAllComponents()
+        await this.canvas.save(targetPath, targetFile)
     }
 
-    /**
-     * Increases or decreases the dimensions of the canvas, so it can house the currently selected photo and the text box.
-     * This does NOT render the photo or the text box onto the canvas, yet.
-     * We just reserve the space for the future.
-     * The calculations consider the selected aspect ratio and make sure the image would not be accidentally cropped
-     * or resized -> we want to keep every pixel of the original photo.
-     */
-    private resizeCanvasToCoverAllLayers() {
-        if (this.photo) {
-            if (this.photoIsWidescreen()) {
-                this.canvas.resize(
-                    this.photo.getWidth(),
-                    this.photo.getWidth() / this.canvasAspectRatio
-                )
-            } else {
-                if (this.textBox) {
-                    this.canvas.resize(
-                        (this.photo.getHeight() + this.textBox.getHeight()) * this.canvasAspectRatio,
-                        this.photo.getHeight() + this.textBox.getHeight()
-                    )
-                } else {
-                    this.canvas.resize(
-                        this.photo.getHeight() * this.canvasAspectRatio,
-                        this.photo.getHeight()
-                    )
-                }
-            }
+    private async renderAndResizeAllComponents() {
+        // expanding the canvas, so the photo is embedded perfectly (either horizontally or vertically)
+        if (this.isPhotoWidescreen()) {
+            this.canvas.resize(
+                this.photo.getWidth(),
+                this.photo.getWidth() / this.canvas.getAspectRatio()
+            )
+        } else {
+            this.canvas.resize(
+                this.photo.getHeight() * this.canvas.getAspectRatio(),
+                this.photo.getHeight()
+            )
         }
+
+        // resizing the text box to match the canvas width
+        this.textBox.resize(
+            this.canvas.getWidth(),
+            this.canvas.getHeight() * this.textBoxHeightPercentage / 100
+        )
+
+        // the canvas might need to be expanded to fit the image AND the text box together (without them overlapping)
+        if (!this.isPhotoAndTextBoxWidescreen()) {
+            this.canvas.resize(
+                (this.photo.getHeight() + this.textBox.getHeight()) * this.canvas.getAspectRatio(),
+                this.photo.getHeight() + this.textBox.getHeight()
+            )
+
+            this.textBox.resize(
+                this.canvas.getWidth(),
+                this.canvas.getHeight() * this.textBoxHeightPercentage / 100
+            )
+        }
+
+        // rendering the text (until now we only manipulated the empty layer)
+        await this.textBox.applyText()
+    }
+
+    private applyAllComponents() {
+        this.canvas.applyPhoto(
+            this.photo,
+            (this.canvas.getWidth() - this.photo.getWidth()) / 2,
+            0
+        )
+
+        this.canvas.applyTextBox(
+            this.textBox,
+            0,
+            this.canvas.getHeight() * ((100 - this.textBoxHeightPercentage) / 100)
+        )
     }
 
     /**
      * Determines if the selected photo has a widescreen format or not.
      * Widescreen means: the photo fills the canvas completely in horizontal direction - maybe leaving empty space above and/or below.
      * Not widescreen means: the photo fills the canvas completely in vertical direction - maybe leaving empty space left and/or right.
-     * The calculation takes into account that the optional text box may change the available space for the photo on the canvas (photo and text box have to share the space).
      */
-    private photoIsWidescreen() {
-        if (!this.photo) {
-            return true
-        }
-
+    private isPhotoWidescreen() {
         let virtualWidth = this.photo.getWidth()
         let virtualHeight = this.photo.getHeight()
-        if (this.textBox) {
-            virtualHeight += this.textBox.getHeight()
-        }
         let virtualAspectRatio = virtualWidth / virtualHeight
 
-        return virtualAspectRatio > this.canvasAspectRatio
+        return virtualAspectRatio > this.canvas.getAspectRatio()
     }
 
     /**
-     * Renders the image and the text box onto the canvas.
+     * The same as "isPhotoWidescreen", but takes into account that the optional text box may change the available space for the photo on the canvas (photo and text box have to share the space).
      */
-    private async applyAllLayers() {
-        if (this.textBox) { // TODO: text box size is not correctly applied the first time
-            await this.setTextBox(this.textBoxText, this.textBoxHeightPercentage)
-            await this.setTextBox(this.textBoxText, this.textBoxHeightPercentage)
-        }
+    private isPhotoAndTextBoxWidescreen() {
+        let virtualWidth = this.photo.getWidth()
+        let virtualHeight = this.photo.getHeight() + this.textBox.getHeight()
+        let virtualAspectRatio = virtualWidth / virtualHeight
 
-        if (this.photo) {
-            let x = 0
-            if (!this.photoIsWidescreen()) {
-                x = (this.canvas.getWidth() - this.photo.getWidth()) / 2
-            }
-            this.canvas.composite(this.photo, x, 0, {
-                mode: Jimp.BLEND_SOURCE_OVER,
-                opacitySource: 1,
-                opacityDest: 1,
-            })
-        }
-
-        if (this.textBox) {
-            const y = this.canvas.getHeight() * ((100 - this.textBoxHeightPercentage) / 100)
-            this.canvas.composite(this.textBox, 0, y, {
-                mode: Jimp.BLEND_SOURCE_OVER,
-                opacitySource: 1,
-                opacityDest: 1,
-            })
-        }
+        return virtualAspectRatio > this.canvas.getAspectRatio()
     }
 }
