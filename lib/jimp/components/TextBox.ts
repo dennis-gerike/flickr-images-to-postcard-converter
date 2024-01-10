@@ -23,7 +23,7 @@ export class TextBox extends Component {
         // This way, the (absolute) font size will always stay the same, across all photos - no matter if it is a big 4K image or just a small 720p image.
         this.referenceLayer = new Jimp(
             4000,
-            300,
+            250,
         )
     }
 
