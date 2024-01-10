@@ -32,6 +32,23 @@ export class JimpClient {
     }
 
     /**
+     * Adds a margin around the whole image.
+     * The value will be applied as a percentage of the current image dimensions.
+     * This will not change the aspect ratio of the image.
+     * Example:
+     *   Given an image with 1000x600 pixel
+     *   When adding a 5 percent margin
+     *   Then the image dimensions will be 1050x630 pixel
+     *   And the image will have a left margin of 25 pixel
+     *   And the image will have a right margin of 25 pixel
+     *   And the image will have a top margin of 15 pixel
+     *   And the image will have a bottom margin of 15 pixel
+     */
+    public setMargin(percentage: number) {
+        this.canvas.setMargin(percentage)
+    }
+
+    /**
      * Sets or replaces the current text box.
      * Only one text box layer can exist at a time.
      * The text box is always spanning the whole canvas horizontally.
@@ -89,16 +106,25 @@ export class JimpClient {
     }
 
     private applyAllComponents() {
+        // calculating the positions of the photo and the text box before the canvas is resized (just to make the calculations a bit easier)
+        const photoPositionX = (this.canvas.getWidth() - this.photo.getWidth()) / 2
+        const textBoxPositionY = this.canvas.getHeight() * ((100 - this.textBoxHeightPercentage) / 100)
+
+        // resizing the canvas to include the specified margins
+        this.canvas.applyMargin()
+
+        // render the photo to the canvas
         this.canvas.applyPhoto(
             this.photo,
-            (this.canvas.getWidth() - this.photo.getWidth()) / 2,
+            photoPositionX,
             0
         )
 
+        // render the text to the canvas
         this.canvas.applyTextBox(
             this.textBox,
             0,
-            this.canvas.getHeight() * ((100 - this.textBoxHeightPercentage) / 100)
+            textBoxPositionY
         )
     }
 

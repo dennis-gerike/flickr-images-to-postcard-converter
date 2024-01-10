@@ -13,6 +13,7 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     const jimpClient = new JimpClient()
     await jimpClient.setPhoto(`./data/original/${flickrImageId}.jpg`)
     jimpClient.setAspectRatio(1.5)
+    jimpClient.setMargin(2)
     const title = await flickrClient.getImageTitle() + ' » ' + process.env.CUSTOM_TEXT + ' « ' + flickrImageId
     await jimpClient.setTextBox(title, 8)
 
