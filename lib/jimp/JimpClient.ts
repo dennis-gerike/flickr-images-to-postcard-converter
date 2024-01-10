@@ -69,6 +69,13 @@ export class JimpClient {
         await this.canvas.save(targetPath, targetFile)
     }
 
+    /**
+     * Creates a fresh canvas, removing anything that might have been rendered on it before.
+     */
+    public resetCanvas() {
+        this.canvas = new Canvas()
+    }
+
     private async renderAndResizeAllComponents() {
         // expanding the canvas, so the photo is embedded perfectly (either horizontally or vertically)
         if (this.isPhotoWidescreen()) {
