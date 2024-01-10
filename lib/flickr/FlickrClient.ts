@@ -47,18 +47,6 @@ export class FlickrClient {
         return photoTitle._content
     }
 
-    public async getOriginalImageWidthInPixel() {
-        const originalImage = await this.getOriginalImage()
-
-        return originalImage.width
-    }
-
-    public async getOriginalImageHeightInPixel() {
-        const originalImage = await this.getOriginalImage()
-
-        return originalImage.height
-    }
-
     /**
      * Downloads the original image (not one of the resized versions) into the given folder.
      * If the folder doesn't exist, it will be created.
