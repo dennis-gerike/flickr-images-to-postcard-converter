@@ -2,6 +2,7 @@ import axios from 'axios'
 import {FlickrPhotoTitleInformation} from "./types/FlickrPhotoTitleInformation"
 import {FlickrImageSize} from "./types/FlickrImageSize"
 import * as fs from "fs/promises"
+import {FlickrPhotoSet} from "./types/FlickrPhotoSet"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -72,6 +73,12 @@ export class FlickrClient {
         await fs.writeFile(`${targetPath}/${targetFile}`, image)
     }
 
+    public async getAlbumImageIds(albumId: string) {
+        const albumInformation = await this.fetchAlbumInformation(albumId)
+
+        return albumInformation.photoset.photo.map(photo => photo.id)
+    }
+
     /**
      * Returns some basic information about the original image (e.g. dimensions and url).
      */
@@ -81,6 +88,24 @@ export class FlickrClient {
         return imageSizes.sizes.size.find((item: FlickrImageSize) => {
             return item.label === 'Original'
         })
+    }
+
+    private async fetchAlbumInformation(albumId: string): Promise<FlickrPhotoSet> {
+        const requestOptions = {
+            'method': 'get',
+            'url': FLICKR_API_BASE_URL,
+            'params': {
+                'api_key': this.flickrApiKey,
+                'photoset_id': albumId,
+                'format': 'json',
+                'nojsoncallback': '?',
+                'method': 'flickr.photosets.getPhotos',
+            }
+        }
+
+        let response = await axios(requestOptions)
+
+        return response.data
     }
 
     /**
