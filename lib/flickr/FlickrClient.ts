@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {FlickrPhotoTitleInformation} from "../../types/FlickrPhotoTitleInformation"
-import {FlickrImageSize} from "../../types/FlickrImageSize"
+import {FlickrPhotoTitleInformation} from "./types/FlickrPhotoTitleInformation"
+import {FlickrImageSize} from "./types/FlickrImageSize"
 import * as fs from "fs/promises"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
