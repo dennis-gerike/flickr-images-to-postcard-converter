@@ -1,5 +1,6 @@
 import Jimp from "jimp"
 import {Component} from "./Component"
+import {ColorActionName} from "@jimp/plugin-color"
 
 /**
  * A component that can manage text.
@@ -7,6 +8,9 @@ import {Component} from "./Component"
 export class TextBox extends Component {
     private referenceLayer: Jimp
     private text: string = ""
+    private fontColorRedAmount: number = 0
+    private fontColorGreenAmount: number = 0
+    private fontColorBlueAmount: number = 0
 
     constructor() {
         super({
@@ -23,8 +27,11 @@ export class TextBox extends Component {
         )
     }
 
-    public async setText(text: string) {
+    public async setText(text: string, red: number, green: number, blue: number) {
         this.text = text
+        this.fontColorRedAmount = red
+        this.fontColorGreenAmount = green
+        this.fontColorBlueAmount = blue
     }
 
     public async applyText() {
@@ -41,6 +48,11 @@ export class TextBox extends Component {
             this.layer.getWidth(),
             this.layer.getHeight()
         )
+
+        // changing the text color
+        this.layer.color([{apply: ColorActionName.RED, params: [this.fontColorRedAmount]}])
+        this.layer.color([{apply: ColorActionName.GREEN, params: [this.fontColorGreenAmount]}])
+        this.layer.color([{apply: ColorActionName.BLUE, params: [this.fontColorBlueAmount]}])
 
         // now, scaling the layer up/down to match the requested width
         this.layer.resize(this.width, Jimp.AUTO)

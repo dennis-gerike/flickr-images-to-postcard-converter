@@ -53,9 +53,10 @@ export class JimpClient {
      * Only one text box layer can exist at a time.
      * The text box is always spanning the whole canvas horizontally.
      * The height of the box can be adjusted via the "heightPercentage" parameter.
+     * The color of the text can be adjusted by changing the red, green and blue values.
      */
-    public async setTextBox(text: string, heightPercentage: number) {
-        await this.textBox.setText(text)
+    public async setTextBox(text: string, heightPercentage: number, red: number = 0, green: number = 0, blue: number = 0) {
+        await this.textBox.setText(text, red, green, blue)
         this.textBoxHeightPercentage = heightPercentage
     }
 
