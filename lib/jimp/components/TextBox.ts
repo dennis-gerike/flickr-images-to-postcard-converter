@@ -34,6 +34,9 @@ export class TextBox extends Component {
         this.fontColorBlueAmount = blue
     }
 
+    /**
+     * Renders the specified text onto the text box.
+     */
     public async applyText() {
         // always starting off from the reference layer (see documentation in the constructor)
         this.layer = this.referenceLayer.clone()

@@ -9,7 +9,8 @@ import {Component} from "./Component"
  */
 export class Canvas extends Component {
     private aspectRatio: number = 1
-    private marginPercentage: number = 0
+    private horizontalMarginPercentage: number = 0
+    private verticalMarginPercentage: number = 0
 
     constructor() {
         super({
@@ -26,26 +27,28 @@ export class Canvas extends Component {
         return this.aspectRatio
     }
 
-    public setMargin(percentage: number) {
-        this.marginPercentage = percentage
+    public setHorizontalMarginPercentage(horizontal: number) {
+        this.horizontalMarginPercentage = horizontal
     }
 
-    /**
-     * Calculates the necessary space for the margin and resizes the canvas accordingly.
-     */
-    public applyMargin() {
-        this.resize(
-            this.getWidth() * (1 + this.marginPercentage / 100),
-            this.getHeight() * (1 + this.marginPercentage / 100)
-        )
+    public getHorizontalMarginPercentage() {
+        return this.horizontalMarginPercentage
+    }
+
+    public setVerticalMarginPercentage(vertical: number) {
+        this.verticalMarginPercentage = vertical
+    }
+
+    public getVerticalMarginPercentage() {
+        return this.verticalMarginPercentage
     }
 
     /**
      * Renders the photo onto the canvas.
-     * The final position on the canvas will be influenced by the given values and the calculated margins.
+     * The caller has to provide the correct coordinates, so the photo is correctly positioned on the canvas.
      */
     public applyPhoto(photo: Photo, x: number, y: number) {
-        this.layer.composite(photo.getLayer(), x + this.getHorizontalMargin() / 2, y + this.getVerticalMargin() / 2, {
+        this.layer.composite(photo.getLayer(), x, y, {
             mode: Jimp.BLEND_SOURCE_OVER,
             opacitySource: 1,
             opacityDest: 1,
@@ -54,10 +57,14 @@ export class Canvas extends Component {
 
     /**
      * Renders the text onto the canvas.
-     * The final position on the canvas will be influenced by the given values and the calculated margins.
+     * The caller has to provide the correct coordinates, so the text box is correctly positioned on the canvas.
      */
-    public applyTextBox(textBox: TextBox, x: number, y: number) {
-        this.layer.composite(textBox.getLayer(), x + this.getHorizontalMargin() / 2, y + this.getVerticalMargin() / 2, {
+    public async applyTextBox(textBox: TextBox, x: number, y: number) {
+        // rendering the text onto the text box (until now we only manipulated the empty layer)
+        await textBox.applyText()
+
+        // rendering the text box onto the canvas
+        this.layer.composite(textBox.getLayer(), x, y, {
             mode: Jimp.BLEND_SOURCE_OVER,
             opacitySource: 1,
             opacityDest: 1,
@@ -72,29 +79,5 @@ export class Canvas extends Component {
     public async save(path: string, fileName: string) {
         await fs.mkdir(`${path}/`, {recursive: true})
         this.layer.write(`${path}/${fileName}`)
-    }
-
-    /**
-     * Calculates the total margin width in pixel.
-     * Returns the sum of the left and the right margin.
-     * Assumes that the margin was already applied to the layer, else this function will produce wrong numbers.
-     */
-    private getHorizontalMargin() {
-        const canvasWidthWithMargin = this.layer.getWidth()
-        const canvasWidthWithoutMargin = canvasWidthWithMargin / (1 + this.marginPercentage / 100)
-
-        return canvasWidthWithMargin - canvasWidthWithoutMargin
-    }
-
-    /**
-     * Calculates the total margin height in pixel.
-     * Returns the sum of the top and the bottom margin.
-     * Assumes that the margin was already applied to the layer, else this function will produce wrong numbers.
-     */
-    private getVerticalMargin() {
-        const canvasHeightWithMargin = this.layer.getHeight()
-        const canvasHeightWithoutMargin = canvasHeightWithMargin / (1 + this.marginPercentage / 100)
-
-        return canvasHeightWithMargin - canvasHeightWithoutMargin
     }
 }
