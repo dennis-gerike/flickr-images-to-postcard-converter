@@ -28,7 +28,12 @@ export class JimpClient {
      * Changes the dimensions of the canvas to the given aspect ratio.
      */
     public setAspectRatio(ratio: number) {
-        this.canvas.setAspectRatio(ratio)
+        if (ratio && ratio > 0) {
+            this.canvas.setAspectRatio(ratio)
+        } else {
+            console.warn('Invalid aspect ratio provided! Using default value instead.')
+            this.canvas.setAspectRatio(1)
+        }
     }
 
     /**
