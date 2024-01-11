@@ -26,11 +26,31 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     const jimpClient = new JimpClient()
     for (const photoId of flickrAlbumImageIds) {
         await jimpClient.setPhoto(`./data/original/${flickrAlbumId}/${photoId}.jpg`)
-        jimpClient.setAspectRatio(1.5)
+        jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
         const title = await flickrClient.getImageTitle(photoId) + ' » ' + process.env.CUSTOM_TEXT + ' « ' + photoId
-        await jimpClient.setTextBox(title, 8, 242, 72, 10)
-        jimpClient.setMargin(2, 3)
+        const textColor = getTextColor()
+        await jimpClient.setTextBox(title, 8, textColor.red, textColor.green, textColor.blue)
+        jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
         await jimpClient.saveProcessedImage(`./data/processed/${flickrAlbumId}`, `${photoId}.jpg`)
         jimpClient.resetCanvas()
     }
 })()
+
+function getTextColor() {
+    let red = 0
+    let green = 0
+    let blue = 0
+
+    if (process.env.TEXT_COLOR) {
+        const textColor = (process.env.TEXT_COLOR as string).split(',')
+        if (textColor.length !== 3) {
+            console.warn('Invalid RGB colors provided! Using default values instead.')
+        } else {
+            red = Number(textColor[0])
+            green = Number(textColor[1])
+            blue = Number(textColor[2])
+        }
+    }
+
+    return {red, green, blue}
+}
