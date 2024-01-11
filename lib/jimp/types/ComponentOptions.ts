@@ -1,5 +1,5 @@
 export type ComponentOptions = {
-    width?: number,
-    height?: number,
+    width?: number
+    height?: number
     backgroundColor?: number
 }
