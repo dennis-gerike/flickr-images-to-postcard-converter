@@ -32,15 +32,15 @@ export class JimpClient {
     }
 
     /**
-     * Adds a margin around the whole image.
-     * The value will be applied as a percentage of the current image dimensions.
+     * Adds horizontal and/or vertical margins around the image.
+     * The percentages are NOT added on top, they are calculated as part of the whole image.
      * This will NOT change the aspect ratio of the final image.
      * Example:
-     *   Given an image with 1000x600 pixel
+     *   Given an image with 1140x570 pixel
      *   When adding a 5 percent margin
-     *   Then the image dimensions will be 1050x630 pixel
-     *   And the image will have a left margin of 25 pixel
-     *   And the image will have a right margin of 25 pixel
+     *   Then the image dimensions will be 1200x600 pixel
+     *   And the image will have a left margin of 30 pixel
+     *   And the image will have a right margin of 30 pixel
      *   And the image will have a top margin of 15 pixel
      *   And the image will have a bottom margin of 15 pixel
      */
@@ -88,14 +88,12 @@ export class JimpClient {
         // widescreen mode (no borders left and right, but potential above and below).
         // Under this assumption all calculations are based on the WIDTH of the PHOTO.
         let photoWidth = this.photo.getWidth()
-        let marginWidth = this.photo.getWidth() * this.canvas.getHorizontalMarginPercentage() / 100
+        let totalWidth = photoWidth / (1 - this.canvas.getHorizontalMarginPercentage() / 100)
+        let marginWidth = totalWidth - photoWidth
         let photoHeight = this.photo.getHeight()
-        let textBoxHeight = photoHeight * this.textBoxHeightPercentage / 100
-        let marginHeight = photoHeight * this.canvas.getVerticalMarginPercentage() / 100
-
-        // How large would the final image be?
-        let totalWidth = photoWidth + marginWidth
         let totalHeight = totalWidth / this.canvas.getAspectRatio()
+        let textBoxHeight = totalHeight * this.textBoxHeightPercentage / 100
+        let marginHeight = totalHeight * this.canvas.getVerticalMarginPercentage() / 100
 
         // How much space is left between photo and text box?
         const verticalBuffer = totalHeight - photoHeight - textBoxHeight - marginHeight
@@ -105,8 +103,11 @@ export class JimpClient {
         // When the vertical buffer is negative, then photo and text box would overlap and our assumption was wrong.
         //   In that case we need to flip the calculations -> they need to be based on the HEIGHT of the PHOTO.
         if (verticalBuffer < 0) {
-            totalHeight = photoHeight + textBoxHeight + marginHeight
+            totalHeight = photoHeight / (1 - ((this.textBoxHeightPercentage + this.canvas.getVerticalMarginPercentage()) / 100))
             totalWidth = totalHeight * this.canvas.getAspectRatio()
+            marginWidth = totalWidth * this.canvas.getHorizontalMarginPercentage() / 100
+            textBoxHeight = totalHeight * this.textBoxHeightPercentage / 100
+            marginHeight = totalHeight * this.canvas.getVerticalMarginPercentage() / 100
         }
 
         // 3. resizing all components based on the previous calculations
