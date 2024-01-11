@@ -28,7 +28,7 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
         await jimpClient.setPhoto(`./data/original/${flickrAlbumId}/${photoId}.jpg`)
         jimpClient.setAspectRatio(1.5)
         const title = await flickrClient.getImageTitle(photoId) + ' » ' + process.env.CUSTOM_TEXT + ' « ' + photoId
-        await jimpClient.setTextBox(title, 8, 242, 56, 10)
+        await jimpClient.setTextBox(title, 8, 242, 72, 10)
         jimpClient.setMargin(2, 3)
         await jimpClient.saveProcessedImage(`./data/processed/${flickrAlbumId}`, `${photoId}.jpg`)
         jimpClient.resetCanvas()
