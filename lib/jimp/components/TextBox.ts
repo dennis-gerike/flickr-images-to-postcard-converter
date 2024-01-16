@@ -11,6 +11,8 @@ export class TextBox extends Component {
     private fontColorRedAmount: number = 0
     private fontColorGreenAmount: number = 0
     private fontColorBlueAmount: number = 0
+    private relativeHeight: number = 20
+    private relativeVerticalBuffer: number = 0
 
     constructor() {
         super({
@@ -41,6 +43,22 @@ export class TextBox extends Component {
         this.fontColorRedAmount = red
         this.fontColorGreenAmount = green
         this.fontColorBlueAmount = blue
+    }
+
+    public setRelativeHeight(percentage: number) {
+        this.relativeHeight = percentage
+    }
+
+    public getRelativeHeight() {
+        return this.relativeHeight
+    }
+
+    public setRelativeVerticalBuffer(percentage: number) {
+        this.relativeVerticalBuffer = percentage
+    }
+
+    public getRelativeVerticalBuffer() {
+        return this.relativeVerticalBuffer
     }
 
     /**

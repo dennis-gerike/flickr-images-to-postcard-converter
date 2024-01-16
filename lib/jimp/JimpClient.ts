@@ -7,8 +7,6 @@ export class JimpClient {
     private canvas: Canvas
     private photo: Photo
     private textBox: TextBox
-    private textBoxHeightPercentage: number = 20
-    private minMarginToPhotoPercentage: number = 0
 
     constructor() {
         this.canvas = new Canvas()
@@ -65,8 +63,8 @@ export class JimpClient {
     public async setTextBox(options: TextBoxOptions) {
         await this.textBox.setText(options.text)
         await this.textBox.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
-        this.textBoxHeightPercentage = options.heightPercentage
-        this.minMarginToPhotoPercentage = options?.verticalBuffer ?? 0
+        this.textBox.setRelativeHeight(options.relativeHeight)
+        this.textBox.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
     }
 
     /**
@@ -100,8 +98,8 @@ export class JimpClient {
         let marginWidth = totalWidth - photoWidth
         let photoHeight = this.photo.getHeight()
         let totalHeight = totalWidth / this.canvas.getAspectRatio()
-        let textBoxHeight = totalHeight * this.textBoxHeightPercentage / 100
-        let textBoxMarginHeight = totalHeight * this.minMarginToPhotoPercentage / 100
+        let textBoxHeight = totalHeight * this.textBox.getRelativeHeight() / 100
+        let textBoxMarginHeight = totalHeight * this.textBox.getRelativeVerticalBuffer() / 100
         let marginHeight = totalHeight * this.canvas.getVerticalMarginPercentage() / 100
 
         // How much space is left between photo and text box?
@@ -112,10 +110,10 @@ export class JimpClient {
         // When the vertical buffer is negative, then photo and text box would overlap and our assumption was wrong.
         //   In that case we need to flip the calculations -> they need to be based on the HEIGHT of the PHOTO.
         if (verticalBuffer < 0) {
-            totalHeight = photoHeight / (1 - ((this.textBoxHeightPercentage + this.minMarginToPhotoPercentage + this.canvas.getVerticalMarginPercentage()) / 100))
+            totalHeight = photoHeight / (1 - ((this.textBox.getRelativeHeight() + this.textBox.getRelativeVerticalBuffer() + this.canvas.getVerticalMarginPercentage()) / 100))
             totalWidth = totalHeight * this.canvas.getAspectRatio()
             marginWidth = totalWidth * this.canvas.getHorizontalMarginPercentage() / 100
-            textBoxHeight = totalHeight * this.textBoxHeightPercentage / 100
+            textBoxHeight = totalHeight * this.textBox.getRelativeHeight() / 100
             marginHeight = totalHeight * this.canvas.getVerticalMarginPercentage() / 100
         }
 
