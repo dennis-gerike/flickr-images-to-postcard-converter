@@ -24,8 +24,8 @@ export class TextBox extends Component {
         // We use a reference layer here, writing the text onto it and then scale the whole layer up/down to the wanted size.
         // This way, the (absolute) font size will always stay the same, across all photos - no matter if it is a big 4K image or just a small 720p image.
         this.referenceLayer = new Jimp(
-            4000,
-            150,
+            6000,
+            125,
         )
     }
 
