@@ -27,8 +27,17 @@ export class TextBox extends Component {
         )
     }
 
-    public async setText(text: string, red: number, green: number, blue: number) {
+    /**
+     * Specifies the text that should be printed into the text box.
+     */
+    public async setText(text: string) {
         this.text = text
+    }
+
+    /**
+     * Sets the color of the text by defining the red, green and blue values (RGB).
+     */
+    public async setTextColor(red: number, green: number, blue: number) {
         this.fontColorRedAmount = red
         this.fontColorGreenAmount = green
         this.fontColorBlueAmount = blue

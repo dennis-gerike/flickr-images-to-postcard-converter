@@ -63,7 +63,8 @@ export class JimpClient {
      * Text, color and margins can be configured via the options object.
      */
     public async setTextBox(options: TextBoxOptions) {
-        await this.textBox.setText(options.text, options.red ?? 0, options.green ?? 0, options.blue ?? 0)
+        await this.textBox.setText(options.text)
+        await this.textBox.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
         this.textBoxHeightPercentage = options.heightPercentage
         this.minMarginToPhotoPercentage = options?.verticalBuffer ?? 0
     }
