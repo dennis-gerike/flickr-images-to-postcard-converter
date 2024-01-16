@@ -3,7 +3,10 @@ import {JimpClient} from "./lib/jimp/JimpClient"
 import {FlickrClient} from "./lib/flickr/FlickrClient"
 
 (async function () {
+    const cliProgress = require('cli-progress')
+    const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.rect)
     const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
+    const jimpClient = new JimpClient()
 
     // 1. collecting the list of images that should be processed
     let flickrAlbumId = 'uncategorized'
@@ -23,7 +26,7 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     }
 
     // 3. resizing the photos to match the postcard format, then adding a label and finally a nice margin
-    const jimpClient = new JimpClient()
+    progressBar.start(flickrAlbumImageIds.length, 0)
     for (const photoId of flickrAlbumImageIds) {
         await jimpClient.setPhoto(`./data/original/${flickrAlbumId}/${photoId}.jpg`)
         jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
@@ -41,7 +44,10 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
         jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
         await jimpClient.saveProcessedImage(`./data/processed/${flickrAlbumId}`, `${photoId}.jpg`)
         jimpClient.resetCanvas()
+
+        progressBar.increment()
     }
+    progressBar.stop()
 })()
 
 function getTextColor() {
