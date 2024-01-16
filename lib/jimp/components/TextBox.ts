@@ -69,7 +69,7 @@ export class TextBox extends Component {
         this.layer = this.referenceLayer.clone()
 
         // printing the requested text onto the layer, using the standard Jimp font
-        const font = await Jimp.loadFont(Jimp.FONT_SANS_128_BLACK)
+        const font = await Jimp.loadFont('./lib/jimp/fonts/Merriweather/Black.ttf.fnt')
         this.layer.print(font, 0, 0, {
                 text: this.text,
                 alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
