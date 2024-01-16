@@ -30,7 +30,14 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
         const title = await flickrClient.getImageTitle(photoId) + ' » ' + process.env.CUSTOM_TEXT + ' « ' + photoId
         const textColor = getTextColor()
         const textMinMarginToPhoto = Number(process.env.PHOTO_TEXT_MIN_MARGIN ?? 0)
-        await jimpClient.setTextBox(title, 5, textColor.red, textColor.green, textColor.blue, textMinMarginToPhoto)
+        await jimpClient.setTextBox({
+            text: title,
+            heightPercentage: 5,
+            red: textColor.red,
+            green: textColor.green,
+            blue: textColor.blue,
+            verticalBuffer: textMinMarginToPhoto,
+        })
         jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
         await jimpClient.saveProcessedImage(`./data/processed/${flickrAlbumId}`, `${photoId}.jpg`)
         jimpClient.resetCanvas()

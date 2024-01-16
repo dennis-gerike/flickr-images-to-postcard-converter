@@ -1,6 +1,7 @@
 import {Canvas} from "./components/Canvas"
 import {Photo} from "./components/Photo"
 import {TextBox} from "./components/TextBox"
+import {TextBoxOptions} from "./types/TextBoxOptions";
 
 export class JimpClient {
     private canvas: Canvas
@@ -57,15 +58,14 @@ export class JimpClient {
 
     /**
      * Sets or replaces the current text box.
-     * Only one text box layer can exist at a time.
+     * Only one text box can exist at a time.
      * The text box is always spanning the whole canvas horizontally.
-     * The height of the box can be adjusted via the "heightPercentage" parameter.
-     * The color of the text can be adjusted by changing the red, green and blue values.
+     * Text, color and margins can be configured via the options object.
      */
-    public async setTextBox(text: string, heightPercentage: number, red: number = 0, green: number = 0, blue: number = 0, minMarginToPhotoPercentage: number = 0) {
-        await this.textBox.setText(text, red, green, blue)
-        this.textBoxHeightPercentage = heightPercentage
-        this.minMarginToPhotoPercentage = minMarginToPhotoPercentage
+    public async setTextBox(options: TextBoxOptions) {
+        await this.textBox.setText(options.text, options.red ?? 0, options.green ?? 0, options.blue ?? 0)
+        this.textBoxHeightPercentage = options.heightPercentage
+        this.minMarginToPhotoPercentage = options?.verticalBuffer ?? 0
     }
 
     /**
