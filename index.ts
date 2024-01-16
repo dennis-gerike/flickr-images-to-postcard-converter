@@ -32,14 +32,14 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
         jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
         const title = await flickrClient.getImageTitle(photoId) + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
         const textColor = getTextColor()
-        const textMinMarginToPhoto = Number(process.env.PHOTO_TEXT_MIN_MARGIN ?? 0)
+        const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
         await jimpClient.setTextBox({
             text: title,
             relativeHeight: 5,
             red: textColor.red,
             green: textColor.green,
             blue: textColor.blue,
-            relativeVerticalBuffer: textMinMarginToPhoto,
+            relativeVerticalBuffer: textVerticalBuffer,
         })
         jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
         await jimpClient.saveProcessedImage(`./data/processed/${flickrAlbumId}`, `${photoId}.jpg`)
