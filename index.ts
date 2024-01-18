@@ -21,11 +21,16 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     }
 
     // 2. downloading the images from flickr and storing them locally
+    console.log('Downloading photos')
+    progressBar.start(flickrAlbumImageIds.length, 0)
     for (const photoId of flickrAlbumImageIds) {
         await flickrClient.downloadOriginalImage(photoId, `./data/original/${flickrAlbumId}`, `${photoId}.jpg`)
+        progressBar.increment()
     }
+    progressBar.stop()
 
     // 3. resizing the photos to match the postcard format, then adding a label and finally a nice margin
+    console.log('Converting photos')
     progressBar.start(flickrAlbumImageIds.length, 0)
     for (const photoId of flickrAlbumImageIds) {
         await jimpClient.setPhoto(`./data/original/${flickrAlbumId}/${photoId}.jpg`)
