@@ -1,4 +1,5 @@
 import axios from 'axios'
+import axiosRetry from "axios-retry"
 import {FlickrPhotoTitleInformation} from "./types/FlickrPhotoTitleInformation"
 import {FlickrImageSize} from "./types/FlickrImageSize"
 import * as fs from "fs/promises"
@@ -78,6 +79,7 @@ export class FlickrClient {
         }
 
         let response = await axios(requestOptions)
+        axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return response.data
     }
@@ -99,6 +101,7 @@ export class FlickrClient {
         }
 
         let response = await axios(requestOptions)
+        axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return response.data
     }
@@ -117,6 +120,7 @@ export class FlickrClient {
         }
 
         let response = await axios(requestOptions)
+        axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return response.data
     }
