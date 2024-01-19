@@ -2,6 +2,7 @@ import axios from 'axios'
 import axiosRetry from "axios-retry"
 import * as fs from "fs/promises"
 import {GetInfoResponse} from "./types/flickrApi/photos/GetInfoResponse"
+import {ImageInformation} from "./types/internal/ImageInformation"
 import {GetSizesResponse} from "./types/flickrApi/photos/GetSizesResponse"
 import {GetPhotosResponse} from "./types/flickrApi/photoSet/GetPhotosResponse"
 import {Size} from "./types/flickrApi/photos/partials/Size"
@@ -51,6 +52,22 @@ export class FlickrClient {
         const image = Buffer.from(response.data, 'binary')
 
         await fs.writeFile(`${targetPath}/${targetFile}`, image)
+    }
+
+    /**
+     * Downloads meta information for the given image.
+     */
+    public async downloadImageInformation(imageId: string, targetPath: string, targetFile: string) {
+        await fs.mkdir(`${targetPath}/`, {recursive: true})
+
+        const rawImageInformation = await this.fetchImageInformation(imageId)
+        const imageInformation: ImageInformation = {
+            id: rawImageInformation.photo.id,
+            url: rawImageInformation.photo.urls.url[0]._content,
+            title: rawImageInformation.photo.title._content,
+        }
+
+        await fs.writeFile(`${targetPath}/${targetFile}`, JSON.stringify(imageInformation, null, 2))
     }
 
     public async getAlbumImageIds(albumId: string) {

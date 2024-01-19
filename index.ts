@@ -25,6 +25,7 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     progressBar.start(flickrAlbumImageIds.length, 0)
     for (const photoId of flickrAlbumImageIds) {
         await flickrClient.downloadOriginalImage(photoId, `./data/original/${flickrAlbumId}`, `${photoId}.jpg`)
+        await flickrClient.downloadImageInformation(photoId, `./data/original/${flickrAlbumId}`, `${photoId}.json`)
         progressBar.increment()
     }
     progressBar.stop()
