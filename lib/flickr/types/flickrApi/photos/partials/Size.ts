@@ -1,4 +1,4 @@
-export type FlickrImageSize = {
+export type Size = {
     label: string
     width: number
     height: number

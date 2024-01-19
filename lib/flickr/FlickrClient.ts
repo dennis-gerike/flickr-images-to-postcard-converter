@@ -1,9 +1,10 @@
 import axios from 'axios'
 import axiosRetry from "axios-retry"
-import {FlickrPhotoTitleInformation} from "./types/FlickrPhotoTitleInformation"
-import {FlickrImageSize} from "./types/FlickrImageSize"
 import * as fs from "fs/promises"
-import {FlickrPhotoSet} from "./types/FlickrPhotoSet"
+import {GetInfoResponse} from "./types/flickrApi/photos/GetInfoResponse"
+import {GetSizesResponse} from "./types/flickrApi/photos/GetSizesResponse"
+import {GetPhotosResponse} from "./types/flickrApi/photoSet/GetPhotosResponse"
+import {Size} from "./types/flickrApi/photos/partials/Size"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -29,9 +30,8 @@ export class FlickrClient {
      */
     public async getImageTitle(imageId: string) {
         const imageInformation = await this.fetchImageInformation(imageId)
-        const photoTitle: FlickrPhotoTitleInformation = imageInformation.photo.title
 
-        return photoTitle._content
+        return imageInformation.photo.title._content
     }
 
     /**
@@ -42,6 +42,11 @@ export class FlickrClient {
         await fs.mkdir(`${targetPath}/`, {recursive: true})
 
         const originalImage = await this.getOriginalImage(imageId)
+        if (!originalImage) {
+            console.warn(`Could not find original image for ID ${imageId}`)
+            return
+        }
+
         const response = await axios.get(originalImage.source, {responseType: 'arraybuffer'})
         const image = Buffer.from(response.data, 'binary')
 
@@ -49,23 +54,23 @@ export class FlickrClient {
     }
 
     public async getAlbumImageIds(albumId: string) {
-        const albumInformation = await this.fetchAlbumInformation(albumId)
+        const rawAlbumInformation = await this.fetchAlbumInformation(albumId)
 
-        return albumInformation.photoset.photo.map(photo => photo.id)
+        return rawAlbumInformation.photoset.photo.map(photo => photo.id)
     }
 
     /**
      * Returns some basic information about the original image (e.g. dimensions and url).
      */
-    public async getOriginalImage(imageId: string): Promise<FlickrImageSize> {
+    public async getOriginalImage(imageId: string): Promise<Size | undefined> {
         const imageSizes = await this.fetchImageSizes(imageId)
 
-        return imageSizes.sizes.size.find((item: FlickrImageSize) => {
+        return imageSizes.sizes.size.find((item: Size) => {
             return item.label === 'Original'
         })
     }
 
-    private async fetchAlbumInformation(albumId: string): Promise<FlickrPhotoSet> {
+    private async fetchAlbumInformation(albumId: string): Promise<GetPhotosResponse> {
         const requestOptions = {
             'method': 'get',
             'url': FLICKR_API_BASE_URL,
@@ -81,13 +86,13 @@ export class FlickrClient {
         let response = await axios(requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
-        return response.data
+        return <GetPhotosResponse>response.data
     }
 
     /**
      * Requests meta information like author, title, description or tags for the currently selected photo.
      */
-    private async fetchImageInformation(imageId: string) {
+    private async fetchImageInformation(imageId: string): Promise<GetInfoResponse> {
         const requestOptions = {
             'method': 'get',
             'url': FLICKR_API_BASE_URL,
@@ -103,10 +108,10 @@ export class FlickrClient {
         let response = await axios(requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
-        return response.data
+        return <GetInfoResponse>response.data
     }
 
-    private async fetchImageSizes(imageId: string) {
+    private async fetchImageSizes(imageId: string): Promise<GetSizesResponse> {
         const requestOptions = {
             'method': 'get',
             'url': FLICKR_API_BASE_URL,
@@ -122,6 +127,6 @@ export class FlickrClient {
         let response = await axios(requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
-        return response.data
+        return <GetSizesResponse>response.data
     }
 }

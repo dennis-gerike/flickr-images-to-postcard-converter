@@ -1,4 +1,4 @@
-export type FlickrPhotoSetPhoto = {
+export type Photo = {
     id: string
     secret: string
     server: string
