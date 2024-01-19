@@ -1,6 +1,7 @@
 import "dotenv/config"
 import {JimpClient} from "./lib/jimp/JimpClient"
 import {FlickrClient} from "./lib/flickr/FlickrClient"
+import {ImageInformation} from "./lib/flickr/types/internal/ImageInformation";
 
 (async function () {
     const cliProgress = require('cli-progress')
@@ -36,7 +37,8 @@ import {FlickrClient} from "./lib/flickr/FlickrClient"
     for (const photoId of flickrAlbumImageIds) {
         await jimpClient.setPhoto(`./data/original/${flickrAlbumId}/${photoId}.jpg`)
         jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
-        const title = await flickrClient.getImageTitle(photoId) + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
+        const photoInformation = require(`./data/original/${flickrAlbumId}/${photoId}.json`) as ImageInformation
+        const title = photoInformation.title + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
         const textColor = getTextColor()
         const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
         await jimpClient.setTextBox({
