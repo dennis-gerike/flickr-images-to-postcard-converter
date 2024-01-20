@@ -48,11 +48,31 @@ async function downloadPhotos(photoIds: string[]) {
     console.log('Downloading photos')
     progressBar.start(photoIds.length, 0)
     for (const photoId of photoIds) {
-        await flickrClient.downloadOriginalImage(photoId, `./data/original/${getAlbumId()}`, `${photoId}.jpg`)
-        await flickrClient.downloadImageInformation(photoId, `./data/original/${getAlbumId()}`, `${photoId}.json`)
+        await flickrClient.downloadOriginalImage(
+            photoId,
+            getDownloadFolderPath(),
+            getImageFileName(photoId)
+        )
+        await flickrClient.downloadImageInformation(
+            photoId,
+            getDownloadFolderPath(),
+            getMetaInformationFileName(photoId)
+        )
         progressBar.increment()
     }
     progressBar.stop()
+}
+
+function getDownloadFolderPath() {
+    return `./data/original/${getAlbumId()}`
+}
+
+function getImageFileName(photoId: string) {
+    return `${photoId}.jpg`
+}
+
+function getMetaInformationFileName(photoId: string) {
+    return `${photoId}.json`
 }
 
 async function convertPhotos(photoIds: string[]) {
@@ -64,9 +84,9 @@ async function convertPhotos(photoIds: string[]) {
     console.log('Converting photos')
     progressBar.start(photoIds.length, 0)
     for (const photoId of photoIds) {
-        await jimpClient.setPhoto(`./data/original/${getAlbumId()}/${photoId}.jpg`)
+        await jimpClient.setPhoto(`${getDownloadFolderPath()}/${getImageFileName(photoId)}`)
         jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
-        const photoInformation = require(`./data/original/${getAlbumId()}/${photoId}.json`) as ImageInformation
+        const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
         const title = photoInformation.title + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
         const textColor = getTextColor()
         const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
@@ -79,12 +99,16 @@ async function convertPhotos(photoIds: string[]) {
             relativeVerticalBuffer: textVerticalBuffer,
         })
         jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
-        await jimpClient.saveProcessedImage(`./data/processed/${getAlbumId()}`, `${photoId}.jpg`)
+        await jimpClient.saveProcessedImage(getProcessedFolderPath(), getImageFileName(photoId))
         jimpClient.resetCanvas()
 
         progressBar.increment()
     }
     progressBar.stop()
+}
+
+function getProcessedFolderPath() {
+    return `./data/processed/${getAlbumId()}`
 }
 
 function getTextColor() {
