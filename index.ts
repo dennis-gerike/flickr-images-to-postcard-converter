@@ -1,43 +1,72 @@
 import "dotenv/config"
 import {JimpClient} from "./lib/jimp/JimpClient"
 import {FlickrClient} from "./lib/flickr/FlickrClient"
-import {ImageInformation} from "./lib/flickr/types/internal/ImageInformation";
+import {ImageInformation} from "./lib/flickr/types/internal/ImageInformation"
 
 (async function () {
+    const photoIds = await determineToBeProcessedPhotos()
+    await downloadPhotos(photoIds)
+    await convertPhotos(photoIds)
+})()
+
+async function determineToBeProcessedPhotos(): Promise<string[]> {
+    const photoId = getPhotoId()
+    if (photoId !== null) {
+        return [photoId]
+    }
+
+    const albumId = getAlbumId()
+    if (albumId !== null) {
+        const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
+        return await flickrClient.getAlbumImageIds(albumId)
+    }
+
+    return []
+}
+
+function getPhotoId() {
+    if (process.env.FLICKR_IMAGE_ID) {
+        return process.env.FLICKR_IMAGE_ID
+    }
+
+    return null
+}
+
+function getAlbumId() {
+    if (process.env.FLICKR_ALBUM_ID) {
+        return process.env.FLICKR_ALBUM_ID
+    }
+
+    return null
+}
+
+async function downloadPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.rect)
     const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
-    const jimpClient = new JimpClient()
 
-    // 1. collecting the list of images that should be processed
-    let flickrAlbumId = 'uncategorized'
-    let flickrAlbumImageIds: string[] = []
-
-    if (process.env.FLICKR_IMAGE_ID) {
-        let flickrImageId = process.env.FLICKR_IMAGE_ID
-        flickrAlbumImageIds = [flickrImageId]
-    } else if (process.env.FLICKR_ALBUM_ID) {
-        flickrAlbumId = process.env.FLICKR_ALBUM_ID
-        flickrAlbumImageIds = await flickrClient.getAlbumImageIds(flickrAlbumId)
-    }
-
-    // 2. downloading the images from flickr and storing them locally
     console.log('Downloading photos')
-    progressBar.start(flickrAlbumImageIds.length, 0)
-    for (const photoId of flickrAlbumImageIds) {
-        await flickrClient.downloadOriginalImage(photoId, `./data/original/${flickrAlbumId}`, `${photoId}.jpg`)
-        await flickrClient.downloadImageInformation(photoId, `./data/original/${flickrAlbumId}`, `${photoId}.json`)
+    progressBar.start(photoIds.length, 0)
+    for (const photoId of photoIds) {
+        await flickrClient.downloadOriginalImage(photoId, `./data/original/${getAlbumId()}`, `${photoId}.jpg`)
+        await flickrClient.downloadImageInformation(photoId, `./data/original/${getAlbumId()}`, `${photoId}.json`)
         progressBar.increment()
     }
     progressBar.stop()
+}
 
-    // 3. resizing the photos to match the postcard format, then adding a label and finally a nice margin
+async function convertPhotos(photoIds: string[]) {
+    const cliProgress = require('cli-progress')
+    const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.rect)
+    const jimpClient = new JimpClient()
+
+    // resizing the photos to match the postcard format, then adding a label and finally a nice margin
     console.log('Converting photos')
-    progressBar.start(flickrAlbumImageIds.length, 0)
-    for (const photoId of flickrAlbumImageIds) {
-        await jimpClient.setPhoto(`./data/original/${flickrAlbumId}/${photoId}.jpg`)
+    progressBar.start(photoIds.length, 0)
+    for (const photoId of photoIds) {
+        await jimpClient.setPhoto(`./data/original/${getAlbumId()}/${photoId}.jpg`)
         jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
-        const photoInformation = require(`./data/original/${flickrAlbumId}/${photoId}.json`) as ImageInformation
+        const photoInformation = require(`./data/original/${getAlbumId()}/${photoId}.json`) as ImageInformation
         const title = photoInformation.title + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
         const textColor = getTextColor()
         const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
@@ -50,13 +79,13 @@ import {ImageInformation} from "./lib/flickr/types/internal/ImageInformation";
             relativeVerticalBuffer: textVerticalBuffer,
         })
         jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
-        await jimpClient.saveProcessedImage(`./data/processed/${flickrAlbumId}`, `${photoId}.jpg`)
+        await jimpClient.saveProcessedImage(`./data/processed/${getAlbumId()}`, `${photoId}.jpg`)
         jimpClient.resetCanvas()
 
         progressBar.increment()
     }
     progressBar.stop()
-})()
+}
 
 function getTextColor() {
     let red = 0
