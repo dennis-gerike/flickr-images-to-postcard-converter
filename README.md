@@ -32,3 +32,17 @@ Optionally, the user can define a text label and custom margins.
     * at least the `FLICKR_API_KEY` and the `FLICKR_IMAGE_ID` must be set
 * run `npm start` on the terminal
 * a `data` folder should have been created, containing the original and the processed photo
+
+## Tests
+
+### Requirements
+
+* Node.js 18 or higher -> https://nodejs.org/en
+* npm
+* Flickr API key -> https://www.flickr.com/services/api/keys/
+
+### Quickstart
+
+Executing the cucumber test suite:
+
+* run `npm test`

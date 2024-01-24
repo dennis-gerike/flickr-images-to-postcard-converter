@@ -4,7 +4,8 @@
   "description": "Resizes a given set of flickr images, so they all fit into the postcard aspect ratio 3:2. Optionally prints the title and some meta information onto the photos.",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node index.ts"
+    "start": "npx ts-node index.ts",
+    "test": "npx cucumber-js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/dgerike/flickr-images-to-postcard-converter#readme",
   "devDependencies": {
+    "@cucumber/cucumber": "10.3.1",
     "ts-node": "10.9.2",
     "typescript": "5.3.3"
   },
