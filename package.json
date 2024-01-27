@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npx ts-node index.ts",
-    "test": "npx cucumber-js"
+    "test": "npm run test-behavior && npm run test-functionality",
+    "test-behavior": "npx cucumber-js",
+    "test-functionality": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,9 @@
   "homepage": "https://github.com/dgerike/flickr-images-to-postcard-converter#readme",
   "devDependencies": {
     "@cucumber/cucumber": "10.3.1",
+    "@types/jest": "29.5.11",
+    "jest": "29.7.0",
+    "ts-jest": "29.1.2",
     "ts-node": "10.9.2",
     "typescript": "5.3.3"
   },

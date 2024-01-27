@@ -43,6 +43,14 @@ Optionally, the user can define a text label and custom margins.
 
 ### Quickstart
 
-Executing the cucumber test suite:
+Executing the cucumber tests (behavior):
+
+* run `npm run test-behavior`
+
+Executing the jest tests (functionality aka unit tests):
+
+* run `npm run test-functionality`
+
+Executing all tests (behavior and functionality)
 
 * run `npm test`
