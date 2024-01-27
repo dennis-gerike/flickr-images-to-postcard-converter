@@ -1,7 +1,7 @@
 module.exports = {
     default: {
         paths: ['specification/**/*.feature'],
-        require: ['tests/**/*.ts'],
+        require: ['tests/behavior-tests/**/*.ts'],
         requireModule: ['ts-node/register'],
         format: [
             'html:test-reports/cucumber-report.html',
