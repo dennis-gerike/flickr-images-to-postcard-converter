@@ -9,7 +9,7 @@ When('the user selects the Flickr photo {string}', function (photoId) {
     this.photoId = photoId
 })
 
-When('the user triggers the download', async function () {
+When('the user triggers the download of the photo', async function () {
     const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
     this.downloadPath = getDownloadFolderPath()
     this.downloadFilename = `${this.photoId}.jpg`
