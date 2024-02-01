@@ -16,7 +16,40 @@ It makes sure, that all photos are resized to the new aspect ratio,
 but without stretching, squeezing or cropping the image.
 Optionally, the user can define a text label and custom margins.
 
-## Installation
+## Running the app as Docker container
+
+If you only want to run the app, without installing Node.js and all of its dependencies then you can use one of the
+prepared docker images.
+They are available at
+dockerhub: https://hub.docker.com/repository/docker/dennisgerike/flickr-images-to-postcard-converter/general.
+
+The following example runs the app by providing the settings via environment variables.
+
+```
+docker run \
+  --env FLICKR_API_KEY=<YOUR_FLICKR_API_KEY> \
+  --env FLICKR_IMAGE_ID=51457247338 \
+  --env ASPECT_RATIO=1.5 \
+  --env MARGIN_HORIZONTAL=0 \
+  --env MARGIN_VERTICAL=5 \
+  --env CUSTOM_TEXT='TEST 1234' \
+  --env TEXT_COLOR='242,72,10' \
+  --env TEXT_VERTICAL_BUFFER=2.5 \
+  --volume $HOME/temp:/app/data \
+  dennisgerike/flickr-images-to-postcard-converter:latest
+```
+
+Alternatively, you can store the settings in an env file and provide that to docker.
+See the `.env.template` file in the project's root directory for reference.
+
+```
+docker run \
+  --env-file ./.env \
+  --volume $HOME/temp:/app/data \
+  dennisgerike/flickr-images-to-postcard-converter:latest
+```
+
+## Running the app locally
 
 ### Requirements
 
@@ -33,7 +66,7 @@ Optionally, the user can define a text label and custom margins.
 * run `npm start` on the terminal
 * a `data` folder should have been created, containing the original and the processed photo
 
-## Tests
+## Running the tests
 
 ### Requirements
 

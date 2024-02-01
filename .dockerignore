@@ -1,0 +1,7 @@
+/node_modules/
+/.idea/
+/.git/
+/.env
+/data/
+/test-reports/
+/tests/behavior-tests/downloads/
