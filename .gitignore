@@ -3,4 +3,5 @@
 /.env
 /data/
 /test-reports/
-/tests/behavior-tests/downloads/
+/tests/behavior-tests/_data/downloads/
+/tests/behavior-tests/_data/processed/

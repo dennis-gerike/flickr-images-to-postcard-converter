@@ -3,7 +3,7 @@ import * as fs from "fs"
 import assert from "assert"
 import {Then, When} from "@cucumber/cucumber"
 import {FlickrClient} from "../../../lib/flickr/FlickrClient"
-import {getDownloadFolderPath} from "../getDownloadFolderPath"
+import {getDownloadFolderPath} from "../_helper/getDownloadFolderPath"
 
 When('the user selects the Flickr photo {string}', function (photoId) {
     this.photoId = photoId
