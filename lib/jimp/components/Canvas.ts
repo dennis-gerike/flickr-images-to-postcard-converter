@@ -78,6 +78,6 @@ export class Canvas extends Component {
      */
     public async save(path: string, fileName: string) {
         await fs.mkdir(`${path}/`, {recursive: true})
-        this.layer.write(`${path}/${fileName}`)
+        await this.layer.writeAsync(`${path}/${fileName}`)
     }
 }
