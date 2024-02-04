@@ -5,7 +5,10 @@ module.exports = {
     testMatch: [
         '**/functionality-tests/**/*.ts'
     ],
-    collectCoverage: true,
+    testPathIgnorePatterns: [
+        '_helper',
+        '_data'
+    ],
     collectCoverageFrom: ['lib/**/*.ts'],
     coverageDirectory: 'test-reports/coverage',
     coverageReporters: ['lcov', 'text-summary']
