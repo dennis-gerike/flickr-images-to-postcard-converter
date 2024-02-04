@@ -5,4 +5,8 @@ module.exports = {
     testMatch: [
         '**/functionality-tests/**/*.ts'
     ],
+    collectCoverage: true,
+    collectCoverageFrom: ['lib/**/*.ts'],
+    coverageDirectory: 'test-reports/coverage',
+    coverageReporters: ['lcov', 'text-summary']
 }
