@@ -87,3 +87,14 @@ Executing the jest tests (functionality aka unit tests):
 Executing all tests (behavior and functionality)
 
 * run `npm test`
+
+## Create docker image
+
+* `docker login`
+* `docker buildx create --use`
+* ```
+  docker buildx build . --push \
+  --platform linux/amd64,linux/arm64 \
+  --tag dennisgerike/flickr-images-to-postcard-converter:1.0.1 \
+  --tag dennisgerike/flickr-images-to-postcard-converter:latest 
+  ```
