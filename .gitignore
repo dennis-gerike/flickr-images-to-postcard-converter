@@ -5,3 +5,5 @@
 /test-reports/
 /tests/behavior-tests/_data/downloads/
 /tests/behavior-tests/_data/processed/
+/tests/functionality-tests/_data/downloads/
+/tests/functionality-tests/_data/processed/

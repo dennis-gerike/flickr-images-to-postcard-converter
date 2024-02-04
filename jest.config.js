@@ -10,6 +10,10 @@ module.exports = {
         '_data'
     ],
     collectCoverageFrom: ['lib/**/*.ts'],
+    coveragePathIgnorePatterns: [
+        '_helper',
+        '_data'
+    ],
     coverageDirectory: 'test-reports/coverage',
     coverageReporters: ['lcov', 'text-summary']
 }
