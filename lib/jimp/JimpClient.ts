@@ -28,11 +28,10 @@ export class JimpClient {
      * Changes the dimensions of the canvas to the given aspect ratio.
      */
     public setAspectRatio(ratio: number) {
-        if (ratio && ratio > 0) {
+        if (ratio > 0) {
             this.canvas.setAspectRatio(ratio)
         } else {
-            console.warn('Invalid aspect ratio provided! Using default value instead.')
-            this.canvas.setAspectRatio(1)
+            throw new Error('Invalid aspect ratio provided!')
         }
     }
 
