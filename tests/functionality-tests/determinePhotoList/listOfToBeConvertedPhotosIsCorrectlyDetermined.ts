@@ -25,4 +25,4 @@ test('if a photo, but no album was selected, then a list with one item (the phot
     expect(photoIds[0]).toEqual('12345')
 })
 
-test.todo('if no photo, but an album was selected, then a list with one item (the photo id) should be returned')
+test.todo('if no photo, but an album was selected, then a list with all of the album\'s photo ids should be returned')
