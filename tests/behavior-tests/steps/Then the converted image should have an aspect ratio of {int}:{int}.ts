@@ -7,7 +7,7 @@ import {getPhotoId} from "../../../lib/converter/getPhotoId"
 Then('the converted image should have an aspect ratio of {int}:{int}', function (x: number, y: number) {
     const dimensions = sizeOf(`${getProcessedFolderPath()}/${getPhotoId()}.jpg`)
     if (dimensions.width && dimensions.height) {
-        const expectedAspectRatio = Number(process.env.ASPECT_RATIO)
+        const expectedAspectRatio = x / y
         const actualAspectRatio = dimensions.width / dimensions.height
         const epsilon = 0.01
         assert(Math.abs(expectedAspectRatio - actualAspectRatio) < epsilon)
