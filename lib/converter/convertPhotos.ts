@@ -5,6 +5,7 @@ import {getImageFileName} from "./getImageFileName"
 import {getMetaInformationFileName} from "./getMetaInformationFileName"
 import {getProcessedFolderPath} from "./getProcessedFolderPath"
 import {getTextColor} from "./getTextColor"
+import {getAspectRatio} from "./getAspectRatio"
 
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
@@ -16,7 +17,10 @@ export async function convertPhotos(photoIds: string[]) {
     progressBar.start(photoIds.length, 0)
     for (const photoId of photoIds) {
         await jimpClient.setPhoto(`${getDownloadFolderPath()}/${getImageFileName(photoId)}`)
-        jimpClient.setAspectRatio(Number(process.env.ASPECT_RATIO))
+        const aspectRatio = getAspectRatio()
+        if (aspectRatio) {
+            jimpClient.setAspectRatio(aspectRatio)
+        }
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
         const title = photoInformation.title + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
         const textColor = getTextColor()
