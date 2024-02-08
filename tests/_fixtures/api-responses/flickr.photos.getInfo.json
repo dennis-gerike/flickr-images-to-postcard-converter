@@ -1,0 +1,140 @@
+{
+  "photo": {
+    "id": "53256106545",
+    "secret": "0f6c6976fe",
+    "server": "65535",
+    "farm": 66,
+    "dateuploaded": "1697222893",
+    "isfavorite": 0,
+    "license": "4",
+    "safety_level": "0",
+    "rotation": 0,
+    "originalsecret": "eca8113cc9",
+    "originalformat": "jpg",
+    "owner": {
+      "nsid": "146538874@N06",
+      "username": "More Cars",
+      "realname": "",
+      "location": null,
+      "iconserver": "4436",
+      "iconfarm": 5,
+      "path_alias": "more-cars",
+      "gift": {
+        "gift_eligible": true,
+        "eligible_durations": [
+          "year",
+          "month",
+          "week"
+        ],
+        "new_flow": true
+      }
+    },
+    "title": {
+      "_content": "Dodge Challenger R/T"
+    },
+    "description": {
+      "_content": ""
+    },
+    "visibility": {
+      "ispublic": 1,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "dates": {
+      "posted": "1697222893",
+      "taken": "2023-07-22 14:46:02",
+      "takengranularity": 0,
+      "takenunknown": "0",
+      "lastupdate": "1697491302"
+    },
+    "views": "57",
+    "editability": {
+      "cancomment": 0,
+      "canaddmeta": 0
+    },
+    "publiceditability": {
+      "cancomment": 1,
+      "canaddmeta": 0
+    },
+    "usage": {
+      "candownload": 1,
+      "canblog": 0,
+      "canprint": 0,
+      "canshare": 1
+    },
+    "comments": {
+      "_content": "0"
+    },
+    "notes": {
+      "note": []
+    },
+    "people": {
+      "haspeople": 0
+    },
+    "tags": {
+      "tag": [
+        {
+          "id": "146493552-53256106545-19098",
+          "author": "146538874@N06",
+          "authorname": "More Cars",
+          "raw": "Dodge",
+          "_content": "dodge",
+          "machine_tag": 0
+        },
+        {
+          "id": "146493552-53256106545-62412",
+          "author": "146538874@N06",
+          "authorname": "More Cars",
+          "raw": "Challenger",
+          "_content": "challenger",
+          "machine_tag": 0
+        },
+        {
+          "id": "146493552-53256106545-55684",
+          "author": "146538874@N06",
+          "authorname": "More Cars",
+          "raw": "R/T",
+          "_content": "rt",
+          "machine_tag": 0
+        }
+      ]
+    },
+    "location": {
+      "latitude": "52.362989",
+      "longitude": "9.728651",
+      "accuracy": "16",
+      "context": "0",
+      "locality": {
+        "_content": "Region Hannover"
+      },
+      "county": {
+        "_content": ""
+      },
+      "region": {
+        "_content": "Lower Saxony"
+      },
+      "country": {
+        "_content": "Germany"
+      },
+      "neighbourhood": {
+        "_content": "Calenberger Neustadt"
+      }
+    },
+    "geoperms": {
+      "ispublic": 1,
+      "iscontact": 0,
+      "isfriend": 0,
+      "isfamily": 0
+    },
+    "urls": {
+      "url": [
+        {
+          "type": "photopage",
+          "_content": "https://www.flickr.com/photos/more-cars/53256106545/"
+        }
+      ]
+    },
+    "media": "photo"
+  },
+  "stat": "ok"
+}
