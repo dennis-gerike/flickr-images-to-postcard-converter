@@ -26,16 +26,6 @@ export class FlickrClient {
     }
 
     /**
-     * Returns the title of the Flickr image.
-     * When the image has no title, then an empty string will be returned.
-     */
-    public async getImageTitle(imageId: string) {
-        const imageInformation = await this.fetchImageInformation(imageId)
-
-        return imageInformation.photo.title._content
-    }
-
-    /**
      * Downloads the original image (not one of the resized versions) into the given folder.
      * If the folder doesn't exist, it will be created.
      */
