@@ -79,8 +79,6 @@ export class FlickrClient {
 
     private async fetchAlbumInformation(albumId: string): Promise<GetPhotosResponse> {
         const requestOptions = {
-            'method': 'get',
-            'url': FLICKR_API_BASE_URL,
             'params': {
                 'api_key': this.flickrApiKey,
                 'photoset_id': albumId,
@@ -90,7 +88,7 @@ export class FlickrClient {
             }
         }
 
-        let response = await axios(requestOptions)
+        let response = await axios(FLICKR_API_BASE_URL, requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetPhotosResponse>response.data
@@ -101,8 +99,6 @@ export class FlickrClient {
      */
     private async fetchImageInformation(imageId: string): Promise<GetInfoResponse> {
         const requestOptions = {
-            'method': 'get',
-            'url': FLICKR_API_BASE_URL,
             'params': {
                 'api_key': this.flickrApiKey,
                 'photo_id': imageId,
@@ -112,7 +108,7 @@ export class FlickrClient {
             }
         }
 
-        let response = await axios(requestOptions)
+        let response = await axios.get(FLICKR_API_BASE_URL, requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetInfoResponse>response.data
@@ -120,8 +116,6 @@ export class FlickrClient {
 
     private async fetchImageSizes(imageId: string): Promise<GetSizesResponse> {
         const requestOptions = {
-            'method': 'get',
-            'url': FLICKR_API_BASE_URL,
             'params': {
                 'api_key': this.flickrApiKey,
                 'photo_id': imageId,
@@ -131,7 +125,7 @@ export class FlickrClient {
             }
         }
 
-        let response = await axios(requestOptions)
+        let response = await axios.get(FLICKR_API_BASE_URL, requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetSizesResponse>response.data
