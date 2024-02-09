@@ -6,7 +6,7 @@ import {getMetaInformationFileName} from "./getMetaInformationFileName"
 export async function downloadPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.rect)
-    const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
+    const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY as string)
 
     console.log('Downloading photos')
     progressBar.start(photoIds.length, 0)

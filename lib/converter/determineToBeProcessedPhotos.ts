@@ -10,7 +10,7 @@ export async function determineToBeProcessedPhotos(): Promise<string[]> {
 
     const albumId = getAlbumId()
     if (albumId !== null) {
-        const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY)
+        const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY as string)
         return await flickrClient.getAlbumImageIds(albumId)
     }
 
