@@ -21,10 +21,9 @@ export class FlickrClient {
     constructor(flickrApiKey: string | undefined, axiosClient?: any) {
         if (!flickrApiKey) {
             throw new Error('Flickr api key was not provided. Cannot continue.')
+        } else {
+            this.flickrApiKey = flickrApiKey
         }
-
-        this.flickrApiKey = flickrApiKey
-    }
 
         if (axiosClient) {
             this.axiosClient = axios
