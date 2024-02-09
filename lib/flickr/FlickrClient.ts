@@ -16,13 +16,19 @@ const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
  */
 export class FlickrClient {
     private readonly flickrApiKey: string
+    private readonly axiosClient: any = axios
 
-    constructor(flickrApiKey: string | undefined) {
+    constructor(flickrApiKey: string | undefined, axiosClient?: any) {
         if (!flickrApiKey) {
             throw new Error('Flickr api key was not provided. Cannot continue.')
         }
 
         this.flickrApiKey = flickrApiKey
+    }
+
+        if (axiosClient) {
+            this.axiosClient = axios
+        }
     }
 
     /**
@@ -38,7 +44,7 @@ export class FlickrClient {
             return
         }
 
-        const response = await axios.get(originalImage.source, {responseType: 'arraybuffer'})
+        const response = await this.axiosClient.get(originalImage.source, {responseType: 'arraybuffer'})
         const image = Buffer.from(response.data, 'binary')
 
         await fs.writeFile(`${targetPath}/${targetFile}`, image)
@@ -88,7 +94,7 @@ export class FlickrClient {
             }
         }
 
-        let response = await axios(FLICKR_API_BASE_URL, requestOptions)
+        let response = await this.axiosClient.get(FLICKR_API_BASE_URL, requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetPhotosResponse>response.data
@@ -108,7 +114,7 @@ export class FlickrClient {
             }
         }
 
-        let response = await axios.get(FLICKR_API_BASE_URL, requestOptions)
+        let response = await this.axiosClient.get(FLICKR_API_BASE_URL, requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetInfoResponse>response.data
@@ -125,7 +131,7 @@ export class FlickrClient {
             }
         }
 
-        let response = await axios.get(FLICKR_API_BASE_URL, requestOptions)
+        let response = await this.axiosClient.get(FLICKR_API_BASE_URL, requestOptions)
         axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetSizesResponse>response.data
