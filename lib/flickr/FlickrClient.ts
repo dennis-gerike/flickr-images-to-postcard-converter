@@ -11,8 +11,7 @@ const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
 /**
  * The Flickr client encapsulates every request to the Flickr API.
- * The client can handle one image at a time.
- * A call to selectPhoto() always needs to be the first interaction with the client.
+ * It is possible to provide an alternative axios client (e.g. a mocked one for testing activities).
  */
 export class FlickrClient {
     private readonly flickrApiKey: string
@@ -65,6 +64,9 @@ export class FlickrClient {
         await fs.writeFile(`${targetPath}/${targetFile}`, JSON.stringify(imageInformation, null, 2))
     }
 
+    /**
+     * Returns a list of all photo ids that belong to the given album.
+     */
     public async getAlbumImageIds(albumId: string) {
         const rawAlbumInformation = await this.fetchAlbumInformation(albumId)
 
@@ -74,7 +76,7 @@ export class FlickrClient {
     /**
      * Returns some basic information about the original image (e.g. dimensions and url).
      */
-    public async getOriginalImage(imageId: string): Promise<Size | undefined> {
+    private async getOriginalImage(imageId: string): Promise<Size | undefined> {
         const imageSizes = await this.fetchImageSizes(imageId)
 
         return imageSizes.sizes.size.find((item: Size) => {
@@ -82,6 +84,9 @@ export class FlickrClient {
         })
     }
 
+    /**
+     * Calls the Flickr API to request information about the given album.
+     */
     private async fetchAlbumInformation(albumId: string): Promise<GetPhotosResponse> {
         const requestOptions = {
             'params': {
@@ -100,7 +105,7 @@ export class FlickrClient {
     }
 
     /**
-     * Requests meta information like author, title, description or tags for the currently selected photo.
+     * Calls the Flickr API to request information about the given photo.
      */
     private async fetchImageInformation(imageId: string): Promise<GetInfoResponse> {
         const requestOptions = {
@@ -119,6 +124,9 @@ export class FlickrClient {
         return <GetInfoResponse>response.data
     }
 
+    /**
+     * Calls the Flickr API to request the available image sizes for a given photo.
+     */
     private async fetchImageSizes(imageId: string): Promise<GetSizesResponse> {
         const requestOptions = {
             'params': {
