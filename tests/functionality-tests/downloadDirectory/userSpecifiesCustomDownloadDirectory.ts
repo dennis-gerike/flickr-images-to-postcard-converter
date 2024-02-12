@@ -1,6 +1,6 @@
 import fs from "fs"
 import assert from "assert"
-import {getMockedFlickrApiClient} from "../_helper/mockFlickApi"
+import {getMockedFlickrApiClient} from "../_helper/getMockedFlickrApiClient"
 import {FlickrClient} from "../../../lib/flickr/FlickrClient"
 import {getDownloadFolderPath} from "../_helper/getDownloadFolderPath"
 
