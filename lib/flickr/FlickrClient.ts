@@ -15,9 +15,9 @@ const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
  */
 export class FlickrClient {
     private readonly flickrApiKey: string
-    private readonly axiosClient: any = axios
+    private readonly axiosClient: typeof axios = axios
 
-    constructor(flickrApiKey: string, axiosClient?: any) {
+    constructor(flickrApiKey: string, axiosClient?: typeof axios) {
         if (!flickrApiKey) {
             throw new Error('Flickr api key was not provided. Cannot continue.')
         } else {
