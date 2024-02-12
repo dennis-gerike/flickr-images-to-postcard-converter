@@ -25,7 +25,7 @@ export class FlickrClient {
         }
 
         if (axiosClient) {
-            this.axiosClient = axios
+            this.axiosClient = axiosClient
         }
     }
 
