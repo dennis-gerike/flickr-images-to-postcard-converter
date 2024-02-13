@@ -11,22 +11,20 @@ const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
 /**
  * The Flickr client encapsulates every request to the Flickr API.
- * It is possible to provide an alternative axios client (e.g. a mocked one for testing activities).
+ * The caller has to provide a valid HTTP client (axios compatible).
  */
 export class FlickrClient {
     private readonly flickrApiKey: string
-    private readonly axiosClient: typeof axios = axios
+    private readonly httpClient: typeof axios
 
-    constructor(flickrApiKey: string, axiosClient?: typeof axios) {
+    constructor(flickrApiKey: string, httpClient: typeof axios) {
         if (!flickrApiKey) {
             throw new Error('Flickr api key was not provided. Cannot continue.')
         } else {
             this.flickrApiKey = flickrApiKey
         }
 
-        if (axiosClient) {
-            this.axiosClient = axiosClient
-        }
+        this.httpClient = httpClient
     }
 
     /**
@@ -42,7 +40,7 @@ export class FlickrClient {
             return
         }
 
-        const response = await this.axiosClient.get(originalImage.source, {responseType: 'arraybuffer'})
+        const response = await this.httpClient.get(originalImage.source, {responseType: 'arraybuffer'})
         const image = Buffer.from(response.data, 'binary')
 
         await fs.writeFile(`${targetPath}/${targetFile}`, image)
@@ -98,8 +96,8 @@ export class FlickrClient {
             }
         }
 
-        let response = await this.axiosClient.get(FLICKR_API_BASE_URL, requestOptions)
-        axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
+        let response = await this.httpClient.get(FLICKR_API_BASE_URL, requestOptions)
+        axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetPhotosResponse>response.data
     }
@@ -118,8 +116,8 @@ export class FlickrClient {
             }
         }
 
-        let response = await this.axiosClient.get(FLICKR_API_BASE_URL, requestOptions)
-        axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
+        let response = await this.httpClient.get(FLICKR_API_BASE_URL, requestOptions)
+        axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetInfoResponse>response.data
     }
@@ -138,8 +136,8 @@ export class FlickrClient {
             }
         }
 
-        let response = await this.axiosClient.get(FLICKR_API_BASE_URL, requestOptions)
-        axiosRetry(axios, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
+        let response = await this.httpClient.get(FLICKR_API_BASE_URL, requestOptions)
+        axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetSizesResponse>response.data
     }

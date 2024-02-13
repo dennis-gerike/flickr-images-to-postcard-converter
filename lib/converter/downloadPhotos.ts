@@ -3,10 +3,9 @@ import {getDownloadFolderPath} from "./getDownloadFolderPath"
 import {getImageFileName} from "./getImageFileName"
 import {getMetaInformationFileName} from "./getMetaInformationFileName"
 
-export async function downloadPhotos(photoIds: string[]) {
+export async function downloadPhotos(photoIds: string[], flickrClient: FlickrClient) {
     const cliProgress = require('cli-progress')
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.rect)
-    const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY as string)
 
     console.log('Downloading photos')
     progressBar.start(photoIds.length, 0)

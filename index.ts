@@ -1,10 +1,13 @@
 import "dotenv/config"
+import axios from "axios"
+import {FlickrClient} from "./lib/flickr/FlickrClient"
 import {downloadPhotos} from "./lib/converter/downloadPhotos"
 import {convertPhotos} from "./lib/converter/convertPhotos"
 import {determineToBeProcessedPhotos} from "./lib/converter/determineToBeProcessedPhotos"
 
 (async function () {
-    const photoIds = await determineToBeProcessedPhotos()
-    await downloadPhotos(photoIds)
+    const flickrClient = new FlickrClient(process.env.FLICKR_API_KEY as string, axios)
+    const photoIds = await determineToBeProcessedPhotos(flickrClient)
+    await downloadPhotos(photoIds, flickrClient)
     await convertPhotos(photoIds)
 })()
