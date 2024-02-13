@@ -27,4 +27,11 @@ test('if a photo, but no album was selected, then a list with one item (the phot
     expect(photoIds[0]).toEqual('12345')
 })
 
-test.todo('if no photo, but an album was selected, then a list with all of the album\'s photo ids should be returned')
+test('if no photo, but an album was selected, then a list with all of the album\'s photo ids should be returned', async () => {
+    delete process.env.FLICKR_IMAGE_ID
+    process.env.FLICKR_ALBUM_ID = '12345'
+    process.env.FLICKR_API_KEY = 'DUMMY_API_KEY'
+
+    const photoIds = await determineToBeProcessedPhotos(new FlickrClient(process.env.FLICKR_API_KEY, getMockedFlickrApiClient()))
+    expect(photoIds.length).toBe(10) // Why exactly 10? The mocked data source contains 10 items.
+})
