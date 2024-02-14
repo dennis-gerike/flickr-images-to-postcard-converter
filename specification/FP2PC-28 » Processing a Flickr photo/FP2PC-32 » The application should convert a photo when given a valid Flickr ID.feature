@@ -1,4 +1,4 @@
-@FP2PC-28 @ignore
+@FP2PC-28
 Feature: Processing a Flickr photo
   As a user
   I want to be able to convert one specific Flickr photo
