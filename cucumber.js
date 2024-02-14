@@ -8,5 +8,6 @@ module.exports = {
             'json:test-reports/cucumber-report.json',
             'usage:test-reports/usage.txt',
         ],
+        tags: 'not @ignore'
     }
 }
