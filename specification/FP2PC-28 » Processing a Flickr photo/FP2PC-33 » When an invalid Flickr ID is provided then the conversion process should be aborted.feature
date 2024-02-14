@@ -9,6 +9,6 @@ Feature: Processing a Flickr photo
 
   @FP2PC-33
   Scenario: When an invalid Flickr ID is provided then the conversion process should be aborted
-    When the user selects a an invalid Flickr photo
+    When the user selects an invalid Flickr photo
     And the user starts the conversion process
     Then the conversion process should have failed
