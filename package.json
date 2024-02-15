@@ -1,7 +1,7 @@
 {
-  "name": "flickr-images-to-postcard-converter",
-  "version": "1.3.0",
-  "description": "Resizes a given set of flickr images, so they all fit into the postcard aspect ratio 3:2. Optionally prints the title and some meta information onto the photos.",
+  "name": "flickr-photos-to-postcard-converter",
+  "version": "1.4.0",
+  "description": "Resizes a given set of flickr images, so they all fit into the postcard format. Optionally prints the title and some meta information onto the photos.",
   "main": "index.js",
   "scripts": {
     "start": "npx ts-node index.ts",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dgerike/flickr-images-to-postcard-converter.git"
+    "url": "git+https://github.com/dgerike/flickr-photos-to-postcard-converter.git"
   },
   "author": "Dennis Gerike",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dgerike/flickr-images-to-postcard-converter/issues"
+    "url": "https://github.com/dgerike/flickr-photos-to-postcard-converter/issues"
   },
-  "homepage": "https://github.com/dgerike/flickr-images-to-postcard-converter#readme",
+  "homepage": "https://github.com/dgerike/flickr-photos-to-postcard-converter#readme",
   "devDependencies": {
     "@cucumber/cucumber": "10.3.1",
     "@types/jest": "29.5.11",

@@ -21,7 +21,7 @@ Optionally, the user can define a text label and custom margins.
 If you only want to run the app, without installing Node.js and all of its dependencies then you can use one of the
 prepared docker images.
 They are available at
-dockerhub: https://hub.docker.com/repository/docker/dennisgerike/flickr-images-to-postcard-converter/general.
+dockerhub: https://hub.docker.com/repository/docker/dennisgerike/flickr-photos-to-postcard-converter/general.
 
 The following example runs the app by providing the settings via environment variables.
 
@@ -36,7 +36,7 @@ docker run \
   --env TEXT_COLOR='242,72,10' \
   --env TEXT_VERTICAL_BUFFER=2.5 \
   --volume $HOME/temp:/app/data \
-  dennisgerike/flickr-images-to-postcard-converter:latest
+  dennisgerike/flickr-photos-to-postcard-converter:latest
 ```
 
 Alternatively, you can store the settings in an env file and provide that to docker.
@@ -46,7 +46,7 @@ See the `.env.template` file in the project's root directory for reference.
 docker run \
   --env-file ./.env \
   --volume $HOME/temp:/app/data \
-  dennisgerike/flickr-images-to-postcard-converter:latest
+  dennisgerike/flickr-photos-to-postcard-converter:latest
 ```
 
 ## Running the app locally
@@ -59,7 +59,7 @@ docker run \
 
 ### Quickstart
 
-* clone the repository: https://github.com/dgerike/flickr-images-to-postcard-converter
+* clone the repository: https://github.com/dgerike/flickr-photos-to-postcard-converter
 * install the dependencies: `npm install`
 * configure the `.env` file
     * at least the `FLICKR_API_KEY` and the `FLICKR_IMAGE_ID` must be set
