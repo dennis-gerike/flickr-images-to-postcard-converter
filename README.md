@@ -95,6 +95,6 @@ Executing all tests (behavior and functionality)
 * ```
   docker buildx build . --push \
   --platform linux/amd64,linux/arm64 \
-  --tag dennisgerike/flickr-images-to-postcard-converter:1.0.1 \
-  --tag dennisgerike/flickr-images-to-postcard-converter:latest 
+  --tag dennisgerike/flickr-photos-to-postcard-converter:1.4.0 \
+  --tag dennisgerike/flickr-photos-to-postcard-converter:latest 
   ```
