@@ -1,4 +1,4 @@
-@FP2PC-20 @ignore
+@FP2PC-20
 Feature: Changing the directory for the processed images
   As a user
   I want to be able to specify the directory in which the processed images will be saved
