@@ -9,6 +9,7 @@ Feature: Changing the directory for the processed images
 
   @FP2PC-24
   Scenario: The user should be able to change the directory for the processed images
+    Given the user selected a Flickr photo
     When the user specifies the directory for the processed images
     And the user starts the conversion process
     Then the processed photo should be located in the specified directory
