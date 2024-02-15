@@ -1,4 +1,4 @@
-@FP2PC-19 @ignore
+@FP2PC-19
 Feature: Changing the download directory
   As a user
   I want to be able to specify the directory for the downloaded Flickr photos
