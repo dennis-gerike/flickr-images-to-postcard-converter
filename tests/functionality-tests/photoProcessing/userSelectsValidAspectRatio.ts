@@ -1,5 +1,6 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {assertAspectRatio} from "./assertAspectRatio"
 import sizeOf from "image-size"
 import assert from "assert"
 
@@ -28,8 +29,3 @@ describe.each([
         }
     })
 })
-
-function assertAspectRatio(width: number, height: number, expectedAspectRatio: number, epsilon: number = 0.001) {
-    const actualAspectRatio = width / height
-    assert(Math.abs(expectedAspectRatio - actualAspectRatio) < epsilon)
-}
