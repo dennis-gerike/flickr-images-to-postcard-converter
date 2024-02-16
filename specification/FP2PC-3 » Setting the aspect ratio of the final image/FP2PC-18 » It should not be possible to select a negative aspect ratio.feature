@@ -4,6 +4,9 @@ Feature: Setting the aspect ratio of the final image
   I want to be able to change the aspect ratio for the final image
   So, I don’t have to rely on my printer’s capabilities to resize the original image correctly
 
+  @FP2PC-11
+  Rule: It should not be possible to select a negative aspect ratio
+
   @FP2PC-18
   Scenario: It should not be possible to select a negative aspect ratio
     When the user configures the aspect ratio to be -5:10
