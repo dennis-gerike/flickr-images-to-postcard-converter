@@ -1,4 +1,4 @@
-@FP2PC-3 @ignore
+@FP2PC-3
 Feature: Setting the aspect ratio of the final image
   As a user
   I want to be able to change the aspect ratio for the final image
