@@ -1,6 +1,6 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
-import {assertAspectRatio} from "./assertAspectRatio"
+import {assertAspectRatio} from "../_helper/assertAspectRatio"
 import sizeOf from "image-size"
 import assert from "assert"
 
