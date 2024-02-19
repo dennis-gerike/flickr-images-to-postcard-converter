@@ -2,7 +2,7 @@
 /.idea/
 /.git/
 /.env
-/data/
 /test-reports/
-/tests/behavior-tests/_data/downloads/
-/tests/behavior-tests/_data/processed/
+/data/
+/tests/behavior-tests/_data/
+/tests/functionality-tests/_data/
