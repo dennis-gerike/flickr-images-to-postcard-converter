@@ -15,7 +15,11 @@ export class Photo extends Component {
      * The image needs to be a valid image file (jpg, png, etc).
      */
     public async load(path: string) {
-        this.layer = await Jimp.read(path)
+        try {
+            this.layer = await Jimp.read(path)
+        } catch (error) {
+            throw new Error('Not able to load the given image file.')
+        }
         this.width = this.layer.getWidth()
         this.height = this.layer.getHeight()
     }
