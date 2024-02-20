@@ -5,22 +5,27 @@ import {getFixturesFolderPath} from "./getFixturesFolderPath"
 jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
-export function getMockedFlickrApiClient() {
+export enum TestSituation {
+    'success' = 'success',
+    'failure' = 'failure'
+}
+
+export function getMockedFlickrApiClient(situation: TestSituation = TestSituation.success) {
     mockedAxios.get.mockImplementation((url, config): Promise<unknown> => {
         if (url.startsWith('https://api.flickr.com/')) {
             if (config !== undefined) {
                 switch (config.params.method) {
                     case 'flickr.photos.getInfo':
                         return Promise.resolve({
-                            data: require(`${getFixturesFolderPath()}/api-responses/flickr.photos.getInfo`)
+                            data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photos.getInfo`)
                         })
                     case 'flickr.photos.getSizes':
                         return Promise.resolve({
-                            data: require(`${getFixturesFolderPath()}/api-responses/flickr.photos.getSizes`)
+                            data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photos.getSizes`)
                         })
                     case 'flickr.photosets.getPhotos':
                         return Promise.resolve({
-                            data: require(`${getFixturesFolderPath()}/api-responses/flickr.photosets.getPhotos`)
+                            data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photosets.getPhotos`)
                         })
                 }
             }
