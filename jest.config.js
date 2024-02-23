@@ -15,5 +15,5 @@ module.exports = {
         '_data'
     ],
     coverageDirectory: 'test-reports/coverage',
-    coverageReporters: ['lcov', 'text-summary']
+    coverageReporters: ['github-actions', 'lcov', 'text-summary']
 }
