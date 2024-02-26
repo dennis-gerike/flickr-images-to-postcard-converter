@@ -32,4 +32,6 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       - name: Run Cucumber tests
+        env:
+          FLICKR_API_KEY: ${{ secrets.FLICKR_API_KEY }}
         run: npm run test-behavior
