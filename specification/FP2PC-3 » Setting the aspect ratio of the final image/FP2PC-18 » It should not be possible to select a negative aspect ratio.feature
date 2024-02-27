@@ -9,6 +9,7 @@ Feature: Setting the aspect ratio of the final image
 
   @FP2PC-18
   Scenario: It should not be possible to select a negative aspect ratio
+    Given the user selected a Flickr photo
     When the user configures the aspect ratio to be -5:10
     And the user starts the conversion process
     Then the conversion process should have failed
