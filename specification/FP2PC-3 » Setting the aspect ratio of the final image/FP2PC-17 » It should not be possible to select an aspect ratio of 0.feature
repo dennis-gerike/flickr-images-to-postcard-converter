@@ -9,6 +9,7 @@ Feature: Setting the aspect ratio of the final image
 
   @FP2PC-17
   Scenario: It should not be possible to select an aspect ratio of 0
+    Given the user selected a Flickr photo
     When the user configures the aspect ratio to be 0
     And the user starts the conversion process
     Then the conversion process should have failed
