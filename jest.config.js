@@ -9,11 +9,18 @@ module.exports = {
         '_helper',
         '_data'
     ],
+    reporters: [
+        'default',
+        'github-actions'
+    ],
     collectCoverageFrom: ['lib/**/*.ts'],
     coveragePathIgnorePatterns: [
         '_helper',
         '_data'
     ],
     coverageDirectory: 'test-reports/coverage',
-    coverageReporters: ['github-actions', 'lcov', 'text-summary']
+    coverageReporters: [
+        'lcov',
+        'text-summary'
+    ]
 }
