@@ -10,7 +10,7 @@ Then('the converted image should have an aspect ratio of {int}:{int}', function 
         const expectedAspectRatio = x / y
         const actualAspectRatio = dimensions.width / dimensions.height
         const epsilon = 0.01
-        assert(Math.abs(expectedAspectRatio - actualAspectRatio) < epsilon)
+        assert(Math.abs(expectedAspectRatio - actualAspectRatio) < epsilon, `Image has an aspect ratio of ${actualAspectRatio}, but ${expectedAspectRatio} expected.`)
 
         return
     }
