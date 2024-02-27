@@ -12,3 +12,4 @@ jobs:
 
   behavior-tests:
     uses: ./.github/workflows/run-behavior-tests.yaml
+    secrets: inherit
