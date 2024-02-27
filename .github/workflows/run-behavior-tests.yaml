@@ -1,5 +1,10 @@
 on:
   workflow_call:
+    secrets:
+      FLICKR_API_KEY:
+        required: true
+      CUCUMBER_PUBLISH_TOKEN:
+        required: true
 
 jobs:
   run-behavior-tests:
