@@ -33,7 +33,7 @@ export async function convertPhotos(photoIds: string[]) {
             blue: textColor.blue,
             relativeVerticalBuffer: textVerticalBuffer,
         })
-        jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL), Number(process.env.MARGIN_VERTICAL))
+        jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL ?? 0), Number(process.env.MARGIN_VERTICAL ?? 0))
         await jimpClient.saveProcessedImage(getProcessedFolderPath(), getImageFileName(photoId))
         jimpClient.resetCanvas()
 
