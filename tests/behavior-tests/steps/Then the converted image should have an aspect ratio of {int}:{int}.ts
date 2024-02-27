@@ -3,6 +3,7 @@ import sizeOf from "image-size"
 import assert from "assert"
 import {getProcessedFolderPath} from "../../../lib/converter/getProcessedFolderPath"
 import {getPhotoId} from "../../../lib/converter/getPhotoId"
+import {assertAspectRatio} from "../_helper/assertAspectRatio"
 
 Then('the converted image should have an aspect ratio of {int}:{int}', function (x: number, y: number) {
     const dimensions = sizeOf(`${getProcessedFolderPath()}/${getPhotoId()}.jpg`)
@@ -10,10 +11,11 @@ Then('the converted image should have an aspect ratio of {int}:{int}', function 
         const expectedAspectRatio = x / y
         const actualAspectRatio = dimensions.width / dimensions.height
         const epsilon = 0.01
-        assert(Math.abs(expectedAspectRatio - actualAspectRatio) < epsilon, `Image has an aspect ratio of ${actualAspectRatio}, but ${expectedAspectRatio} expected.`)
+
+        assertAspectRatio(expectedAspectRatio, actualAspectRatio, epsilon)
 
         return
     }
 
-    assert(false)
+    assert(false, "Something went wrong")
 })
