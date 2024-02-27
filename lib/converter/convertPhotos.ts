@@ -18,7 +18,7 @@ export async function convertPhotos(photoIds: string[]) {
     for (const photoId of photoIds) {
         await jimpClient.setPhoto(`${getDownloadFolderPath()}/${getImageFileName(photoId)}`)
         const aspectRatio = getAspectRatio()
-        if (typeof aspectRatio == "number") {
+        if (typeof aspectRatio === "number") {
             jimpClient.setAspectRatio(aspectRatio)
         }
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
