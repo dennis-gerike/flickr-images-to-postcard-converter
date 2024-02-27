@@ -34,4 +34,5 @@ jobs:
       - name: Run Cucumber tests
         env:
           FLICKR_API_KEY: ${{ secrets.FLICKR_API_KEY }}
-        run: npm run test-behavior
+          CUCUMBER_PUBLISH_TOKEN: ${{ secrets.CUCUMBER_PUBLISH_TOKEN }}
+        run: npm run test-behavior -- --publish
