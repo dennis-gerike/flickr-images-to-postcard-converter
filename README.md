@@ -168,27 +168,34 @@ All test results will be saved in the folder `./test-reports`.
 ### Requirements
 
 Node.js 18 or higher is needed.
-The Flickr API key is needed for the behavior tests
+The Flickr API key is needed for the behavior tests.
 The Flickr API key is not needed for the functionality tests.
 Those are working with mocked API responses and fixtures.
 
 ### Quickstart
 
-Executing the Cucumber tests:
+#### Executing the Cucumber tests
 
-* run `npm run test-behavior`
+Running `npm run test-behavior` will execute all cucumber tests and then create a report in the folder `./test-reports`.
 
-Executing the Jest tests:
+Running `npm run test-behavior -- --publish` does the same,
+but additionally uploads the test report to `reports.cucumber.io`.
+The results will be available there for 24 hours.
 
-* run `npm run test-functionality`
+Cucumber tests that are executed in the GitHub Actions pipeline
+(see `./.github/workflows/run-tests.yaml`) will also upload their results, but they will not be deleted after 24 hours.
+They are all collected here: https://reports.cucumber.io/report-collections/60e52a2b-f83f-4231-a64b-349387ca055c.
 
-Executing the Jest tests and creating a code coverage report:
+#### Executing the Jest tests
 
-* run `npm run test-functionality -- --coverage`
+Running `npm run test-functionality` will execute the whole Jest test suite.
 
-Executing both test suites:
+When running `npm run test-functionality -- --coverage` then a code coverage report will be created afterward.
+The report will be saved in `./test-reports/coverage`.
 
-* run `npm test`
+#### Executing both test suites
+
+To run all test suites the command `npm test` can be used.
 
 ## Create and push docker image
 
