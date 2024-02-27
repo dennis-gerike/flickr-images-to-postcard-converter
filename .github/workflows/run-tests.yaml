@@ -1,38 +1,14 @@
-name: Run Tests
+name: Run All Test Suites
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
   functionality-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install Node.js dependencies
-        run: npm ci
-      - name: Run Jest tests
-        run: npm run test-functionality
+    uses: ./.github/workflows/run-functionality-tests.yaml
 
   behavior-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install Node.js dependencies
-        run: npm ci
-      - name: Run Cucumber tests
-        env:
-          FLICKR_API_KEY: ${{ secrets.FLICKR_API_KEY }}
-          CUCUMBER_PUBLISH_TOKEN: ${{ secrets.CUCUMBER_PUBLISH_TOKEN }}
-        run: npm run test-behavior -- --publish
+    uses: ./.github/workflows/run-behavior-tests.yaml
