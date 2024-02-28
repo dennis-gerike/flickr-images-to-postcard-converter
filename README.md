@@ -197,13 +197,30 @@ The report will be saved in `./test-reports/coverage`.
 
 To run all test suites the command `npm test` can be used.
 
-## Create and push docker image
+## Creating the docker images
 
-* `docker login`
-* `docker buildx create --use`
-* ```
+### Pipeline
+
+The GitHub Actions pipeline is responsible for wrapping the app into a docker image.
+Whenever a new git tag is created the pipeline will be triggered.
+The first step will always be to run the test suites.
+When they are green then the docker image will be built.
+When the build step was successful, then the image will be uploaded to Docker Hub.
+Should any of the steps fail, then the whole process will be cancelled.
+Have a look at the workflow files `./.github/create-and-publish-docker-image.yaml`
+and `./.github/build-docker-image.yaml` for more details.
+
+### Manually
+
+In case there are problems with the pipeline the images can also be created manually.
+
+* open a terminal
+* login to Docker Hub by running `docker login`
+* run `docker buildx create --use` to be able to create cross-platform images
+* run the following command to build the images and push them to Docker Hub
+  ```
   docker buildx build . --push \
   --platform linux/amd64,linux/arm64 \
-  --tag dennisgerike/flickr-photos-to-postcard-converter:1.4.0 \
+  --tag dennisgerike/flickr-photos-to-postcard-converter:<ENTER_VERSION_NUMBER> \
   --tag dennisgerike/flickr-photos-to-postcard-converter:latest 
   ```
