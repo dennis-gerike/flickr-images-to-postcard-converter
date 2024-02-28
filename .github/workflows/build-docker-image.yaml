@@ -31,4 +31,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: dennisgerike/flickr-photos-to-postcard-converter:$GITHUB_REF_NAME,dennisgerike/flickr-photos-to-postcard-converter:latest
+          tags: dennisgerike/flickr-photos-to-postcard-converter:${{ github.ref_name }},dennisgerike/flickr-photos-to-postcard-converter:latest
