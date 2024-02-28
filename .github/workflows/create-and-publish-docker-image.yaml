@@ -9,14 +9,14 @@ jobs:
   functionality-tests:
     uses: ./.github/workflows/run-functionality-tests.yaml
 
-  #  behavior-tests:
-  #    uses: ./.github/workflows/run-behavior-tests.yaml
-  #    secrets: inherit
+  behavior-tests:
+    uses: ./.github/workflows/run-behavior-tests.yaml
+    secrets: inherit
 
   build-docker-image:
     needs: [
       functionality-tests,
-      #      behavior-tests,
+      behavior-tests,
     ]
     uses: ./.github/workflows/build-docker-image.yaml
     secrets: inherit
