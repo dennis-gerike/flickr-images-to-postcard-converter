@@ -19,3 +19,4 @@ jobs:
       #      behavior-tests,
     ]
     uses: ./.github/workflows/build-docker-image.yaml
+    secrets: inherit
