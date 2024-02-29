@@ -1,17 +1,17 @@
 import {Canvas} from "./components/Canvas"
 import {Photo} from "./components/Photo"
-import {TextBox} from "./components/TextBox"
-import {TextBoxOptions} from "./types/TextBoxOptions";
+import {Caption} from "./components/Caption"
+import {CaptionOptions} from "./types/CaptionOptions";
 
 export class JimpClient {
     private canvas: Canvas
     private photo: Photo
-    private textBox: TextBox
+    private caption: Caption
 
     constructor() {
         this.canvas = new Canvas()
         this.photo = new Photo()
-        this.textBox = new TextBox()
+        this.caption = new Caption()
     }
 
     /**
@@ -54,16 +54,16 @@ export class JimpClient {
     }
 
     /**
-     * Sets or replaces the current text box.
-     * Only one text box can exist at a time.
-     * The text box is always spanning the whole canvas horizontally.
-     * Text, color and margins can be configured via the options object.
+     * Sets or replaces the current caption.
+     * Only one can exist at the same time.
+     * The caption always spand the whole canvas horizontally.
+     * Text, color and margins can be configured via the options parameter.
      */
-    public async setTextBox(options: TextBoxOptions) {
-        await this.textBox.setText(options.text)
-        await this.textBox.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
-        this.textBox.setRelativeHeight(options.relativeHeight)
-        this.textBox.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
+    public async setCaption(options: CaptionOptions) {
+        await this.caption.setText(options.text)
+        await this.caption.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
+        this.caption.setRelativeHeight(options.relativeHeight)
+        this.caption.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
     }
 
     /**
@@ -84,7 +84,7 @@ export class JimpClient {
     /**
      * Calculates the dimensions of all elements and then renders them onto the canvas.
      * Takes into account the specified margins and aspect ratio for the final image.
-     * Makes sure, that photo and text box don't overlap.
+     * Makes sure, that photo and caption don't overlap.
      * Also makes sure, that the photo element itself is not cropped, stretched or squeezed in any way.
      * We want to keep every pixel of the original image in the final image.
      */
@@ -97,31 +97,31 @@ export class JimpClient {
         let marginWidth = totalWidth - photoWidth
         let photoHeight = this.photo.getHeight()
         let totalHeight = totalWidth / this.canvas.getAspectRatio()
-        let textBoxHeight = totalHeight * this.textBox.getRelativeHeight() / 100
-        let textBoxMarginHeight = totalHeight * this.textBox.getRelativeVerticalBuffer() / 100
+        let captionHeight = totalHeight * this.caption.getRelativeHeight() / 100
+        let captionMarginHeight = totalHeight * this.caption.getRelativeVerticalBuffer() / 100
         let marginHeight = totalHeight * this.canvas.getVerticalMarginPercentage() / 100
 
-        // How much space is left between photo and text box?
-        const verticalBuffer = totalHeight - photoHeight - textBoxHeight - textBoxMarginHeight - marginHeight
+        // How much space is left between photo and caption?
+        const verticalBuffer = totalHeight - photoHeight - captionHeight - captionMarginHeight - marginHeight
 
         // 2. Validating our assumption
-        // When the vertical buffer is positive, then there is space between photo and text box and our assumption was correct.
-        // When the vertical buffer is negative, then photo and text box would overlap and our assumption was wrong.
+        // When the vertical buffer is positive, then there is space between photo and caption and our assumption was correct.
+        // When the vertical buffer is negative, then photo and caption would overlap and our assumption was wrong.
         //   In that case we need to flip the calculations -> they need to be based on the HEIGHT of the PHOTO.
         if (verticalBuffer < 0) {
-            totalHeight = photoHeight / (1 - ((this.textBox.getRelativeHeight() + this.textBox.getRelativeVerticalBuffer() + this.canvas.getVerticalMarginPercentage()) / 100))
+            totalHeight = photoHeight / (1 - ((this.caption.getRelativeHeight() + this.caption.getRelativeVerticalBuffer() + this.canvas.getVerticalMarginPercentage()) / 100))
             totalWidth = totalHeight * this.canvas.getAspectRatio()
             marginWidth = totalWidth * this.canvas.getHorizontalMarginPercentage() / 100
-            textBoxHeight = totalHeight * this.textBox.getRelativeHeight() / 100
+            captionHeight = totalHeight * this.caption.getRelativeHeight() / 100
             marginHeight = totalHeight * this.canvas.getVerticalMarginPercentage() / 100
         }
 
         // 3. resizing all components based on the previous calculations
-        this.textBox.resize(totalWidth - marginWidth, textBoxHeight)
+        this.caption.resize(totalWidth - marginWidth, captionHeight)
         this.canvas.resize(totalWidth, totalHeight)
 
         // 4. rendering all components to the canvas
         this.canvas.applyPhoto(this.photo, (totalWidth - photoWidth) / 2, marginHeight / 2)
-        await this.canvas.applyTextBox(this.textBox, marginWidth / 2, totalHeight - textBoxHeight - marginHeight / 2)
+        await this.canvas.applyCaption(this.caption, marginWidth / 2, totalHeight - captionHeight - marginHeight / 2)
     }
 }

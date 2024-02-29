@@ -25,7 +25,7 @@ export async function convertPhotos(photoIds: string[]) {
         const title = photoInformation.title + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
         const textColor = getTextColor()
         const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
-        await jimpClient.setTextBox({
+        await jimpClient.setCaption({
             text: title,
             relativeHeight: 5,
             red: textColor.red,

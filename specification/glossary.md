@@ -19,5 +19,5 @@ Original Aspect Ratio
 Final Aspect Ratio
 : The aspect ratio of the `Final Image`.
 
-Text Box
-: A text label that can be printed onto the final image.
+Caption
+: A line of text that can be added to the final image (e.g. to describe the motif or to show some meta information).

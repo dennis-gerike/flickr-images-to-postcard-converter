@@ -5,7 +5,7 @@ import {ColorActionName} from "@jimp/plugin-color"
 /**
  * A component that can manage text.
  */
-export class TextBox extends Component {
+export class Caption extends Component {
     private referenceLayer: Jimp
     private text: string = ""
     private fontColorRedAmount: number = 0
@@ -30,7 +30,7 @@ export class TextBox extends Component {
     }
 
     /**
-     * Specifies the text that should be printed into the text box.
+     * Specifies the text that should be printed as caption.
      */
     public async setText(text: string) {
         this.text = text
@@ -62,7 +62,7 @@ export class TextBox extends Component {
     }
 
     /**
-     * Renders the specified text onto the text box.
+     * Renders the specified text.
      */
     public async applyText() {
         // always starting off from the reference layer (see documentation in the constructor)

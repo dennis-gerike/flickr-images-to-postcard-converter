@@ -1,7 +1,7 @@
 import * as fs from "fs/promises"
 import Jimp from "jimp"
 import {Photo} from "./Photo"
-import {TextBox} from "./TextBox"
+import {Caption} from "./Caption"
 import {Component} from "./Component"
 
 /**
@@ -56,15 +56,15 @@ export class Canvas extends Component {
     }
 
     /**
-     * Renders the text onto the canvas.
-     * The caller has to provide the correct coordinates, so the text box is correctly positioned on the canvas.
+     * Renders the caption text onto the canvas.
+     * The caller has to provide the correct coordinates, so the text is correctly positioned on the canvas.
      */
-    public async applyTextBox(textBox: TextBox, x: number, y: number) {
-        // rendering the text onto the text box (until now we only manipulated the empty layer)
-        await textBox.applyText()
+    public async applyCaption(caption: Caption, x: number, y: number) {
+        // rendering the caption (until now we only manipulated the empty layer)
+        await caption.applyText()
 
-        // rendering the text box onto the canvas
-        this.layer.composite(textBox.getLayer(), x, y, {
+        // rendering the caption onto the canvas
+        this.layer.composite(caption.getLayer(), x, y, {
             mode: Jimp.BLEND_SOURCE_OVER,
             opacitySource: 1,
             opacityDest: 1,

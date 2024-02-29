@@ -1,4 +1,4 @@
-export type TextBoxOptions = {
+export type CaptionOptions = {
     text: string
     relativeHeight: number
     relativeVerticalBuffer?: number
