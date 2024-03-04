@@ -56,8 +56,8 @@ export class JimpClient {
     /**
      * Sets or replaces the current caption.
      * Only one can exist at the same time.
-     * The caption always spand the whole canvas horizontally.
-     * Text, color and margins can be configured via the options parameter.
+     * The caption always spans the whole canvas horizontally.
+     * Text, color and margins can be configured via the "options" parameter.
      */
     public async setCaption(options: CaptionOptions) {
         await this.caption.setText(options.text)
