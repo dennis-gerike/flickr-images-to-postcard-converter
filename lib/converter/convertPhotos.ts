@@ -7,6 +7,7 @@ import {getProcessedFolderPath} from "./getProcessedFolderPath"
 import {getTextColor} from "./getTextColor"
 import {getAspectRatio} from "./getAspectRatio"
 import {resolvePlaceholdersInCaption} from "./resolvePlaceholdersInCaption"
+import {EnvironmentVariables} from "./types/EnvironmentVariables"
 
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
@@ -23,9 +24,9 @@ export async function convertPhotos(photoIds: string[]) {
             jimpClient.setAspectRatio(aspectRatio)
         }
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
-        const title = resolvePlaceholdersInCaption(process.env.CUSTOM_TEXT ?? "", photoInformation)
+        const title = resolvePlaceholdersInCaption(process.env[EnvironmentVariables.CUSTOM_TEXT] ?? "", photoInformation)
         const textColor = getTextColor()
-        const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
+        const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
         await jimpClient.setCaption({
             text: title,
             relativeHeight: 5,
@@ -34,7 +35,7 @@ export async function convertPhotos(photoIds: string[]) {
             blue: textColor.blue,
             relativeVerticalBuffer: textVerticalBuffer,
         })
-        jimpClient.setMargin(Number(process.env.MARGIN_HORIZONTAL ?? 0), Number(process.env.MARGIN_VERTICAL ?? 0))
+        jimpClient.setMargin(Number(process.env[EnvironmentVariables.MARGIN_HORIZONTAL] ?? 0), Number(process.env[EnvironmentVariables.MARGIN_VERTICAL] ?? 0))
         await jimpClient.saveProcessedImage(getProcessedFolderPath(), getImageFileName(photoId))
         jimpClient.resetCanvas()
 
