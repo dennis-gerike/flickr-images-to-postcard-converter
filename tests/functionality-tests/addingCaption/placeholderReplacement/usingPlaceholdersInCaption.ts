@@ -2,7 +2,7 @@ import {resolvePlaceholdersInCaption} from "../../../../lib/converter/resolvePla
 import {getFixturesFolderPath} from "../../_helper/getFixturesFolderPath"
 import {ImageInformation} from "../../../../lib/flickr/types/internal/ImageInformation"
 
-function getDummyImageInformation() {
+function getDummyImageInformation(): ImageInformation {
     return {id: "", title: "", url: ""}
 }
 
