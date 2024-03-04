@@ -47,18 +47,23 @@ export class FlickrClient {
     }
 
     /**
-     * Downloads meta information for the given image.
+     * Get meta information for the given image.
      */
-    public async downloadImageInformation(imageId: string, targetPath: string, targetFile: string) {
-        await fs.mkdir(`${targetPath}/`, {recursive: true})
-
+    public async getImageInformation(imageId: string) {
         const rawImageInformation = await this.fetchImageInformation(imageId)
-        const imageInformation: ImageInformation = {
+        return <ImageInformation>{
             id: rawImageInformation.photo.id,
             url: rawImageInformation.photo.urls.url[0]._content,
             title: rawImageInformation.photo.title._content,
         }
+    }
 
+    /**
+     * Gets meta information for the given image and downloads it to the specified folder.
+     */
+    public async downloadImageInformation(imageId: string, targetPath: string, targetFile: string) {
+        await fs.mkdir(`${targetPath}/`, {recursive: true})
+        const imageInformation = await this.getImageInformation(imageId)
         await fs.writeFile(`${targetPath}/${targetFile}`, JSON.stringify(imageInformation, null, 2))
     }
 
