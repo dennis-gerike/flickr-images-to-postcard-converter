@@ -1,14 +1,15 @@
 import {getPhotoId} from "../../../lib/converter/getPhotoId"
+import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
 
 test('when photo id is NOT set, then null should be returned', async () => {
-    delete process.env.FLICKR_IMAGE_ID
+    delete process.env[EnvironmentVariables.FLICKR_IMAGE_ID]
 
     const photoId = getPhotoId()
     expect(photoId).toBeNull()
 })
 
 test('when photo id IS set, then the id should be returned', async () => {
-    process.env.FLICKR_IMAGE_ID = '12345'
+    process.env[EnvironmentVariables.FLICKR_IMAGE_ID] = '12345'
 
     const photoId = getPhotoId()
     expect(photoId).not.toBeNull()
@@ -16,7 +17,7 @@ test('when photo id IS set, then the id should be returned', async () => {
 })
 
 test('when photo id is set, but with an EMPTY string, then null should be returned', async () => {
-    process.env.FLICKR_IMAGE_ID = ''
+    process.env[EnvironmentVariables.FLICKR_IMAGE_ID] = ''
 
     const photoId = getPhotoId()
     expect(photoId).toBeNull()
