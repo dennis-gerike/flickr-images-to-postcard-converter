@@ -1,4 +1,6 @@
 import {resolvePlaceholdersInCaption} from "../../../../lib/converter/resolvePlaceholdersInCaption"
+import {getFixturesFolderPath} from "../../_helper/getFixturesFolderPath"
+import {ImageInformation} from "../../../../lib/flickr/types/internal/ImageInformation"
 
 function getDummyImageInformation() {
     return {id: "", title: "", url: ""}
@@ -26,6 +28,16 @@ test("when the placeholder <PHOTO_ID> was specified in the caption, then it shou
     const caption = "Test 1234 <PHOTO_ID>"
     const resolvedCaption = resolvePlaceholdersInCaption(caption, imageInformation)
     const expectedCaption = `Test 1234 ${flickrId}`
+
+    expect(resolvedCaption).toEqual(expectedCaption)
+})
+
+test("when the placeholder <PHOTO_TITLE> was specified in the caption, then it should be resolved", () => {
+    const imageInformation: ImageInformation = require(`${getFixturesFolderPath()}/16by9.json`)
+
+    const caption = "Test 1234 <PHOTO_TITLE>"
+    const resolvedCaption = resolvePlaceholdersInCaption(caption, imageInformation)
+    const expectedCaption = `Test 1234 ${imageInformation.title}`
 
     expect(resolvedCaption).toEqual(expectedCaption)
 })
