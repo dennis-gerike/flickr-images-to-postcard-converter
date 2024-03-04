@@ -6,6 +6,7 @@ import {getMetaInformationFileName} from "./getMetaInformationFileName"
 import {getProcessedFolderPath} from "./getProcessedFolderPath"
 import {getTextColor} from "./getTextColor"
 import {getAspectRatio} from "./getAspectRatio"
+import {resolvePlaceholdersInCaption} from "./resolvePlaceholdersInCaption"
 
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
@@ -22,7 +23,7 @@ export async function convertPhotos(photoIds: string[]) {
             jimpClient.setAspectRatio(aspectRatio)
         }
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
-        const title = photoInformation.title + ' | ' + process.env.CUSTOM_TEXT + ' | ' + photoId
+        const title = resolvePlaceholdersInCaption(process.env.CUSTOM_TEXT as string, photoInformation)
         const textColor = getTextColor()
         const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
         await jimpClient.setCaption({
