@@ -1,5 +1,6 @@
 import {When} from "@cucumber/cucumber"
+import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
 
 When('the user does not specify the directory for the processed images', function () {
-    delete process.env.PROCESSED_PATH
+    delete process.env[EnvironmentVariables.PROCESSED_PATH]
 })
