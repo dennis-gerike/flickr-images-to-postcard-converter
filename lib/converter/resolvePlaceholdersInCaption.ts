@@ -1,4 +1,6 @@
-export function resolvePlaceholdersInCaption(templateText: string) {
+import {ImageInformation} from "../flickr/types/internal/ImageInformation"
+
+export function resolvePlaceholdersInCaption(templateText: string, imageInformation: ImageInformation) {
     return templateText
-        .replace('<PHOTO_ID>', process.env.FLICKR_IMAGE_ID as string)
+        .replace('<PHOTO_ID>', imageInformation.id)
 }
