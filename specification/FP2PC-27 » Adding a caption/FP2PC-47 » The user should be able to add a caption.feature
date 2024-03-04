@@ -1,4 +1,4 @@
-@FP2PC-27 @ignore
+@FP2PC-27
 Feature: Adding a caption
   As a user
   I want to be able to add a caption to the final image
