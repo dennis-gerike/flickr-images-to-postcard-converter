@@ -23,7 +23,7 @@ export async function convertPhotos(photoIds: string[]) {
             jimpClient.setAspectRatio(aspectRatio)
         }
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
-        const title = resolvePlaceholdersInCaption(process.env.CUSTOM_TEXT as string, photoInformation)
+        const title = resolvePlaceholdersInCaption(process.env.CUSTOM_TEXT ?? "", photoInformation)
         const textColor = getTextColor()
         const textVerticalBuffer = Number(process.env.TEXT_VERTICAL_BUFFER ?? 0)
         await jimpClient.setCaption({
