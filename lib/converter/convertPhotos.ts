@@ -25,16 +25,18 @@ export async function convertPhotos(photoIds: string[]) {
         }
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
         const title = resolvePlaceholdersInCaption(process.env[EnvironmentVariables.CUSTOM_TEXT] ?? "", photoInformation)
-        const textColor = getTextColor()
-        const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
-        await jimpClient.setCaption({
-            text: title,
-            relativeHeight: 5,
-            red: textColor.red,
-            green: textColor.green,
-            blue: textColor.blue,
-            relativeVerticalBuffer: textVerticalBuffer,
-        })
+        if (title !== "") {
+            const textColor = getTextColor()
+            const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
+            await jimpClient.setCaption({
+                text: title,
+                relativeHeight: 5,
+                red: textColor.red,
+                green: textColor.green,
+                blue: textColor.blue,
+                relativeVerticalBuffer: textVerticalBuffer,
+            })
+        }
         jimpClient.setMargin(Number(process.env[EnvironmentVariables.MARGIN_HORIZONTAL] ?? 0), Number(process.env[EnvironmentVariables.MARGIN_VERTICAL] ?? 0))
         await jimpClient.saveProcessedImage(getProcessedFolderPath(), getImageFileName(photoId))
         jimpClient.resetCanvas()
