@@ -49,9 +49,9 @@ export class FlickrClient {
     /**
      * Get meta information for the given image.
      */
-    public async getImageInformation(imageId: string) {
+    public async getImageInformation(imageId: string): Promise<ImageInformation> {
         const rawImageInformation = await this.fetchImageInformation(imageId)
-        return <ImageInformation>{
+        return {
             id: rawImageInformation.photo.id,
             url: rawImageInformation.photo.urls.url[0]._content,
             title: rawImageInformation.photo.title._content,
