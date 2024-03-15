@@ -11,7 +11,7 @@ export class Caption extends Component {
     private fontColorRedAmount: number = 0
     private fontColorGreenAmount: number = 0
     private fontColorBlueAmount: number = 0
-    private relativeHeight: number = 20
+    private relativeHeight: number = 0
     private relativeVerticalBuffer: number = 0
 
     constructor() {
