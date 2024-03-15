@@ -1,17 +1,30 @@
 import fs from "fs"
 import assert from "assert"
 import {JimpClient} from "../../../lib/jimp/JimpClient"
-import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {getProcessedFolderPath as getAppProcessedFolderPath} from "../../../lib/converter/getProcessedFolderPath"
+import {getProcessedFolderPath as getTestsProcessedFolderPath} from "../_helper/getProcessedFolderPath"
 
-test('when a custom directory was specified, then this should be used to save the processed images', async () => {
-    const randomNumber = Math.floor(Math.random() * 10000)
-    const targetPath = `${getProcessedFolderPath()}/${randomNumber}`
-    const targetFile = 'dummy.jpg'
+describe('when a custom directory was specified, then this should be used to save the processed images', () => {
+    test('verifying the calculated path', async () => {
+        const randomNumber = Math.floor(Math.random() * 10000)
+        const expectedPath = `${getTestsProcessedFolderPath()}/${randomNumber}`
+        process.env[EnvironmentVariables.PROCESSED_PATH] = expectedPath
 
-    const jimpClient = new JimpClient()
-    await jimpClient.saveProcessedImage(targetPath, targetFile)
+        const actualPath = getAppProcessedFolderPath()
+        assert.equal(actualPath, expectedPath)
+    })
 
-    const fullPath = `${targetPath}/${targetFile}`
-    const fileExists = fs.existsSync(fullPath)
-    assert(fileExists, `File "${fullPath}" not found`)
+    test('verifying the location of the generated image', async () => {
+        const randomNumber = Math.floor(Math.random() * 10000)
+        const targetPath = `${getTestsProcessedFolderPath()}/${randomNumber}`
+        const targetFile = 'dummy.jpg'
+
+        const jimpClient = new JimpClient()
+        await jimpClient.saveProcessedImage(targetPath, targetFile)
+
+        const expectedPath = `${targetPath}/${targetFile}`
+        const fileExists = fs.existsSync(expectedPath)
+        assert(fileExists, `File "${expectedPath}" not found`)
+    })
 })
