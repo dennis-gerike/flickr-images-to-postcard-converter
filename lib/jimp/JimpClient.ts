@@ -60,8 +60,8 @@ export class JimpClient {
      * Text, color and margins can be configured via the "options" parameter.
      */
     public async setCaption(options: CaptionOptions) {
-        await this.caption.setText(options.text)
-        await this.caption.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
+        this.caption.setText(options.text)
+        this.caption.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
         this.caption.setRelativeHeight(options.relativeHeight)
         this.caption.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
     }
