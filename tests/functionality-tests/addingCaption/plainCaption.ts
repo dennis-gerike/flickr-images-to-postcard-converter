@@ -18,7 +18,7 @@ test("[via reference image] the specified caption should be printed onto the fin
     // adding a caption and producing the final image
     const jimpClient = new JimpClient()
     await jimpClient.setPhoto(sourcePhotoPath)
-    await jimpClient.setCaption({
+    jimpClient.setCaption({
         relativeHeight: 5,
         text: 'This is a test'
     })
@@ -44,7 +44,7 @@ test("[via OCR] the specified caption should be printed onto the final image", a
     const caption = 'This caption should be displayed on the photo'
     const jimpClient = new JimpClient()
     await jimpClient.setPhoto(sourcePhotoPath)
-    await jimpClient.setCaption({
+    jimpClient.setCaption({
         relativeHeight: 5,
         text: caption
     })

@@ -28,7 +28,7 @@ export async function convertPhotos(photoIds: string[]) {
         if (title !== "") {
             const textColor = getTextColor()
             const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
-            await jimpClient.setCaption({
+            jimpClient.setCaption({
                 text: title,
                 relativeHeight: 5,
                 red: textColor.red,
