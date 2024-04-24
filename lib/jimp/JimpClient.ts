@@ -58,12 +58,20 @@ export class JimpClient {
      * Only one can exist at the same time.
      * The caption always spans the whole canvas horizontally.
      * Text, color and margins can be configured via the "options" parameter.
+     * To disable the caption an empty string needs to be provided for the text.
      */
-    public async setCaption(options: CaptionOptions) {
+    public setCaption(options: CaptionOptions) {
         this.caption.setText(options.text)
-        this.caption.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
-        this.caption.setRelativeHeight(options.relativeHeight)
-        this.caption.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
+
+        if (options.text == "") {
+            this.caption.setTextColor(0, 0, 0)
+            this.caption.setRelativeHeight(0)
+            this.caption.setRelativeVerticalBuffer(0)
+        } else {
+            this.caption.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
+            this.caption.setRelativeHeight(options.relativeHeight)
+            this.caption.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
+        }
     }
 
     /**
