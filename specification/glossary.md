@@ -19,5 +19,13 @@ Original Aspect Ratio
 Final Aspect Ratio
 : The aspect ratio of the `Final Image`.
 
+Caption Segment
+: An area on the final image that is exclusively reserved for a `Caption`
+
 Caption
-: A line of text that can be added to the final image (e.g. to describe the motif or to show some meta information).
+: A line of text that is printed onto the final image (in the `Caption Segment`) to describe the photo (e.g. the motif,
+the photo ID, the album name, the date, etc).
+
+Empty Caption
+: An empty caption creates a `Caption Segment`, which contains no text. It just reserves the space, so the user can add
+a caption manually.
