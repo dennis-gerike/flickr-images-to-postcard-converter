@@ -1,4 +1,4 @@
-@FP2PC-64 @ignore
+@FP2PC-64
 Feature: Support for empty caption
   As a user
   I want to have the option to create an empty caption segment
@@ -13,5 +13,4 @@ Feature: Support for empty caption
     When the user specifies a caption
     And the user specifies an empty caption
     And the user starts the conversion process
-    Then the final image should contain a caption segment
-    But the caption segment in the final image should contain no text
+    Then the final image should contain an empty caption segment
