@@ -36,8 +36,7 @@ export class FlickrClient {
 
         const originalImage = await this.getOriginalImage(imageId)
         if (!originalImage) {
-            console.warn(`Could not find original image for ID ${imageId}`)
-            return
+            throw new Error(`Could not find original image for ID ${imageId}`)
         }
 
         const response = await this.httpClient.get(originalImage.source, {responseType: 'arraybuffer'})
