@@ -7,7 +7,8 @@
     "start": "npx ts-node index.ts",
     "test": "npm run test-behavior && npm run test-functionality",
     "test-behavior": "npx cucumber-js",
-    "test-functionality": "npx jest"
+    "test-functionality": "npx jest",
+    "cleanup": "npx ts-node scripts/cleanup.ts"
   },
   "repository": {
     "type": "git",
