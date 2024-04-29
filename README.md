@@ -60,7 +60,7 @@ without stretching, squeezing or cropping the original photo.
 
 ## How to run the app
 
-There are two options to run this app - Docker and Node.js.
+There are two options to run this app - **Docker** and **Node.js**.
 
 Docker is the recommended way if you just want to use the app,
 without the hassle of installing Node.js, npm and all the dependencies.
@@ -82,9 +82,8 @@ That should cover most of the common use cases (e.g. PC, M1 Mac, NAS, Raspberry 
 When your platform is not supported,
 either try to build the missing image yourself (see below) or create a new issue in GitHub.
 
-The app will always store the resulting images in the folder `/app/data` in the container.
-Don't forget to attach a volume, so you can access the images.
-(See examples below.)
+If not configured otherwise, the app will store the processed images in the folder `/app/data` **within** the container.
+So, you need to attach a volume to gain access to them (see examples below.)
 
 #### ...via environment variables
 
@@ -93,7 +92,7 @@ The Flickr API key is mandatory.
 No text will be added to the images.
 For the margins and aspect ratio default values will be used.
 
-```
+```shell
 docker run \
   --env FLICKR_API_KEY=<YOUR_FLICKR_API_KEY> \
   --env FLICKR_IMAGE_ID=51457247338 \
@@ -103,7 +102,7 @@ docker run \
 
 The next example shows a request that has every available configuration option selected.
 
-```
+```shell
 docker run \
   --env FLICKR_API_KEY=<YOUR_FLICKR_API_KEY> \
   --env FLICKR_IMAGE_ID=51457247338 \
@@ -122,7 +121,7 @@ docker run \
 Alternatively, you can push all the settings into an environment file and provide that to docker.
 See the `.env.template` file in the project's root directory for reference.
 
-```
+```shell
 docker run \
   --env-file ./.env \
   --volume $HOME/temp:/app/data \
@@ -147,8 +146,6 @@ You can request one here: https://www.flickr.com/services/api/misc.api_keys.html
 * install the dependencies: `npm install`
 * configure the `.env` file
     * at least the `FLICKR_API_KEY` and the `FLICKR_IMAGE_ID` must be set
-* open a terminal
-* navigate to the cloned repo
 * run `npm start`
 * verify that a `data` folder has been created in the root directory of this repo
     * it should contain the original photo(s) and the processed image(s)
@@ -197,6 +194,11 @@ The report will be saved in `./test-reports/coverage`.
 
 To run all test suites the command `npm test` can be used.
 
+#### Cleanup after testing
+
+Running the tests will produce temporary files in different folders.
+To remove those files the command `npm run cleanup` can be used.
+
 ## Creating the docker images
 
 ### Pipeline
@@ -218,7 +220,7 @@ In case there are problems with the pipeline the images can also be created manu
 * login to Docker Hub by running `docker login`
 * run `docker buildx create --use` to be able to create cross-platform images
 * run the following command to build the images and push them to Docker Hub
-  ```
+  ```shell
   docker buildx build . --push \
   --platform linux/amd64,linux/arm64 \
   --tag dennisgerike/flickr-photos-to-postcard-converter:<ENTER_VERSION_NUMBER> \
