@@ -61,6 +61,11 @@ export class JimpClient {
      * To disable the caption an empty string needs to be provided for the text.
      */
     public setCaption(options: CaptionOptions) {
+        if (options.relativeVerticalBuffer
+            && (options.relativeVerticalBuffer < 0 || options.relativeVerticalBuffer > 100)) {
+            throw new Error('Invalid buffer size provided!')
+        }
+
         this.caption.setText(options.text)
 
         if (options.text == "") {
