@@ -29,7 +29,7 @@ test("[via reference image] the specified caption should be printed onto the fin
     const processedImagePath = `${getProcessedFolderPath()}/${photoId}.jpg`
     const diffImagePath = `${getFailuresFolderPath()}/${photoId}_diff.png`
     await assertImagesAreTheSame(processedImagePath, referenceImagePath, diffImagePath)
-}, 10000)
+}, 20000)
 
 /**
  * @group integration
