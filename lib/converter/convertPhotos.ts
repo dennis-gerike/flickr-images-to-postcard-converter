@@ -4,7 +4,7 @@ import {getDownloadFolderPath} from "./getDownloadFolderPath"
 import {getImageFileName} from "./getImageFileName"
 import {getMetaInformationFileName} from "./getMetaInformationFileName"
 import {getProcessedFolderPath} from "./getProcessedFolderPath"
-import {getTextColor} from "./getTextColor"
+import {determineTextColor} from "./determineTextColor"
 import {determineAspectRatio} from "./determineAspectRatio"
 import {resolvePlaceholdersInCaption} from "./resolvePlaceholdersInCaption"
 import {EnvironmentVariables} from "./types/EnvironmentVariables"
@@ -22,7 +22,7 @@ export async function convertPhotos(photoIds: string[]) {
         jimpClient.setAspectRatio(determineAspectRatio())
         const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
         const title = resolvePlaceholdersInCaption(process.env[EnvironmentVariables.CUSTOM_TEXT] ?? "", photoInformation)
-        const textColor = getTextColor()
+        const textColor = determineTextColor()
         const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
         jimpClient.setCaption({
             text: title,
