@@ -38,3 +38,10 @@ test('when the text color is valid then no error should occur', async () => {
         determineTextColor()
     }).not.toThrow(Error)
 })
+
+test('a valid text color should be determined correctly', async () => {
+    process.env[EnvironmentVariables.ASPECT_RATIO] = "10,20,30"
+
+    expect(determineTextColor()).toEqual({red: 10, green: 20, blue: 30})
+})
+
