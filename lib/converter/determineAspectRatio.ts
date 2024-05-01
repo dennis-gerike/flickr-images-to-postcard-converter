@@ -12,5 +12,5 @@ export function determineAspectRatio(): number {
         throw new Error('Invalid aspect ratio provided!')
     }
 
-    return Number(defaultAspectRatio)
+    return Number(userDefinedAspectRatio)
 }
