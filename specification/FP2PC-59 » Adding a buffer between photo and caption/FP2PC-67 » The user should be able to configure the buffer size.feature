@@ -13,4 +13,4 @@ Feature: Adding a buffer between photo and caption
     And the user specified a caption
     When the user specifies a buffer
     And the user starts the conversion process
-    Then there should be buffer between photo and caption in the final image
+    Then there should be a buffer between photo and caption in the final image
