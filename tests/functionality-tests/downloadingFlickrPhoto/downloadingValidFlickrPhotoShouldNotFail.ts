@@ -1,4 +1,4 @@
-import {getMetaInformationFileName} from "../../../lib/converter/getMetaInformationFileName"
+import {determineMetaInformationFileName} from "../../../lib/converter/determineMetaInformationFileName"
 import {FlickrClient} from "../../../lib/flickr/FlickrClient"
 import {getDownloadFolderPath} from "../_helper/getDownloadFolderPath"
 import {getMockedFlickrApiClient} from "../_helper/getMockedFlickrApiClient"
@@ -12,7 +12,7 @@ test('downloading a valid Flickr photo should not fail', async () => {
         flickrClient.downloadImageInformation(
             validPhotoId,
             getDownloadFolderPath(),
-            getMetaInformationFileName(validPhotoId)
+            determineMetaInformationFileName(validPhotoId)
         ))
         .resolves
         .not.toThrow(Error)

@@ -1,4 +1,4 @@
-import {getMetaInformationFileName} from "../../../lib/converter/getMetaInformationFileName"
+import {determineMetaInformationFileName} from "../../../lib/converter/determineMetaInformationFileName"
 import {FlickrClient} from "../../../lib/flickr/FlickrClient"
 import {getDownloadFolderPath} from "../_helper/getDownloadFolderPath"
 import {getMockedFlickrApiClient, TestSituation} from "../_helper/getMockedFlickrApiClient"
@@ -11,7 +11,7 @@ test('downloading a Flickr photo that does not exist should fail', async () => {
         flickrClient.downloadImageInformation(
             invalidFlickrId,
             getDownloadFolderPath(),
-            getMetaInformationFileName(invalidFlickrId)
+            determineMetaInformationFileName(invalidFlickrId)
         ))
         .rejects
         .toThrow(Error)

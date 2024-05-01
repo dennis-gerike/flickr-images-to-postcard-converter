@@ -2,7 +2,7 @@ import {JimpClient} from "../jimp/JimpClient"
 import {ImageInformation} from "../flickr/types/internal/ImageInformation"
 import {getDownloadFolderPath} from "./getDownloadFolderPath"
 import {determineImageFileName} from "./determineImageFileName"
-import {getMetaInformationFileName} from "./getMetaInformationFileName"
+import {determineMetaInformationFileName} from "./determineMetaInformationFileName"
 import {getProcessedFolderPath} from "./getProcessedFolderPath"
 import {determineTextColor} from "./determineTextColor"
 import {determineAspectRatio} from "./determineAspectRatio"
@@ -20,7 +20,7 @@ export async function convertPhotos(photoIds: string[]) {
     for (const photoId of photoIds) {
         await jimpClient.setPhoto(`${getDownloadFolderPath()}/${determineImageFileName(photoId)}`)
         jimpClient.setAspectRatio(determineAspectRatio())
-        const photoInformation = require(`${getDownloadFolderPath()}/${getMetaInformationFileName(photoId)}`) as ImageInformation
+        const photoInformation = require(`${getDownloadFolderPath()}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
         const title = resolvePlaceholdersInCaption(process.env[EnvironmentVariables.CUSTOM_TEXT] ?? "", photoInformation)
         const textColor = determineTextColor()
         const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
