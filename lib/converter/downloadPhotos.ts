@@ -1,6 +1,6 @@
 import {FlickrClient} from "../flickr/FlickrClient"
 import {getDownloadFolderPath} from "./getDownloadFolderPath"
-import {getImageFileName} from "./getImageFileName"
+import {determineImageFileName} from "./determineImageFileName"
 import {getMetaInformationFileName} from "./getMetaInformationFileName"
 
 export async function downloadPhotos(photoIds: string[], flickrClient: FlickrClient) {
@@ -13,7 +13,7 @@ export async function downloadPhotos(photoIds: string[], flickrClient: FlickrCli
         await flickrClient.downloadOriginalImage(
             photoId,
             getDownloadFolderPath(),
-            getImageFileName(photoId)
+            determineImageFileName(photoId)
         )
         await flickrClient.downloadImageInformation(
             photoId,
