@@ -30,3 +30,9 @@ test('when the aspect ratio is valid then no error should occur', async () => {
         determineAspectRatio()
     }).not.toThrow(Error)
 })
+
+test('a valid aspect ratio should be determined correctly', async () => {
+    process.env[EnvironmentVariables.ASPECT_RATIO] = "2.5"
+
+    expect(determineAspectRatio()).toEqual(2.5)
+})
