@@ -1,4 +1,4 @@
-import {getAlbumId} from "./getAlbumId";
+import {determineAlbumId} from "./determineAlbumId";
 import {EnvironmentVariables} from "./types/EnvironmentVariables"
 
 /**
@@ -11,5 +11,5 @@ export function getDownloadFolderPath() {
         return path
     }
 
-    return `${__dirname}/../../data/original/${getAlbumId()}`
+    return `${__dirname}/../../data/original/${determineAlbumId()}`
 }
