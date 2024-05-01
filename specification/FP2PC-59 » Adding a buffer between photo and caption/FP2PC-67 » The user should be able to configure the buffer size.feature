@@ -1,4 +1,4 @@
-@FP2PC-59 @ignore
+@FP2PC-59
 Feature: Adding a buffer between photo and caption
   As a user
   I want to be able to control the distance between photo and caption
@@ -9,7 +9,7 @@ Feature: Adding a buffer between photo and caption
 
   @FP2PC-67
   Scenario: The user should be able to configure the buffer size
-    Given the user selected a Flickr photo with ratio 1:1
+    Given the user selected a photo with an aspect ratio of 1:1
     And the user specified a caption
     When the user specifies a buffer
     And the user starts the conversion process
