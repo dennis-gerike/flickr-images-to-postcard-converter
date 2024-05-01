@@ -1,9 +1,9 @@
 import {FlickrClient} from "../flickr/FlickrClient"
-import {getPhotoId} from "./getPhotoId"
+import {determinePhotoId} from "./determinePhotoId"
 import {getAlbumId} from "./getAlbumId"
 
 export async function determineToBeProcessedPhotos(flickrClient: FlickrClient): Promise<string[]> {
-    const photoId = getPhotoId()
+    const photoId = determinePhotoId()
     if (photoId !== null) {
         return [photoId]
     }
