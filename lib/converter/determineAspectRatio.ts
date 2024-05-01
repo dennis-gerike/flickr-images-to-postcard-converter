@@ -4,7 +4,7 @@ export function determineAspectRatio(): number {
     const defaultAspectRatio = 1
     const userDefinedAspectRatio = process.env[EnvironmentVariables.ASPECT_RATIO]
 
-    if (typeof userDefinedAspectRatio === "undefined") {
+    if (typeof userDefinedAspectRatio === "undefined" || userDefinedAspectRatio === "") {
         return defaultAspectRatio
     }
 
