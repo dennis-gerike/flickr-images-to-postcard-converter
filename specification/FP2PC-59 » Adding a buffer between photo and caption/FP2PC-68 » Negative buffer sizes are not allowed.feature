@@ -1,4 +1,4 @@
-@FP2PC-59 @ignore
+@FP2PC-59
 Feature: Adding a buffer between photo and caption
   As a user
   I want to be able to control the distance between photo and caption
@@ -13,5 +13,4 @@ Feature: Adding a buffer between photo and caption
     And the user specified a caption
     When the user specifies a buffer of -1 percent
     And the user starts the conversion process
-    Then the conversion should have been aborted
-    And an error message should be shown to the user
+    Then the conversion process should have failed
