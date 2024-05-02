@@ -6,7 +6,7 @@ import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderP
 /**
  * @group integration
  */
-test('the processed image should be saved in the user-specified folder', async () => {
+test('the processed image should be saved in the specified folder', async () => {
     const randomNumber = Math.floor(Math.random() * 10000)
     const targetPath = `${getCustomProcessedFolderPath()}/${randomNumber}`
     const targetFile = 'dummy.jpg'
