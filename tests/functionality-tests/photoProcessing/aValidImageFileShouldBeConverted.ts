@@ -1,13 +1,13 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderPath"
 import fs from "fs"
 import assert from "assert"
 
 test('a valid image file should be converted', async () => {
     const sourcePhotoPath = `${getFixturesFolderPath()}/21by9_medium.jpg`
     const randomNumber = Math.floor(Math.random() * 10000)
-    const targetPath = `${getProcessedFolderPath()}/${randomNumber}`
+    const targetPath = `${getCustomProcessedFolderPath()}/${randomNumber}`
     const targetFile = 'dummy.jpg'
 
     const jimpClient = new JimpClient()

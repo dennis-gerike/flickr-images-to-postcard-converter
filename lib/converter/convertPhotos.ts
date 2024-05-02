@@ -3,7 +3,7 @@ import {ImageInformation} from "../flickr/types/internal/ImageInformation"
 import {getDownloadFolderPath} from "./getDownloadFolderPath"
 import {determineImageFileName} from "./determineImageFileName"
 import {determineMetaInformationFileName} from "./determineMetaInformationFileName"
-import {getProcessedFolderPath} from "./getProcessedFolderPath"
+import {determineProcessedFolderPath} from "./determineProcessedFolderPath"
 import {determineTextColor} from "./determineTextColor"
 import {determineAspectRatio} from "./determineAspectRatio"
 import {resolvePlaceholdersInCaption} from "./resolvePlaceholdersInCaption"
@@ -33,7 +33,7 @@ export async function convertPhotos(photoIds: string[]) {
             relativeVerticalBuffer: textVerticalBuffer,
         })
         jimpClient.setMargin(Number(process.env[EnvironmentVariables.MARGIN_HORIZONTAL] ?? 0), Number(process.env[EnvironmentVariables.MARGIN_VERTICAL] ?? 0))
-        await jimpClient.saveProcessedImage(getProcessedFolderPath(), determineImageFileName(photoId))
+        await jimpClient.saveProcessedImage(determineProcessedFolderPath(), determineImageFileName(photoId))
         jimpClient.resetCanvas()
 
         progressBar.increment()

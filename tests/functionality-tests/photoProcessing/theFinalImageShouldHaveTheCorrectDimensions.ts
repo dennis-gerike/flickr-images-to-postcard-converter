@@ -1,6 +1,6 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderPath"
 import {ImageInformation} from "../../../lib/flickr/types/internal/ImageInformation"
 import sizeOf from "image-size"
 
@@ -16,10 +16,10 @@ test('the final image should have the correct dimensions', async () => {
     const jimpClient = new JimpClient()
     await jimpClient.setPhoto(sourceImageLocation)
     jimpClient.setAspectRatio(1.6)
-    await jimpClient.saveProcessedImage(getProcessedFolderPath(), `${randomNumber}/finalImage.jpg`)
+    await jimpClient.saveProcessedImage(getCustomProcessedFolderPath(), `${randomNumber}/finalImage.jpg`)
 
     // verify dimensions
-    const dimensions = sizeOf(`${getProcessedFolderPath()}/${randomNumber}/finalImage.jpg`)
+    const dimensions = sizeOf(`${getCustomProcessedFolderPath()}/${randomNumber}/finalImage.jpg`)
     const width = dimensions.width
     const height = dimensions.height
     expect(width).toEqual(sourceImageInformation.width)

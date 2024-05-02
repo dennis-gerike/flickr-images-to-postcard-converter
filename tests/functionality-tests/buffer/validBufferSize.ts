@@ -1,6 +1,6 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderPath"
 import {getFailuresFolderPath} from "../_helper/getFailuresFolderPath"
 import {assertImagesAreTheSame} from "../_helper/assertImagesAreTheSame"
 
@@ -20,11 +20,11 @@ test('configuring a valid buffer size should lead to an image with a buffer betw
         relativeHeight: 5,
         text: "dummy text"
     })
-    await jimpClient.saveProcessedImage(getProcessedFolderPath(), `${photoId}.jpg`)
+    await jimpClient.saveProcessedImage(getCustomProcessedFolderPath(), `${photoId}.jpg`)
 
     // comparing the processed image with the reference image
     const referenceImagePath = `${getFixturesFolderPath()}/reference-images/${photoId}-with-buffer.jpg`
-    const processedImagePath = `${getProcessedFolderPath()}/${photoId}.jpg`
+    const processedImagePath = `${getCustomProcessedFolderPath()}/${photoId}.jpg`
     const diffImagePath = `${getFailuresFolderPath()}/${photoId}_diff.png`
     await assertImagesAreTheSame(processedImagePath, referenceImagePath, diffImagePath)
 }, 60000)

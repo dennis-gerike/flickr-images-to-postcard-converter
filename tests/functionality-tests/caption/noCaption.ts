@@ -1,6 +1,6 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderPath"
 import {getFailuresFolderPath} from "../_helper/getFailuresFolderPath"
 import {assertImagesAreTheSame} from "../_helper/assertImagesAreTheSame"
 
@@ -19,11 +19,11 @@ test('when no caption is specified then no caption segment should be rendered', 
         relativeHeight: 42, // provoking the system to render the caption anyway (should not happen)
         text: noCaption
     })
-    await jimpClient.saveProcessedImage(getProcessedFolderPath(), `${photoId}.jpg`)
+    await jimpClient.saveProcessedImage(getCustomProcessedFolderPath(), `${photoId}.jpg`)
 
     // comparing the processed image with the reference image
     const referenceImagePath = `${getFixturesFolderPath()}/reference-images/${photoId}-no-caption.jpg`
-    const processedImagePath = `${getProcessedFolderPath()}/${photoId}.jpg`
+    const processedImagePath = `${getCustomProcessedFolderPath()}/${photoId}.jpg`
     const diffImagePath = `${getFailuresFolderPath()}/${photoId}_diff.png`
     await assertImagesAreTheSame(processedImagePath, referenceImagePath, diffImagePath)
 }, 60000)

@@ -1,5 +1,5 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
-import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
+import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderPath"
 import {assertAspectRatio} from "../_helper/assertAspectRatio"
 import sizeOf from "image-size"
 import assert from "assert"
@@ -14,10 +14,10 @@ describe.each([
         // create image
         const jimpClient = new JimpClient()
         jimpClient.setAspectRatio(aspectRatio)
-        await jimpClient.saveProcessedImage(getProcessedFolderPath(), `aspect_ratio_${aspectRatio}.jpg`)
+        await jimpClient.saveProcessedImage(getCustomProcessedFolderPath(), `aspect_ratio_${aspectRatio}.jpg`)
 
         // fetch dimensions
-        const dimensions = sizeOf(`${getProcessedFolderPath()}/aspect_ratio_${aspectRatio}.jpg`)
+        const dimensions = sizeOf(`${getCustomProcessedFolderPath()}/aspect_ratio_${aspectRatio}.jpg`)
         const width = dimensions.width
         const height = dimensions.height
 
