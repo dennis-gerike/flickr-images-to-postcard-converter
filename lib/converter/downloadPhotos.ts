@@ -1,5 +1,5 @@
 import {FlickrClient} from "../flickr/FlickrClient"
-import {getDownloadFolderPath} from "./getDownloadFolderPath"
+import {determineDownloadFolderPath} from "./determineDownloadFolderPath"
 import {determineImageFileName} from "./determineImageFileName"
 import {determineMetaInformationFileName} from "./determineMetaInformationFileName"
 
@@ -12,12 +12,12 @@ export async function downloadPhotos(photoIds: string[], flickrClient: FlickrCli
     for (const photoId of photoIds) {
         await flickrClient.downloadOriginalImage(
             photoId,
-            getDownloadFolderPath(),
+            determineDownloadFolderPath(),
             determineImageFileName(photoId)
         )
         await flickrClient.downloadImageInformation(
             photoId,
-            getDownloadFolderPath(),
+            determineDownloadFolderPath(),
             determineMetaInformationFileName(photoId)
         )
         progressBar.increment()
