@@ -10,11 +10,10 @@ export async function determineToBeProcessedPhotos(flickrClient: FlickrClient): 
     }
 
     switch (determineSourceType()) {
+        default:
         case SourceTypes.FLICKR_PHOTO:
             return [mediaId]
         case SourceTypes.FLICKR_ALBUM:
             return await flickrClient.getAlbumImageIds(mediaId)
-        default:
-            throw new Error('Unsupported Source Type provided!')
     }
 }
