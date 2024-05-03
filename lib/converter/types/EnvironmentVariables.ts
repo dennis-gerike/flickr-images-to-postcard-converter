@@ -3,8 +3,6 @@
  */
 export enum EnvironmentVariables {
     FLICKR_API_KEY = 'FLICKR_API_KEY',
-    FLICKR_IMAGE_ID = 'FLICKR_IMAGE_ID',
-    FLICKR_ALBUM_ID = 'FLICKR_ALBUM_ID',
     SOURCE_TYPE = 'SOURCE_TYPE',
     MEDIA_ID = 'MEDIA_ID',
     DOWNLOAD_PATH = 'DOWNLOAD_PATH',

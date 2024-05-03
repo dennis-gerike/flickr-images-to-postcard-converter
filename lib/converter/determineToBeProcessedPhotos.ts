@@ -1,17 +1,20 @@
 import {FlickrClient} from "../flickr/FlickrClient"
-import {determinePhotoId} from "./determinePhotoId"
-import {determineAlbumId} from "./determineAlbumId"
+import {SourceTypes} from "./types/SourceTypes"
+import {determineSourceType} from "./determineSourceType"
+import {determineMediaId} from "./determineMediaId"
 
 export async function determineToBeProcessedPhotos(flickrClient: FlickrClient): Promise<string[]> {
-    const photoId = determinePhotoId()
-    if (photoId !== null) {
-        return [photoId]
+    const mediaId = determineMediaId()
+    if (mediaId === null) {
+        throw new Error('Source ID missing!')
     }
 
-    const albumId = determineAlbumId()
-    if (albumId !== null) {
-        return await flickrClient.getAlbumImageIds(albumId)
+    switch (determineSourceType()) {
+        case SourceTypes.FLICKR_PHOTO:
+            return [mediaId]
+        case SourceTypes.FLICKR_ALBUM:
+            return await flickrClient.getAlbumImageIds(mediaId)
+        default:
+            throw new Error('Unsupported Source Type provided!')
     }
-
-    return []
 }

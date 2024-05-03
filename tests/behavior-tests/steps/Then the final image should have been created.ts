@@ -4,7 +4,7 @@ import assert from "assert"
 import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
 
 Then('the final image should have been created', function () {
-    const fullPath = `${__dirname}/../../../data/processed/null/${process.env[EnvironmentVariables.FLICKR_IMAGE_ID]}.jpg`
+    const fullPath = `${__dirname}/../../../data/processed/${process.env[EnvironmentVariables.MEDIA_ID]}/${process.env[EnvironmentVariables.MEDIA_ID]}.jpg`
     const fileExists = fs.existsSync(fullPath)
     assert(fileExists, `File "${fullPath}" not found`)
 })

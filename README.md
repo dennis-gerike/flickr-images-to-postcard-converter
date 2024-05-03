@@ -95,7 +95,7 @@ For the margins and aspect ratio default values will be used.
 ```shell
 docker run \
   --env FLICKR_API_KEY=<YOUR_FLICKR_API_KEY> \
-  --env FLICKR_IMAGE_ID=51457247338 \
+  --env MEDIA_ID=51457247338 \
   --volume $HOME/temp:/app/data \
   dennisgerike/flickr-photos-to-postcard-converter:latest
 ```
@@ -105,7 +105,7 @@ The next example shows a request that has every available configuration option s
 ```shell
 docker run \
   --env FLICKR_API_KEY=<YOUR_FLICKR_API_KEY> \
-  --env FLICKR_IMAGE_ID=51457247338 \
+  --env MEDIA_ID=51457247338 \
   --env ASPECT_RATIO=1.5 \
   --env MARGIN_HORIZONTAL=0 \
   --env MARGIN_VERTICAL=5 \
@@ -145,7 +145,7 @@ You can request one here: https://www.flickr.com/services/api/misc.api_keys.html
 * clone the repository: https://github.com/dennis-gerike/flickr-photos-to-postcard-converter
 * install the dependencies: `npm install`
 * configure the `.env` file
-    * at least the `FLICKR_API_KEY` and the `FLICKR_IMAGE_ID` must be set
+    * at least the `FLICKR_API_KEY` and the `MEDIA_ID` must be set
 * run `npm start`
 * verify that a `data` folder has been created in the root directory of this repo
     * it should contain the original photo(s) and the processed image(s)

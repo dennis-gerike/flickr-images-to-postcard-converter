@@ -1,5 +1,5 @@
 import * as path from "node:path"
-import {determineAlbumId} from "./determineAlbumId"
+import {determineMediaId} from "./determineMediaId"
 import {EnvironmentVariables} from "./types/EnvironmentVariables"
 
 /**
@@ -7,7 +7,7 @@ import {EnvironmentVariables} from "./types/EnvironmentVariables"
  * The user can specify s custom folder, otherwise the default folder will be used.
  */
 export function determineProcessedFolderPath() {
-    const defaultFolderPath = path.resolve(`${__dirname}/../../data/processed/${determineAlbumId()}`)
+    const defaultFolderPath = path.resolve(`${__dirname}/../../data/processed/${determineMediaId()}`)
     const userDefinedFolderPath = process.env[EnvironmentVariables.PROCESSED_PATH]
 
     if (typeof userDefinedFolderPath === "undefined" || userDefinedFolderPath === "") {
