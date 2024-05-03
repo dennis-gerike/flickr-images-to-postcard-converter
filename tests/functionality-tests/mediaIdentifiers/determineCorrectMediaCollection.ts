@@ -1,6 +1,6 @@
 import {determineToBeProcessedPhotos} from "../../../lib/converter/determineToBeProcessedPhotos"
 import {FlickrClient} from "../../../lib/flickr/FlickrClient"
-import {getMockedFlickrApiClient} from "../_helper/getMockedFlickrApiClient"
+import {getMockedFlickrApiClient, TestSituation} from "../_helper/getMockedFlickrApiClient"
 import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
 
 test('when no media id was selected then an error should be thrown', async () => {
@@ -34,4 +34,14 @@ test('when a photo album was selected then all of its photos should be returned'
 
     expect(photoIds.length)
         .toBe(10) // Why exactly 10? Because the mocked data source contains 10 items.
+})
+
+test('requesting photos for an album that does not exist should fail', async () => {
+    const invalidFlickrId = '-5'
+    const flickrClient = new FlickrClient('DUMMY_API_KEY', getMockedFlickrApiClient(TestSituation.failure))
+
+    await expect(
+        flickrClient.getAlbumImageIds(invalidFlickrId))
+        .rejects
+        .toThrow(Error)
 })
