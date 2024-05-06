@@ -1,4 +1,4 @@
-@FP2PC-4 @ignore
+@FP2PC-4
 Feature: Processing a whole photo album
   As a user
   I want to be able to convert all photos of a specific Flickr album in one go
@@ -11,4 +11,4 @@ Feature: Processing a whole photo album
   Scenario: The processed album photos should be collected in a dedicated sub-folder
     When the user selects a photo album
     And the user starts the conversion process
-    Then the final images should have been saved to a separate sub-folder
+    Then the final album images should have been saved to a separate sub-folder
