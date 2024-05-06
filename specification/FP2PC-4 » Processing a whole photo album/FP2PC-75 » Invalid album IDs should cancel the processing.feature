@@ -1,4 +1,4 @@
-@FP2PC-4 @ignore
+@FP2PC-4
 Feature: Processing a whole photo album
   As a user
   I want to be able to convert all photos of a specific Flickr album in one go
