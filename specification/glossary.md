@@ -1,8 +1,17 @@
 Flickr Photo ID
 : The number that uniquely identifies a photo on the Flickr platform, e.g. "53251494714".
 
+Invalid Photo (ID)
+: A Flickr photo that does not exist (e.g. there is no photo with the given ID)
+or a photo that is not accessible by the app (e.g. because of insufficient permissions).
+
 Flickr Album ID
 : The number that uniquely identifies a photo album on the Flickr platform, e.g. "72177720310105891".
+
+Invalid Album (ID)
+: A Flickr album that does not exist (e.g. there is no album with the given ID)
+or an album that is not accessible by the app (e.g. because of insufficient
+permissions).
 
 Original Image
 : The completely unmodified, original image (original size, original dimensions, original file type).
