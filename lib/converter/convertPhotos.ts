@@ -8,6 +8,8 @@ import {determineTextColor} from "./determineTextColor"
 import {determineAspectRatio} from "./determineAspectRatio"
 import {resolvePlaceholdersInCaption} from "./resolvePlaceholdersInCaption"
 import {EnvironmentVariables} from "./types/EnvironmentVariables"
+import {determineHorizontalMargin} from "./determineHorizontalMargin"
+import {determineVerticalMargin} from "./determineVerticalMargin"
 
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
@@ -32,7 +34,7 @@ export async function convertPhotos(photoIds: string[]) {
             blue: textColor.blue,
             relativeVerticalBuffer: textVerticalBuffer,
         })
-        jimpClient.setMargin(Number(process.env[EnvironmentVariables.MARGIN_HORIZONTAL] ?? 0), Number(process.env[EnvironmentVariables.MARGIN_VERTICAL] ?? 0))
+        jimpClient.setMargin(determineHorizontalMargin(), determineVerticalMargin())
         await jimpClient.saveProcessedImage(determineProcessedFolderPath(), determineImageFileName(photoId))
         jimpClient.resetCanvas()
 
