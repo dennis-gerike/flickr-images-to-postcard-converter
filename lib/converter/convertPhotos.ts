@@ -10,6 +10,7 @@ import {resolvePlaceholdersInCaption} from "./resolvePlaceholdersInCaption"
 import {EnvironmentVariables} from "./types/EnvironmentVariables"
 import {determineHorizontalMargin} from "./determineHorizontalMargin"
 import {determineVerticalMargin} from "./determineVerticalMargin"
+import {determineBuffer} from "./determineBuffer"
 
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
@@ -25,7 +26,7 @@ export async function convertPhotos(photoIds: string[]) {
         const photoInformation = require(`${determineDownloadFolderPath()}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
         const title = resolvePlaceholdersInCaption(process.env[EnvironmentVariables.CUSTOM_TEXT] ?? "", photoInformation)
         const textColor = determineTextColor()
-        const textVerticalBuffer = Number(process.env[EnvironmentVariables.TEXT_VERTICAL_BUFFER] ?? 0)
+        const textVerticalBuffer = determineBuffer()
         jimpClient.setCaption({
             text: title,
             relativeHeight: 5,
