@@ -1,4 +1,4 @@
-@FP2PC-58 @ignore
+@FP2PC-58
 Feature: Adding margins
   As a user
   I want to be able to add margins to my photo(s)
