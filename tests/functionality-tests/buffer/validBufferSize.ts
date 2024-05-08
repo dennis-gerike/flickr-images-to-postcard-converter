@@ -4,6 +4,9 @@ import {getCustomProcessedFolderPath} from "../_helper/getCustomProcessedFolderP
 import {getFailuresFolderPath} from "../_helper/getFailuresFolderPath"
 import {assertImagesAreTheSame} from "../_helper/assertImagesAreTheSame"
 
+/**
+ * @group integration
+ */
 test('configuring a valid buffer size should lead to an image with a buffer between photo and caption', async () => {
     const bufferSize = 10
 
