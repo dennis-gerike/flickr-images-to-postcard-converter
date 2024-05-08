@@ -1,5 +1,5 @@
 import {When} from "@cucumber/cucumber"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 When('the user selects an invalid Flickr photo', function () {
     process.env[EnvironmentVariables.SOURCE_TYPE] = 'flickr-photo'

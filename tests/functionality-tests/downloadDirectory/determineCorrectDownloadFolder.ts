@@ -1,5 +1,5 @@
 import * as path from "node:path"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 import {determineDownloadFolderPath} from "../../../lib/converter/determineDownloadFolderPath"
 
 test('when no folder was configured then the default path should be determined', () => {

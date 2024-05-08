@@ -1,5 +1,5 @@
 import {determineAspectRatio} from "../../../lib/converter/determineAspectRatio"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 test('when no aspect ratio was configured then the default value should be determined', async () => {
     delete process.env[EnvironmentVariables.ASPECT_RATIO]

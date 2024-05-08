@@ -1,6 +1,6 @@
 import {When} from "@cucumber/cucumber"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 import {Album} from "../../_fixtures/types/Album"
 
 When('the user selects a photo album', function () {

@@ -1,5 +1,5 @@
 import {Given} from "@cucumber/cucumber"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 Given('the user selected the Flickr photo {string}', function (id: string) {
     process.env[EnvironmentVariables.SOURCE_TYPE] = 'flickr-photo'

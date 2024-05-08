@@ -1,6 +1,6 @@
 import {When} from "@cucumber/cucumber"
 import {getProcessedFolderPath} from "../_helper/getProcessedFolderPath"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 When('the user specifies the directory for the processed images', function () {
     // using our default test folder here

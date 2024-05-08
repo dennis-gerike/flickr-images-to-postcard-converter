@@ -1,4 +1,4 @@
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 import {determineMediaId} from "../../../lib/converter/determineMediaId"
 
 test('when no media id was configured then null should be determined', () => {

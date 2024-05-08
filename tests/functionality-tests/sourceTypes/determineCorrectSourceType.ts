@@ -1,4 +1,4 @@
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 import {determineSourceType} from "../../../lib/converter/determineSourceType"
 import {SourceTypes} from "../../../lib/converter/types/SourceTypes"
 

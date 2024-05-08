@@ -1,6 +1,6 @@
 import {When} from "@cucumber/cucumber"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 When('the user selects a photo with an aspect ratio of {int}:{int}', function (x: number, y: number) {
     const fixture = require(`${getFixturesFolderPath()}/${x}by${y}`)

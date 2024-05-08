@@ -1,5 +1,5 @@
 import {When} from "@cucumber/cucumber"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 When('the user adds the placeholder {string} to the caption', function (placeholder: string) {
     let caption = process.env[EnvironmentVariables.CUSTOM_TEXT] ?? ''

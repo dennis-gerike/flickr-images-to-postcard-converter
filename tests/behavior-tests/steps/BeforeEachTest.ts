@@ -1,5 +1,5 @@
 import {Before} from "@cucumber/cucumber"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 import {cleanupDataFolders} from "../../CleanupFilesystem"
 
 /**

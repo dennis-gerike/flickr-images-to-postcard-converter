@@ -1,6 +1,6 @@
 import {Given} from "@cucumber/cucumber"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 Given('the user selected a photo with an aspect ratio of {int}:{int}', function (x: number, y: number) {
     const fixture = require(`${getFixturesFolderPath()}/${x}by${y}`)

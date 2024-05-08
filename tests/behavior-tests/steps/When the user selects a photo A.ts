@@ -1,6 +1,6 @@
 import {When} from "@cucumber/cucumber"
 import {getFixturesFolderPath} from "../_helper/getFixturesFolderPath"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 When('the user selects a photo A', function () {
     const fixture = require(`${getFixturesFolderPath()}/photo-A`)

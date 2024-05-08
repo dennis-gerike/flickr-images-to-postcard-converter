@@ -1,4 +1,4 @@
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 import {determineTextColor} from "../../../lib/converter/determineTextColor"
 
 test('when no text color was configured then the default value should be determined', async () => {

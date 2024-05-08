@@ -1,7 +1,7 @@
 import {determineToBeProcessedPhotos} from "../../../lib/converter/determineToBeProcessedPhotos"
 import {FlickrClient} from "../../../lib/flickr/FlickrClient"
 import {getMockedFlickrApiClient, TestSituation} from "../_helper/getMockedFlickrApiClient"
-import {EnvironmentVariables} from "../../../lib/converter/types/EnvironmentVariables"
+import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 test('when no media id was selected then an error should be thrown', async () => {
     process.env[EnvironmentVariables.SOURCE_TYPE] = 'flickr-photo'
