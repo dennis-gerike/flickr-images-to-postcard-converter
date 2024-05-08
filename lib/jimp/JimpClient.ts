@@ -28,11 +28,9 @@ export class JimpClient {
      * Changes the dimensions of the canvas to the given aspect ratio.
      */
     public setAspectRatio(ratio: number) {
-        if (ratio > 0) {
-            this.canvas.setAspectRatio(ratio)
-        } else {
-            throw new Error('Invalid aspect ratio provided!')
-        }
+        this.validateAspectRatio(ratio)
+
+        this.canvas.setAspectRatio(ratio)
     }
 
     /**
@@ -90,6 +88,12 @@ export class JimpClient {
      */
     public resetCanvas() {
         this.canvas = new Canvas()
+    }
+
+    private validateAspectRatio(value: number) {
+        if (value <= 0) {
+            throw new Error('Invalid aspect ratio provided!')
+        }
     }
 
     private validateMargin(value: number) {
