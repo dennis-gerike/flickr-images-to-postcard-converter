@@ -49,6 +49,9 @@ export class JimpClient {
      *   And the image will have a bottom margin of 15 pixel
      */
     public setMargin(horizontal: number, vertical: number) {
+        this.validateMargin(horizontal)
+        this.validateMargin(vertical)
+
         this.canvas.setHorizontalMarginPercentage(horizontal)
         this.canvas.setVerticalMarginPercentage(vertical)
     }
@@ -87,6 +90,12 @@ export class JimpClient {
      */
     public resetCanvas() {
         this.canvas = new Canvas()
+    }
+
+    private validateMargin(value: number) {
+        if (value < 0 || value > 100) {
+            throw new Error('Margin size out of range!')
+        }
     }
 
     /**
