@@ -15,7 +15,13 @@ jobs:
         run: npm ci
       - name: Run Jest tests
         run: npm run test-functionality
-      - name: Test report
+      - name: Archive test report
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-results
+          path: test-reports/junit.xml
+      - name: Render test report
         uses: dorny/test-reporter@v1.9.1
         if: success() || failure()
         with:
