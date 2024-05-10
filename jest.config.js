@@ -11,7 +11,12 @@ module.exports = {
     ],
     reporters: [
         'default',
-        ['jest-junit', {"outputDirectory": "test-reports"}],
+        ['jest-junit', {
+            "outputDirectory": "test-reports",
+            "classNameTemplate": "{classname}",
+            "titleTemplate": "{title}",
+            "ancestorSeparator": " » "
+        }],
         'github-actions'
     ],
     collectCoverageFrom: ['lib/**/*.ts'],
