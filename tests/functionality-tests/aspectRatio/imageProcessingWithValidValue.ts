@@ -4,6 +4,9 @@ import {assertAspectRatio} from "../_helper/assertAspectRatio"
 import sizeOf from "image-size"
 import assert from "assert"
 
+/**
+ * @group integration
+ */
 describe('Aspect Ratio', () => {
     describe.each([
         3 / 2,

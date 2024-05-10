@@ -1,6 +1,9 @@
 import {determineAspectRatio} from "../../../lib/converter/determineAspectRatio"
 import {EnvironmentVariables} from "../../EnvironmentVariables"
 
+/**
+ * @group unit
+ */
 describe('Aspect Ratio', () => {
     describe('Parsing configuration', () => {
         test('When no aspect ratio was configured then the default value should be determined', () => {

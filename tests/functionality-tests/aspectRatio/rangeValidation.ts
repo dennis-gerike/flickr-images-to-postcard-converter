@@ -1,5 +1,8 @@
 import {JimpClient} from "../../../lib/jimp/JimpClient"
 
+/**
+ * @group unit
+ */
 describe('Aspect Ratio', () => {
     describe('Range validation', () => {
         test('Selecting a negative aspect ratio should lead to an error', () => {
