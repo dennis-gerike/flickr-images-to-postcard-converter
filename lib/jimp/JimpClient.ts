@@ -69,6 +69,8 @@ export class JimpClient {
             this.caption.setRelativeHeight(0)
             this.caption.setRelativeVerticalBuffer(0)
         } else {
+            this.validateBuffer(options.relativeVerticalBuffer as number)
+
             this.caption.setTextColor(options.red ?? 0, options.green ?? 0, options.blue ?? 0)
             this.caption.setRelativeHeight(options.relativeHeight)
             this.caption.setRelativeVerticalBuffer(options?.relativeVerticalBuffer ?? 0)
@@ -99,6 +101,12 @@ export class JimpClient {
     private validateMargin(value: number) {
         if (value < 0 || value > 100) {
             throw new Error('Margin size out of range!')
+        }
+    }
+
+    private validateBuffer(value: number) {
+        if (value < 0 || value > 100) {
+            throw new Error('Buffer size out of range!')
         }
     }
 
