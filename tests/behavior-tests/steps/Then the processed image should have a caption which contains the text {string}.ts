@@ -5,8 +5,10 @@ import {determineProcessedFolderPath} from "../../../lib/converter/determineProc
 import assert from "assert"
 
 Then('the processed image should have a caption which contains the text {string}', {timeout: 10000}, async function (snippet: string) {
+    const mediaId = determineMediaId()
     const worker = await createWorker();
-    const {data: {lines}} = await worker.recognize(`${determineProcessedFolderPath()}/${determineMediaId()}.jpg`)
+    const {data: {lines}} = await worker.recognize(`${determineProcessedFolderPath(mediaId)}/${mediaId}.jpg`)
+
     let match = false
     lines.forEach(line => {
         if (line.confidence > 90 && line.text.includes(snippet)) {

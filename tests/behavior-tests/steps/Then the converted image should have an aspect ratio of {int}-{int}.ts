@@ -6,7 +6,9 @@ import {determineMediaId} from "../../../lib/converter/determineMediaId"
 import {assertAspectRatio} from "../_helper/assertAspectRatio"
 
 Then('the converted image should have an aspect ratio of {int}:{int}', function (x: number, y: number) {
-    const dimensions = sizeOf(`${determineProcessedFolderPath()}/${determineMediaId()}.jpg`)
+    const mediaId = determineMediaId()
+    const dimensions = sizeOf(`${determineProcessedFolderPath(mediaId)}/${mediaId}.jpg`)
+
     if (dimensions.width && dimensions.height) {
         const expectedAspectRatio = x / y
         const actualAspectRatio = dimensions.width / dimensions.height
