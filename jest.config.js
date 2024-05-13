@@ -22,7 +22,8 @@ module.exports = {
     collectCoverageFrom: ['lib/**/*.ts'],
     coveragePathIgnorePatterns: [
         '_helper',
-        '_data'
+        '_data',
+        'cleanup.ts'
     ],
     coverageDirectory: 'test-reports/coverage',
     coverageReporters: [
