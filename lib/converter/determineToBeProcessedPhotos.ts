@@ -5,9 +5,6 @@ import {determineMediaId} from "./determineMediaId"
 
 export async function determineToBeProcessedPhotos(flickrClient: FlickrClient): Promise<string[]> {
     const mediaId = determineMediaId()
-    if (mediaId === null) {
-        throw new Error('Source ID missing!')
-    }
 
     switch (determineSourceType()) {
         default:
