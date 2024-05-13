@@ -8,6 +8,7 @@ on:
 
 jobs:
   run-behavior-tests:
+    name: "Behavior Tests (Gherkin/Cucumber)"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
