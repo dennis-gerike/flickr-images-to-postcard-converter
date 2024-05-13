@@ -2,6 +2,7 @@ import {FlickrClient} from "../flickr/FlickrClient"
 import {determineDownloadFolderPath} from "./determineDownloadFolderPath"
 import {determineImageFileName} from "./determineImageFileName"
 import {determineMetaInformationFileName} from "./determineMetaInformationFileName"
+import {determineMediaId} from "./determineMediaId"
 
 export async function downloadPhotos(photoIds: string[], flickrClient: FlickrClient) {
     const cliProgress = require('cli-progress')
@@ -12,12 +13,12 @@ export async function downloadPhotos(photoIds: string[], flickrClient: FlickrCli
     for (const photoId of photoIds) {
         await flickrClient.downloadOriginalImage(
             photoId,
-            determineDownloadFolderPath(photoId),
+            determineDownloadFolderPath(determineMediaId()),
             determineImageFileName(photoId)
         )
         await flickrClient.downloadImageInformation(
             photoId,
-            determineDownloadFolderPath(photoId),
+            determineDownloadFolderPath(determineMediaId()),
             determineMetaInformationFileName(photoId)
         )
         progressBar.increment()

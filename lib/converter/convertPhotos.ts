@@ -11,6 +11,7 @@ import {determineHorizontalMargin} from "./determineHorizontalMargin"
 import {determineVerticalMargin} from "./determineVerticalMargin"
 import {determineBuffer} from "./determineBuffer"
 import {determineCaption} from "./determineCaption"
+import {determineMediaId} from "./determineMediaId"
 
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
@@ -21,9 +22,10 @@ export async function convertPhotos(photoIds: string[]) {
     progressBar.start(photoIds.length, 0)
     for (const photoId of photoIds) {
         const jimpClient = new JimpClient()
-        await jimpClient.setPhoto(`${determineDownloadFolderPath(photoId)}/${determineImageFileName(photoId)}`)
+        const mediaId = determineMediaId()
+        await jimpClient.setPhoto(`${determineDownloadFolderPath(mediaId)}/${determineImageFileName(photoId)}`)
         jimpClient.setAspectRatio(determineAspectRatio())
-        const photoInformation = require(`${determineDownloadFolderPath(photoId)}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
+        const photoInformation = require(`${determineDownloadFolderPath(mediaId)}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
         const title = resolvePlaceholdersInCaption(determineCaption(), photoInformation)
         const textColor = determineTextColor()
         const textVerticalBuffer = determineBuffer()
@@ -36,7 +38,7 @@ export async function convertPhotos(photoIds: string[]) {
             relativeVerticalBuffer: textVerticalBuffer,
         })
         jimpClient.setMargin(determineHorizontalMargin(), determineVerticalMargin())
-        await jimpClient.saveProcessedImage(determineProcessedFolderPath(photoId), determineImageFileName(photoId))
+        await jimpClient.saveProcessedImage(determineProcessedFolderPath(mediaId), determineImageFileName(photoId))
 
         progressBar.increment()
     }
