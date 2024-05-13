@@ -79,9 +79,13 @@ export class FlickrClient {
      * Returns some basic information about the original image (e.g. dimensions and url).
      */
     private async getOriginalImage(imageId: string): Promise<Size | undefined> {
-        const imageSizes = await this.fetchImageSizes(imageId)
+        const imageSizesResponse = await this.fetchImageSizes(imageId)
 
-        return imageSizes.sizes.size.find((item: Size) => {
+        if (imageSizesResponse.stat === "fail") {
+            return undefined
+        }
+
+        return imageSizesResponse.sizes.size.find((item: Size) => {
             return item.label === 'Original'
         })
     }
