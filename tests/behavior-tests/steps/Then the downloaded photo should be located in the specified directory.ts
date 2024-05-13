@@ -4,7 +4,9 @@ import assert from "assert"
 import {EnvironmentVariables} from "../../EnvironmentVariables"
 
 Then('the downloaded photo should be located in the specified directory', function () {
-    const fullPath = `${process.env[EnvironmentVariables.DOWNLOAD_PATH]}/${process.env[EnvironmentVariables.MEDIA_ID]}.jpg`
+    const mediaId = process.env[EnvironmentVariables.MEDIA_ID]
+    const fullPath = `${process.env[EnvironmentVariables.DOWNLOAD_PATH]}/${mediaId}/${mediaId}.jpg`
     const fileExists = fs.existsSync(fullPath)
+
     assert(fileExists, `File "${fullPath}" not found`)
 })
