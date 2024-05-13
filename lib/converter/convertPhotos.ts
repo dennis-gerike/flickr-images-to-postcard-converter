@@ -21,9 +21,9 @@ export async function convertPhotos(photoIds: string[]) {
     console.log('Converting photos')
     progressBar.start(photoIds.length, 0)
     for (const photoId of photoIds) {
-        await jimpClient.setPhoto(`${determineDownloadFolderPath()}/${determineImageFileName(photoId)}`)
+        await jimpClient.setPhoto(`${determineDownloadFolderPath(photoId)}/${determineImageFileName(photoId)}`)
         jimpClient.setAspectRatio(determineAspectRatio())
-        const photoInformation = require(`${determineDownloadFolderPath()}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
+        const photoInformation = require(`${determineDownloadFolderPath(photoId)}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
         const title = resolvePlaceholdersInCaption(determineCaption(), photoInformation)
         const textColor = determineTextColor()
         const textVerticalBuffer = determineBuffer()
@@ -36,7 +36,7 @@ export async function convertPhotos(photoIds: string[]) {
             relativeVerticalBuffer: textVerticalBuffer,
         })
         jimpClient.setMargin(determineHorizontalMargin(), determineVerticalMargin())
-        await jimpClient.saveProcessedImage(determineProcessedFolderPath(), determineImageFileName(photoId))
+        await jimpClient.saveProcessedImage(determineProcessedFolderPath(photoId), determineImageFileName(photoId))
         jimpClient.resetCanvas()
 
         progressBar.increment()

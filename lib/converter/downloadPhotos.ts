@@ -12,12 +12,12 @@ export async function downloadPhotos(photoIds: string[], flickrClient: FlickrCli
     for (const photoId of photoIds) {
         await flickrClient.downloadOriginalImage(
             photoId,
-            determineDownloadFolderPath(),
+            determineDownloadFolderPath(photoId),
             determineImageFileName(photoId)
         )
         await flickrClient.downloadImageInformation(
             photoId,
-            determineDownloadFolderPath(),
+            determineDownloadFolderPath(photoId),
             determineMetaInformationFileName(photoId)
         )
         progressBar.increment()
