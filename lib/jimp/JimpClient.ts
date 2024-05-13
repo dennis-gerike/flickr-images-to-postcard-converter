@@ -85,13 +85,6 @@ export class JimpClient {
         await this.canvas.save(targetPath, targetFile)
     }
 
-    /**
-     * Creates a fresh canvas, removing anything that might have been rendered on it before.
-     */
-    public resetCanvas() {
-        this.canvas = new Canvas()
-    }
-
     private validateAspectRatio(value: number) {
         if (value <= 0) {
             throw new Error('Invalid aspect ratio provided!')

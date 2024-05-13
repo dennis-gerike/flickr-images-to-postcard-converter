@@ -15,12 +15,12 @@ import {determineCaption} from "./determineCaption"
 export async function convertPhotos(photoIds: string[]) {
     const cliProgress = require('cli-progress')
     const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.rect)
-    const jimpClient = new JimpClient()
 
     // resizing the photos to match the postcard format, then adding a label and finally a nice margin
     console.log('Converting photos')
     progressBar.start(photoIds.length, 0)
     for (const photoId of photoIds) {
+        const jimpClient = new JimpClient()
         await jimpClient.setPhoto(`${determineDownloadFolderPath(photoId)}/${determineImageFileName(photoId)}`)
         jimpClient.setAspectRatio(determineAspectRatio())
         const photoInformation = require(`${determineDownloadFolderPath(photoId)}/${determineMetaInformationFileName(photoId)}`) as ImageInformation
@@ -37,7 +37,6 @@ export async function convertPhotos(photoIds: string[]) {
         })
         jimpClient.setMargin(determineHorizontalMargin(), determineVerticalMargin())
         await jimpClient.saveProcessedImage(determineProcessedFolderPath(photoId), determineImageFileName(photoId))
-        jimpClient.resetCanvas()
 
         progressBar.increment()
     }
