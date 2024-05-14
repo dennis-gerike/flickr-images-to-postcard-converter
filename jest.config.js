@@ -28,7 +28,6 @@ module.exports = {
     coverageDirectory: 'test-reports/coverage',
     coverageReporters: [
         'lcov',
-        'json',
         'text-summary'
     ]
 }

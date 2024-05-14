@@ -13,5 +13,5 @@ jobs:
       - name: Create HTML coverage report
         uses: ArtiomTr/jest-coverage-report-action@v2.3.0
         with:
-          coverage-file: coverage-final.json
-          base-coverage-file: coverage-final.json
+          coverage-file: coverage.json
+          base-coverage-file: coverage.json

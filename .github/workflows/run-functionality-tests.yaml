@@ -32,7 +32,7 @@ jobs:
         if: success() || failure()
         with:
           name: test-coverage
-          path: test-reports/coverage/coverage-final.json
+          path: test-reports/coverage.json
 
   generate-test-report:
     needs: [
