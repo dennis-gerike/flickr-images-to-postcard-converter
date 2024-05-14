@@ -2,7 +2,7 @@ on:
   workflow_call:
 
 permissions:
-  contents: read
+  contents: write
   checks: write
 
 jobs:
@@ -17,5 +17,6 @@ jobs:
       - name: Create HTML coverage report
         uses: ArtiomTr/jest-coverage-report-action@v2.3.0
         with:
+          skip-step: all
           coverage-file: coverage.json
           base-coverage-file: coverage.json
