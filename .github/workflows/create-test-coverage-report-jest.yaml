@@ -1,0 +1,17 @@
+on:
+  workflow_call:
+
+jobs:
+  create-test-coverage-report:
+    name: "Create Test Coverage Report"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download raw coverage report
+        uses: actions/download-artifact@v4.1.7
+        with:
+          name: test-coverage
+      - name: Create HTML coverage report
+        uses: ArtiomTr/jest-coverage-report-action@v2.3.0
+        with:
+          coverage-file: coverage-final.json
+          base-coverage-file: coverage-final.json

@@ -20,16 +20,28 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       - name: Run Jest tests
-        run: npm run test-functionality
+        run: npm run test-functionality-with-coverage
       - name: Archive test report
         uses: actions/upload-artifact@v4.3.3
         if: success() || failure()
         with:
           name: test-results
           path: test-reports/junit.xml
+      - name: Archive test coverage report
+        uses: actions/upload-artifact@v4.3.3
+        if: success() || failure()
+        with:
+          name: test-coverage
+          path: test-reports/coverage/coverage-final.json
 
   generate-test-report:
     needs: [
       run-functionality-tests,
     ]
     uses: ./.github/workflows/create-test-report-junit.yaml
+
+  generate-test-coverage-report:
+    needs: [
+      run-functionality-tests,
+    ]
+    uses: ./.github/workflows/create-test-coverage-report-junit.yaml

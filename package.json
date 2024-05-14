@@ -8,6 +8,7 @@
     "test": "npm run test-behavior && npm run test-functionality",
     "test-behavior": "npx cucumber-js",
     "test-functionality": "npx jest",
+    "test-functionality-with-coverage": "npx jest --coverage",
     "cleanup": "npx ts-node lib/cleanup.ts"
   },
   "repository": {
