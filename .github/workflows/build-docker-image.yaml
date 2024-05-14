@@ -33,3 +33,9 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: dennisgerike/flickr-photos-to-postcard-converter:${{ github.ref_name }},dennisgerike/flickr-photos-to-postcard-converter:latest
+
+  bump-version:
+    needs: [
+      build-docker-image,
+    ]
+    uses: ./.github/workflows/bump-version.yaml
