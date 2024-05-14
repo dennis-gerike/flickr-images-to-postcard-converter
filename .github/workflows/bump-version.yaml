@@ -12,12 +12,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Setup git identity
+        run: git config --global user.email "bot@ci" && git config --global user.name "CI Bot"
       - name: Bump version
         run: npm version ${{ github.ref_name }} -m "Updating package version to %s"
       - name: Push new version
         uses: EndBug/add-and-commit@v9.1.4
         with:
           default_author: github_actions
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
           message: "Bump version"
