@@ -1,6 +1,6 @@
 {
   "name": "flickr-photos-to-postcard-converter",
-  "version": "1.5.1",
+  "version": "2.0.6",
   "description": "Resizes a given set of flickr images, so they all fit into the postcard format. Optionally prints the title and some meta information onto the photos.",
   "main": "index.js",
   "scripts": {
