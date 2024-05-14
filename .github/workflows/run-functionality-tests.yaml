@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   run-functionality-tests:
-    name: "Functionality Tests (Jest)"
+    name: "Run Functionality Tests (Jest)"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

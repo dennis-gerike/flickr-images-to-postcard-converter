@@ -8,12 +8,12 @@ permissions:
 
 jobs:
   create-test-report:
-    name: "Test Report"
+    name: "Create Test Report"
     runs-on: ubuntu-latest
     steps:
       - uses: dorny/test-reporter@v1.9.1
         with:
           artifact: test-results
-          name: "JUnit"
+          name: "Test Results (Functionality Tests)"
           path: 'junit.xml'
           reporter: jest-junit
