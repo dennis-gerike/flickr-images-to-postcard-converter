@@ -44,4 +44,4 @@ jobs:
     needs: [
       run-functionality-tests,
     ]
-    uses: ./.github/workflows/create-test-coverage-report-junit.yaml
+    uses: ./.github/workflows/create-test-coverage-report-jest.yaml
