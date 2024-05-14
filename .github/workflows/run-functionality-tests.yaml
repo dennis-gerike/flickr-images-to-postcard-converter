@@ -27,11 +27,9 @@ jobs:
         with:
           name: test-results
           path: test-reports/junit.xml
-      - name: Render test report
-        uses: dorny/test-reporter@v1.9.1
-        if: success() || failure()
-        with:
-          artifact: test-results
-          name: "Test Report (Functionality Tests)"
-          path: 'junit.xml'
-          reporter: jest-junit
+
+  generate-test-report:
+    needs: [
+      run-functionality-tests,
+    ]
+    uses: ./.github/workflows/create-test-report-junit.yaml

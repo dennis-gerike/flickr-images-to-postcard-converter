@@ -1,0 +1,18 @@
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
+jobs:
+  create-test-report:
+    name: "Test Report (JUnit)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dorny/test-reporter@v1.9.1
+        with:
+          artifact: test-results
+          path: 'junit.xml'
+          reporter: jest-junit
