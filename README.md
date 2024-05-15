@@ -1,5 +1,10 @@
 # Flickr photos to postcard converter
 
+[![Test Runs](https://github.com/dennis-gerike/flickr-photos-to-postcard-converter/actions/workflows/run-tests.yaml/badge.svg)](https://github.com/dennis-gerike/flickr-photos-to-postcard-converter/actions/workflows/run-tests.yaml)
+[![Code Coverage](https://coveralls.io/repos/github/dennis-gerike/flickr-photos-to-postcard-converter/badge.svg?branch=main)](https://coveralls.io/github/dennis-gerike/flickr-photos-to-postcard-converter?branch=main)
+[![Cucumber Reports](https://img.shields.io/badge/cucumber-reports-green.svg?logo=Cucumber)](https://reports.cucumber.io/report-collections/60e52a2b-f83f-4231-a64b-349387ca055c)
+[![Docker Hub Images](https://img.shields.io/badge/dockerhub-images-blue.svg?logo=Docker)](https://hub.docker.com/r/dennisgerike/flickr-photos-to-postcard-converter/tags)
+
 This tool allows you to convert and adjust your Flickr photos, so you can easily print them onto postcards.
 It automatically downloads all photos of a given Flickr album,
 adjusts them to have the standard postcard format of 3:2
