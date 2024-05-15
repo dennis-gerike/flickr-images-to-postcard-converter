@@ -10,8 +10,10 @@ jobs:
         uses: actions/download-artifact@v4.1.7
         with:
           name: test-coverage
+      - run: ls -la
       - name: Create HTML coverage report
         uses: coverallsapp/github-action@v2.3.0
         with:
           file: lcov.info
+          format: lcov
 
