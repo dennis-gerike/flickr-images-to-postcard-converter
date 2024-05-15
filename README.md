@@ -40,22 +40,21 @@ There is no GUI (yet) to select the photos or configure the converter.
 The scope of this tool is straightforward:
 
 * download the given Flickr photo or Flickr album,
-* convert the photos according to the configured settings
-* and then export them to the specified folder
+* convert the photos according to the configured settings,
+* save them in the specified output folder
 
-The user can customize the processing by:
+The user can configure the following options:
 
-* adjusting the aspect ratio
-    * does not need to be the postcard format
-    * can be any value greater than 0
-* adding horizontal and/or vertical margins
-    * for visual or technical reasons
-* adding a line of text
-    * e.g. to show the Flickr ID or the name of the photo
-* adjusting the space between text and photo
-    * so they are not...
+* adjusting the aspect ratio:
+    * postcard format is only a suggestion, it can be any other aspect ratio
+* adding horizontal and/or vertical margins:
+    * for aesthetic reasons or to circumvent technical issues (e.g. limited printer capabilities)
+* adding a caption:
+    * e.g. to show the title of the photo or other meta information
+* adjusting the space between text and photo:
+    * for aesthetic reasons, so the text is not tightly pressed against the photo
 
-The tool will make sure, that all photos are correctly resized,
+The tool will make sure that all photos are correctly resized -
 without stretching, squeezing or cropping the original photo.
 
 ## How to run the app
@@ -83,14 +82,15 @@ When your platform is not supported,
 either try to build the missing image yourself (see below) or create a new issue in GitHub.
 
 If not configured otherwise, the app will store the processed images in the folder `/app/data` **within** the container.
-So, you need to attach a volume to gain access to them (see examples below.)
+So, you need to attach a volume to get them out of the container (see examples below.)
 
 #### ...via environment variables
 
 The following example shows you a minimal version when using environment variables.
-The Flickr API key is mandatory.
-No text will be added to the images.
-For the margins and aspect ratio default values will be used.
+The `FLICKR_API_KEY` and `MEDIA_ID` are mandatory settings.
+Omitting them will cause the app to fail.
+All other settings are optional.
+Omitting them will cause the app to use default values.
 
 ```shell
 docker run \
@@ -101,11 +101,16 @@ docker run \
 ```
 
 The next example shows a request that has every available configuration option selected.
+Leaving variables empty (see `DOWNLOAD_PATH`) has the same effect as omitting them.
+The app will fall back to using default values.
 
 ```shell
 docker run \
   --env FLICKR_API_KEY=<YOUR_FLICKR_API_KEY> \
+  --env SOURCE_TYPE=flickr-photo
   --env MEDIA_ID=51457247338 \
+  --env DOWNLOAD_PATH= \
+  --env PROCESSED_PATH='./flickr-postcard' \
   --env ASPECT_RATIO=1.5 \
   --env MARGIN_HORIZONTAL=0 \
   --env MARGIN_VERTICAL=5 \
@@ -153,11 +158,11 @@ You can request one here: https://www.flickr.com/services/api/misc.api_keys.html
 ## Running the tests
 
 There exist two test suites in the `./tests` folder -
-the functionality tests (written in Jest) and
-the behavior tests (written in Cucumber).
+the **functionality tests** (written in Jest) and
+the **behavior tests** (written in Cucumber).
 The behavior tests implement the Gherkin scenarios from the `./specification` folder.
 They are written from the user's perspective and focus on the "what".
-The second suite contains the unit tests (aka developer tests aka functionality tests).
+The other suite contains the unit tests (aka developer tests aka functionality tests).
 Those focus on the "how".
 
 All test results will be saved in the folder `./test-reports`.
@@ -165,8 +170,8 @@ All test results will be saved in the folder `./test-reports`.
 ### Requirements
 
 Node.js 18 or higher is needed.
-The Flickr API key is needed for the behavior tests.
-The Flickr API key is not needed for the functionality tests.
+A valid Flickr API key is needed for the behavior tests.
+The functionality tests don't need a Flickr API key.
 Those are working with mocked API responses and fixtures.
 
 ### Quickstart
@@ -187,8 +192,12 @@ They are all collected here: https://reports.cucumber.io/report-collections/60e5
 
 Running `npm run test-functionality` will execute the whole Jest test suite.
 
-When running `npm run test-functionality -- --coverage` then a code coverage report will be created afterward.
-The report will be saved in `./test-reports/coverage`.
+When running `npm run test-functionality-with-coverage` then a code coverage report will be created afterward.
+It will be saved in `./test-reports/coverage`.
+
+When the Jest tests are executed in the GitHub Actions pipeline
+(see `./.github/workflows/run-tests.yaml`) then the coverage report will automatically be uploaded to `coveralls.io`.
+They are all collected here: https://coveralls.io/github/dennis-gerike/flickr-photos-to-postcard-converter.
 
 #### Executing both test suites
 
