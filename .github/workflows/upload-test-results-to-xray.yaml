@@ -1,5 +1,10 @@
 on:
   workflow_call:
+    secrets:
+      XRAY_CLIENT_ID:
+        required: true
+      XRAY_CLIENT_SECRET:
+        required: true
 
 jobs:
   upload-test-results-to-xray:

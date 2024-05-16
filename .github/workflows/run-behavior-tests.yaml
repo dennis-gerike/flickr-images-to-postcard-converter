@@ -36,3 +36,4 @@ jobs:
       run-behavior-tests,
     ]
     uses: ./.github/workflows/upload-test-results-to-xray.yaml
+    secrets: inherit
