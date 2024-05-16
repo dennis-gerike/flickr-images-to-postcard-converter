@@ -22,5 +22,5 @@ jobs:
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
           testFormat: "cucumber"
           testPaths: "cucumber-report.json"
-          projectKey: "FP2PTR"
+          projectKey: "FP2PC"
 
