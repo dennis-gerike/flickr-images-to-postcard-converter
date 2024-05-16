@@ -15,15 +15,7 @@ jobs:
         uses: actions/download-artifact@v4.1.7
         with:
           name: test-results-cucumber
-      - name: Upload results to Xray (XML)
-        uses: mikepenz/xray-action@v2.4.5
-        with:
-          username: ${{ secrets.XRAY_CLIENT_ID }}
-          password: ${{ secrets.XRAY_CLIENT_SECRET }}
-          testFormat: "junit"
-          testPaths: "cucumber-report.xml"
-          projectKey: "FP2PTR"
-      - name: Upload results to Xray (JSON)
+      - name: Upload results to Xray
         uses: mikepenz/xray-action@v2.4.5
         with:
           username: ${{ secrets.XRAY_CLIENT_ID }}
