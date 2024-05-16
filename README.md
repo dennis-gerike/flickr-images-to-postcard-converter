@@ -185,7 +185,7 @@ Those are working with mocked API responses and fixtures.
 
 Running `npm run test-behavior` will execute all cucumber tests and then create a report in the folder `./test-reports`.
 
-Running `npm run test-behavior -- --publish` does the same,
+Running `npm run test-behavior-and-publish` does the same,
 but additionally uploads the test report to `reports.cucumber.io`.
 The results will be available there for 24 hours.
 
