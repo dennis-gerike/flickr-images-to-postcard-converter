@@ -1,0 +1,29 @@
+on:
+  workflow_call:
+
+jobs:
+  upload-test-results-to-xray:
+    name: "Upload Test Results"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download test results
+        uses: actions/download-artifact@v4.1.7
+        with:
+          name: test-results-cucumber
+      - name: Upload results to Xray (XML)
+        uses: mikepenz/xray-action@v3.0.5
+        with:
+          username: ${{ secrets.XRAY_CLIENT_ID }}
+          password: ${{ secrets.XRAY_CLIENT_SECRET }}
+          testFormat: "junit"
+          testPaths: "cucumber-report.xml"
+          projectKey: "FP2PTR"
+      - name: Upload results to Xray (JSON)
+        uses: mikepenz/xray-action@v3.0.5
+        with:
+          username: ${{ secrets.XRAY_CLIENT_ID }}
+          password: ${{ secrets.XRAY_CLIENT_SECRET }}
+          testFormat: "cucumber"
+          testPaths: "cucumber-report.json"
+          projectKey: "FP2PTR"
+

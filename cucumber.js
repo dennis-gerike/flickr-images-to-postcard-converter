@@ -6,6 +6,7 @@ module.exports = {
         format: [
             'html:test-reports/cucumber-report.html',
             'json:test-reports/cucumber-report.json',
+            'junit:test-reports/cucumber-report.xml',
             'usage:test-reports/usage.txt',
         ],
         tags: 'not @ignore'

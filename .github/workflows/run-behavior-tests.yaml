@@ -24,3 +24,15 @@ jobs:
           FLICKR_API_KEY: ${{ secrets.FLICKR_API_KEY }}
           CUCUMBER_PUBLISH_TOKEN: ${{ secrets.CUCUMBER_PUBLISH_TOKEN }}
         run: npm run test-behavior -- --publish
+      - name: Archive test reports
+        uses: actions/upload-artifact@v4.3.3
+        if: success() || failure()
+        with:
+          name: test-results-cucumber
+          path: test-reports/cucumber-report.*
+
+  upload-test-results:
+    needs: [
+      run-behavior-tests,
+    ]
+    uses: ./.github/workflows/upload-test-results-to-xray.yaml
