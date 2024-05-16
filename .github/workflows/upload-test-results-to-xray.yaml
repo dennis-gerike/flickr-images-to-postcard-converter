@@ -16,7 +16,7 @@ jobs:
         with:
           name: test-results-cucumber
       - name: Upload results to Xray (XML)
-        uses: mikepenz/xray-action@v3.0.5
+        uses: mikepenz/xray-action@v2.4.5
         with:
           username: ${{ secrets.XRAY_CLIENT_ID }}
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
@@ -24,7 +24,7 @@ jobs:
           testPaths: "cucumber-report.xml"
           projectKey: "FP2PTR"
       - name: Upload results to Xray (JSON)
-        uses: mikepenz/xray-action@v3.0.5
+        uses: mikepenz/xray-action@v2.4.5
         with:
           username: ${{ secrets.XRAY_CLIENT_ID }}
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
