@@ -23,4 +23,5 @@ jobs:
           testFormat: "cucumber"
           testPaths: "cucumber-report.json"
           projectKey: "FP2PC"
-
+          testEnvironments: linux/amd64
+          revision: ${{ github.sha }}
