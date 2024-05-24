@@ -26,13 +26,14 @@ jobs:
           path: test-reports
       - name: Create meta info file
         run: npx ts-node scripts/create-meta-file.ts
+      - run: ls -la test-reports
       - name: Upload results to Xray
         uses: mikepenz/xray-action@v2.4.5
         with:
           username: ${{ secrets.XRAY_CLIENT_ID }}
           password: ${{ secrets.XRAY_CLIENT_SECRET }}
           testFormat: "cucumber"
-          testPaths: "cucumber-report.json"
+          testPaths: "test-reports/cucumber-report.json"
           projectKey: "FP2PC"
           testEnvironments: linux/amd64
           revision: ${{ github.sha }}
