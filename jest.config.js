@@ -23,7 +23,6 @@ module.exports = {
     coveragePathIgnorePatterns: [
         '_helper',
         '_data',
-        'cleanup.ts'
     ],
     coverageDirectory: 'test-reports/coverage',
     coverageReporters: [
