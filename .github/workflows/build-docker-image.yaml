@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 20
       - name: Install Node.js dependencies
-        run: npm ci --omit=dev
+        run: npm ci
       - name: Get version name
         run: echo $GITHUB_REF_NAME
       - name: Set up Docker Buildx
