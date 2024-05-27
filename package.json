@@ -10,6 +10,7 @@
     "test-behavior-and-publish": "npx cucumber-js --publish",
     "test-functionality": "npx jest",
     "test-functionality-with-coverage": "npx jest --coverage",
+    "upload-test-results-to-xray": "scripts/upload-test-results-to-xray.sh",
     "cleanup": "npx ts-node scripts/cleanup.ts"
   },
   "repository": {
