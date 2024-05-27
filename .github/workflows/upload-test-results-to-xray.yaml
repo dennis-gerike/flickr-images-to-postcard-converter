@@ -26,3 +26,6 @@ jobs:
           path: test-reports
       - name: Uploading the test results to Xray
         run: npm run upload-test-results-to-xray
+        env:
+          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
+          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
