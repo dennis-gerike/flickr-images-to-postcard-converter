@@ -1,7 +1,6 @@
 import axios from 'axios'
-import axiosRetry from "axios-retry"
 import * as fs from "fs/promises"
-import {GetInfoResponse} from "./types/flickrApi/photos/GetInfoResponse"
+import {fetchImageInformation} from "./apiRequests/fetchImageInformation"
 import {ImageInformation} from "./types/internal/ImageInformation"
 import {fetchImageSizes} from "./apiRequests/fetchImageSizes"
 import {fetchAlbumInformation} from "./apiRequests/fetchAlbumInformation"
@@ -49,7 +48,7 @@ export class FlickrClient {
      * Get meta information for the given image.
      */
     public async getImageInformation(imageId: string): Promise<ImageInformation> {
-        const rawImageInformation = await this.fetchImageInformation(imageId)
+        const rawImageInformation = await fetchImageInformation(imageId, this.flickrApiKey, this.httpClient)
         return {
             id: rawImageInformation.photo.id,
             url: rawImageInformation.photo.urls.url[0]._content,
@@ -88,25 +87,5 @@ export class FlickrClient {
         return imageSizesResponse.sizes.size.find((item: Size) => {
             return item.label === 'Original'
         })
-    }
-
-    /**
-     * Calls the Flickr API to request information about the given photo.
-     */
-    private async fetchImageInformation(imageId: string): Promise<GetInfoResponse> {
-        const requestOptions = {
-            'params': {
-                'api_key': this.flickrApiKey,
-                'photo_id': imageId,
-                'format': 'json',
-                'nojsoncallback': '?',
-                'method': 'flickr.photos.getInfo',
-            }
-        }
-
-        let response = await this.httpClient.get(FLICKR_API_BASE_URL, requestOptions)
-        axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
-
-        return <GetInfoResponse>response.data
     }
 }
