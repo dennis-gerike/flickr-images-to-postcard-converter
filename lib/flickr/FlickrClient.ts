@@ -4,7 +4,7 @@ import * as fs from "fs/promises"
 import {GetInfoResponse} from "./types/flickrApi/photos/GetInfoResponse"
 import {ImageInformation} from "./types/internal/ImageInformation"
 import {fetchImageSizes} from "./apiRequests/fetchImageSizes"
-import {GetPhotosResponse} from "./types/flickrApi/photoSet/GetPhotosResponse"
+import {fetchAlbumInformation} from "./apiRequests/fetchAlbumInformation"
 import {Size} from "./types/flickrApi/photos/partials/Size"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
@@ -70,7 +70,7 @@ export class FlickrClient {
      * Returns a list of all photo ids that belong to the given album.
      */
     public async getAlbumImageIds(albumId: string) {
-        const rawAlbumInformation = await this.fetchAlbumInformation(albumId)
+        const rawAlbumInformation = await fetchAlbumInformation(albumId, this.flickrApiKey, this.httpClient)
 
         return rawAlbumInformation.photoset.photo.map(photo => photo.id)
     }
@@ -88,26 +88,6 @@ export class FlickrClient {
         return imageSizesResponse.sizes.size.find((item: Size) => {
             return item.label === 'Original'
         })
-    }
-
-    /**
-     * Calls the Flickr API to request information about the given album.
-     */
-    private async fetchAlbumInformation(albumId: string): Promise<GetPhotosResponse> {
-        const requestOptions = {
-            'params': {
-                'api_key': this.flickrApiKey,
-                'photoset_id': albumId,
-                'format': 'json',
-                'nojsoncallback': '?',
-                'method': 'flickr.photosets.getPhotos',
-            }
-        }
-
-        let response = await this.httpClient.get(FLICKR_API_BASE_URL, requestOptions)
-        axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
-
-        return <GetPhotosResponse>response.data
     }
 
     /**

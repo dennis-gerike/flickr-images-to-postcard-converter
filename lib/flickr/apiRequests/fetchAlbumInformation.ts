@@ -1,27 +1,27 @@
 import axios from "axios"
 import axiosRetry from "axios-retry"
-import {GetSizesResponse} from "../types/flickrApi/photos/GetSizesResponse"
+import {GetPhotosResponse} from "../types/flickrApi/photoSet/GetPhotosResponse"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
 /**
- * Calls the Flickr API to request the available image sizes for a given photo.
+ * Calls the Flickr API to request information about the given album.
  */
-export async function fetchImageSizes(
-    imageId: string,
+export async function fetchAlbumInformation(
+    albumId: string,
     flickrApiKey: string,
     httpClient: typeof axios = axios
-): Promise<GetSizesResponse> {
+): Promise<GetPhotosResponse> {
     const requestOptions = {
         'headers': {
             'User-Agent': 'FlickrPhotosToPostcardConverter/1.0',
         },
         'params': {
             'api_key': flickrApiKey,
-            'photo_id': imageId,
+            'photoset_id': albumId,
             'format': 'json',
             'nojsoncallback': '?',
-            'method': 'flickr.photos.getSizes',
+            'method': 'flickr.photosets.getPhotos',
         }
     }
 
@@ -33,7 +33,7 @@ export async function fetchImageSizes(
     const response = await httpClient
         .get(FLICKR_API_BASE_URL, requestOptions)
         .catch(function (error) {
-            throw new Error(`Fetching the image sizes for the flickr photo "${imageId}" failed. [Error code: ${error.response.status}]`)
+            throw new Error(`Fetching information for the flickr album "${albumId}" failed. [Error code: ${error.response.status}]`)
         })
 
     return response.data
