@@ -3,7 +3,7 @@ import axiosRetry from "axios-retry"
 import * as fs from "fs/promises"
 import {GetInfoResponse} from "./types/flickrApi/photos/GetInfoResponse"
 import {ImageInformation} from "./types/internal/ImageInformation"
-import {GetSizesResponse} from "./types/flickrApi/photos/GetSizesResponse"
+import {fetchImageSizes} from "./apiRequests/fetchImageSizes"
 import {GetPhotosResponse} from "./types/flickrApi/photoSet/GetPhotosResponse"
 import {Size} from "./types/flickrApi/photos/partials/Size"
 
@@ -11,7 +11,7 @@ const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
 /**
  * The Flickr client encapsulates every request to the Flickr API.
- * The caller has to provide a valid HTTP client (axios compatible).
+ * The caller has to provide a valid HTTP client that is "axios" compatible.
  */
 export class FlickrClient {
     private readonly flickrApiKey: string
@@ -79,7 +79,7 @@ export class FlickrClient {
      * Returns some basic information about the original image (e.g. dimensions and url).
      */
     private async getOriginalImage(imageId: string): Promise<Size | undefined> {
-        const imageSizesResponse = await this.fetchImageSizes(imageId)
+        const imageSizesResponse = await fetchImageSizes(imageId, this.flickrApiKey, this.httpClient)
 
         if (imageSizesResponse.stat === "fail") {
             return undefined
@@ -128,25 +128,5 @@ export class FlickrClient {
         axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
 
         return <GetInfoResponse>response.data
-    }
-
-    /**
-     * Calls the Flickr API to request the available image sizes for a given photo.
-     */
-    private async fetchImageSizes(imageId: string): Promise<GetSizesResponse> {
-        const requestOptions = {
-            'params': {
-                'api_key': this.flickrApiKey,
-                'photo_id': imageId,
-                'format': 'json',
-                'nojsoncallback': '?',
-                'method': 'flickr.photos.getSizes',
-            }
-        }
-
-        let response = await this.httpClient.get(FLICKR_API_BASE_URL, requestOptions)
-        axiosRetry(this.httpClient, {retries: 5, retryDelay: axiosRetry.exponentialDelay})
-
-        return <GetSizesResponse>response.data
     }
 }
