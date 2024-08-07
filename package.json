@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "npx ts-node index.ts",
-    "test": "npm run test-behavior && npm run test-functionality",
+    "test": "npm run test-behavior && npm run unit-tests",
     "test-behavior": "npx cucumber-js",
     "test-behavior-and-publish": "npx cucumber-js --publish",
-    "test-functionality": "npx jest",
-    "test-functionality-with-coverage": "npx jest --coverage",
+    "unit-tests": "npx jest --selectProjects unit",
+    "unit-tests-plus-coverage": "npx jest --selectProjects unit --coverage",
+    "e2e-tests": "npx jest --selectProjects e2e",
     "upload-test-results-to-xray": "scripts/upload-test-results-to-xray.sh",
     "cleanup": "npx ts-node scripts/cleanup.ts"
   },

@@ -195,9 +195,9 @@ They are all collected here: https://reports.cucumber.io/report-collections/60e5
 
 #### Executing the Jest tests
 
-Running `npm run test-functionality` will execute the whole Jest test suite.
+Running `npm run unit-tests` will execute the whole Jest test suite.
 
-When running `npm run test-functionality-with-coverage` then a code coverage report will be created afterward.
+When running `npm run unit-tests-plus-coverage` then a code coverage report will be created afterward.
 It will be saved in `./test-reports/coverage`.
 
 When the Jest tests are executed in the GitHub Actions pipeline

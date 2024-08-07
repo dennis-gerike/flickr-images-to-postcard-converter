@@ -1,13 +1,26 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-    preset: 'ts-jest',
-    testEnvironment: 'node',
-    testMatch: [
-        '**/functionality-tests/**/*.ts'
-    ],
-    testPathIgnorePatterns: [
-        '_helper',
-        '_data'
+    projects: [
+        {
+            displayName: 'unit',
+            testMatch: [
+                '**/functionality-tests/**/*.ts',
+            ],
+            preset: 'ts-jest',
+            testEnvironment: 'node',
+            testPathIgnorePatterns: [
+                '_helper',
+                '_data'
+            ],
+        },
+        {
+            displayName: 'e2e',
+            testMatch: [
+                '**/end-2-end-tests/**/*.ts'
+            ],
+            preset: 'ts-jest',
+            testEnvironment: 'node',
+        },
     ],
     reporters: [
         'default',
@@ -19,14 +32,14 @@ module.exports = {
         }],
         'github-actions'
     ],
+    coverageReporters: [
+        'lcov',
+        'text-summary'
+    ],
     collectCoverageFrom: ['lib/**/*.ts'],
+    coverageDirectory: 'test-reports/coverage',
     coveragePathIgnorePatterns: [
         '_helper',
         '_data',
     ],
-    coverageDirectory: 'test-reports/coverage',
-    coverageReporters: [
-        'lcov',
-        'text-summary'
-    ]
 }

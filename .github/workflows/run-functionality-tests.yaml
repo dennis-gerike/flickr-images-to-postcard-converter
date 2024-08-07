@@ -20,7 +20,7 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
       - name: Run Jest tests
-        run: npm run test-functionality-with-coverage
+        run: npm run unit-tests-plus-coverage
       - name: Archive test report
         uses: actions/upload-artifact@v4.3.3
         if: success() || failure()
