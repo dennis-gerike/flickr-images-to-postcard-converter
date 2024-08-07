@@ -1,12 +1,11 @@
 import axios from 'axios'
 import * as fs from "fs/promises"
 import {fetchImageInformation} from "./apiRequests/fetchImageInformation"
+import {fetchImage} from "./apiRequests/fetchImage"
 import {ImageInformation} from "./types/internal/ImageInformation"
 import {fetchImageSizes} from "./apiRequests/fetchImageSizes"
 import {fetchAlbumInformation} from "./apiRequests/fetchAlbumInformation"
 import {Size} from "./types/flickrApi/photos/partials/Size"
-
-const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
 /**
  * The Flickr client encapsulates every request to the Flickr API.
@@ -38,9 +37,7 @@ export class FlickrClient {
             throw new Error(`Could not find original image for ID ${imageId}`)
         }
 
-        const response = await this.httpClient.get(originalImage.source, {responseType: 'arraybuffer'})
-        const image = Buffer.from(response.data, 'binary')
-
+        const image = await fetchImage(originalImage.source)
         await fs.writeFile(`${targetPath}/${targetFile}`, image)
     }
 
