@@ -1,6 +1,7 @@
 import axios from "axios"
 import axiosRetry from "axios-retry"
 import {GetInfoResponse} from "../types/flickrApi/photos/GetInfoResponse"
+import {ApiError} from "../types/internal/ApiError"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -32,8 +33,8 @@ export async function fetchImageInformation(
 
     const response = await httpClient
         .get(FLICKR_API_BASE_URL, requestOptions)
-        .catch(function (error) {
-            throw new Error(`Fetching information for the flickr photo "${imageId}" failed. [Error code: ${error.response.status}]`)
+        .catch(() => {
+            throw new ApiError(`Fetching information for the flickr photo "${imageId}" failed.`)
         })
 
     return response.data

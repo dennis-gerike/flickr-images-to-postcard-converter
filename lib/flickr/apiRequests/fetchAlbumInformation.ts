@@ -1,6 +1,7 @@
 import axios from "axios"
 import axiosRetry from "axios-retry"
 import {GetPhotosResponse} from "../types/flickrApi/photoSet/GetPhotosResponse"
+import {ApiError} from "../types/internal/ApiError"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -32,8 +33,8 @@ export async function fetchAlbumInformation(
 
     const response = await httpClient
         .get(FLICKR_API_BASE_URL, requestOptions)
-        .catch(function (error) {
-            throw new Error(`Fetching information for the flickr album "${albumId}" failed. [Error code: ${error.response.status}]`)
+        .catch(() => {
+            throw new ApiError(`Fetching information for the flickr album "${albumId}" failed.`)
         })
 
     return response.data

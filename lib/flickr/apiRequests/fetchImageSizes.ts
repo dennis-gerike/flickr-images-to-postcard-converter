@@ -1,6 +1,7 @@
 import axios from "axios"
 import axiosRetry from "axios-retry"
 import {GetSizesResponse} from "../types/flickrApi/photos/GetSizesResponse"
+import {ApiError} from "../types/internal/ApiError"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -32,8 +33,8 @@ export async function fetchImageSizes(
 
     const response = await httpClient
         .get(FLICKR_API_BASE_URL, requestOptions)
-        .catch(function (error) {
-            throw new Error(`Fetching the image sizes for the flickr photo "${imageId}" failed. [Error code: ${error.response.status}]`)
+        .catch(() => {
+            throw new ApiError(`Fetching the image sizes for the flickr photo "${imageId}" failed.`)
         })
 
     return response.data
