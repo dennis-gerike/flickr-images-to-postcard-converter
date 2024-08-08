@@ -12,25 +12,27 @@ export enum TestSituation {
 
 export function getMockedFlickrApiClient(situation: TestSituation = TestSituation.success) {
     mockedAxios.get.mockImplementation((url, config): Promise<unknown> => {
+        // Call to the Flickr REST API?
         if (url.startsWith('https://api.flickr.com/')) {
             if (config !== undefined) {
                 switch (config.params.method) {
-                    case 'flickr.photos.getInfo':
-                        return Promise.resolve({
-                            data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photos.getInfo`)
-                        })
-                    case 'flickr.photos.getSizes':
-                        return Promise.resolve({
-                            data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photos.getSizes`)
-                        })
-                    case 'flickr.photosets.getPhotos':
-                        return Promise.resolve({
-                            data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photosets.getPhotos`)
-                        })
+                    case 'flickr.photos.getInfo': {
+                        const data = {data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photos.getInfo`)}
+                        return situation === TestSituation.success ? Promise.resolve(data) : Promise.reject(data)
+                    }
+                    case 'flickr.photos.getSizes': {
+                        const data = {data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photos.getSizes`)}
+                        return situation === TestSituation.success ? Promise.resolve(data) : Promise.reject(data)
+                    }
+                    case 'flickr.photosets.getPhotos': {
+                        const data = {data: require(`${getFixturesFolderPath()}/api-responses/${situation}/flickr.photosets.getPhotos`)}
+                        return situation === TestSituation.success ? Promise.resolve(data) : Promise.reject(data)
+                    }
                 }
             }
         }
 
+        // Attempt to download a Flickr photo?
         if (url.startsWith('https://live.staticflickr.com/')) {
             const binary = fs.readFileSync(`${getFixturesFolderPath()}/16by9_medium.jpg`)
             return Promise.resolve({
@@ -38,6 +40,7 @@ export function getMockedFlickrApiClient(situation: TestSituation = TestSituatio
             })
         }
 
+        // Unknown request
         return Promise.resolve({
             data: {}
         })
