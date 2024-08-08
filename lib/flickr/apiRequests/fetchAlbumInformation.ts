@@ -2,6 +2,8 @@ import axios from "axios"
 import axiosRetry from "axios-retry"
 import {GetPhotosResponse} from "../types/flickrApi/photoSet/GetPhotosResponse"
 import {ApiError} from "../types/internal/ApiError"
+import {standardHeaders} from "./standardHeaders"
+import {standardParams} from "./standardParams"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -14,14 +16,11 @@ export async function fetchAlbumInformation(
     httpClient: typeof axios = axios
 ): Promise<GetPhotosResponse> {
     const requestOptions = {
-        'headers': {
-            'User-Agent': 'FlickrPhotosToPostcardConverter/1.0',
-        },
+        'headers': standardHeaders,
         'params': {
+            ...standardParams,
             'api_key': flickrApiKey,
             'photoset_id': albumId,
-            'format': 'json',
-            'nojsoncallback': '?',
             'method': 'flickr.photosets.getPhotos',
         }
     }

@@ -2,6 +2,8 @@ import axios from "axios"
 import axiosRetry from "axios-retry"
 import {GetSizesResponse} from "../types/flickrApi/photos/GetSizesResponse"
 import {ApiError} from "../types/internal/ApiError"
+import {standardHeaders} from "./standardHeaders"
+import {standardParams} from "./standardParams"
 
 const FLICKR_API_BASE_URL = "https://api.flickr.com/services/rest/"
 
@@ -14,14 +16,11 @@ export async function fetchImageSizes(
     httpClient: typeof axios = axios
 ): Promise<GetSizesResponse> {
     const requestOptions = {
-        'headers': {
-            'User-Agent': 'FlickrPhotosToPostcardConverter/1.0',
-        },
+        'headers': standardHeaders,
         'params': {
+            ...standardParams,
             'api_key': flickrApiKey,
             'photo_id': imageId,
-            'format': 'json',
-            'nojsoncallback': '?',
             'method': 'flickr.photos.getSizes',
         }
     }
