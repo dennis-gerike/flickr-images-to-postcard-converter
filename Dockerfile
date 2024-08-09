@@ -4,4 +4,6 @@ WORKDIR /app
 
 COPY . .
 
+RUN npm ci --omit=dev
+
 ENTRYPOINT ["npm", "start"]
