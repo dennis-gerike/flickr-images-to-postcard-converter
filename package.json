@@ -1,8 +1,36 @@
 {
-  "name": "flickr-photos-to-postcard-converter",
-  "version": "2.1.2",
+  "author": "Dennis Gerike",
+  "bugs": {
+    "url": "https://github.com/dgerike/flickr-photos-to-postcard-converter/issues"
+  },
+  "dependencies": {
+    "axios": "1.7.7",
+    "axios-retry": "4.5.0",
+    "cli-progress": "3.12.0",
+    "dotenv": "16.4.5",
+    "jimp": "0.22.12",
+    "ts-node": "10.9.2",
+    "typescript": "5.6.3"
+  },
   "description": "Resizes a given set of flickr images, so they all fit into the postcard format. Optionally prints the title and some meta information onto the photos.",
+  "devDependencies": {
+    "@cucumber/cucumber": "11.0.1",
+    "@types/jest": "29.5.13",
+    "image-size": "1.1.1",
+    "jest": "29.7.0",
+    "jest-junit": "16.0.0",
+    "looks-same": "9.0.1",
+    "tesseract.js": "5.1.0",
+    "ts-jest": "29.2.4"
+  },
+  "homepage": "https://github.com/dgerike/flickr-photos-to-postcard-converter#readme",
+  "license": "MIT",
   "main": "index.js",
+  "name": "flickr-photos-to-postcard-converter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dgerike/flickr-photos-to-postcard-converter.git"
+  },
   "scripts": {
     "start": "npx ts-node index.ts",
     "test": "npm run test-behavior && npm run unit-tests",
@@ -14,33 +42,5 @@
     "upload-test-results-to-xray": "scripts/upload-test-results-to-xray.sh",
     "cleanup": "npx ts-node scripts/cleanup.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dgerike/flickr-photos-to-postcard-converter.git"
-  },
-  "author": "Dennis Gerike",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dgerike/flickr-photos-to-postcard-converter/issues"
-  },
-  "homepage": "https://github.com/dgerike/flickr-photos-to-postcard-converter#readme",
-  "devDependencies": {
-    "@cucumber/cucumber": "11.0.1",
-    "@types/jest": "29.5.13",
-    "image-size": "1.1.1",
-    "jest": "29.7.0",
-    "jest-junit": "16.0.0",
-    "looks-same": "9.0.1",
-    "tesseract.js": "5.1.0",
-    "ts-jest": "29.2.4"
-  },
-  "dependencies": {
-    "axios": "1.7.7",
-    "axios-retry": "4.5.0",
-    "cli-progress": "3.12.0",
-    "dotenv": "16.4.5",
-    "jimp": "0.22.12",
-    "ts-node": "10.9.2",
-    "typescript": "5.6.3"
-  }
+  "version": "2.1.2"
 }
