@@ -10,6 +10,7 @@
     "dotenv": "16.4.5",
     "jimp": "0.22.12",
     "ts-node": "10.9.2",
+    "tsx": "4.19.1",
     "typescript": "5.6.3"
   },
   "description": "Resizes a given set of flickr images, so they all fit into the postcard format. Optionally prints the title and some meta information onto the photos.",
