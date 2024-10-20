@@ -26,6 +26,14 @@ export class XrayClient {
     }
 
     /**
+     * Requesting the tests (and all necessary metadata) from Jira resp. Xray.
+     */
+    public async downloadTests() {
+        const rawTests = await this.fetchRawTests()
+        console.log(rawTests)
+    }
+
+    /**
      * Trying to extract the Xray API credentials from the environment variables.
      * Expects the variables "XRAY_CLIENT_ID" and "XRAY_CLIENT_SECRET".
      */
@@ -54,4 +62,47 @@ export class XrayClient {
 
         this.xrayApiToken = response.data
     }
+
+    /**
+     * Requesting all relevant tests and meta information from the Xray API.
+     * What is "relevant" needs to be specified in `getGraphQlQueryToGetAllTests()`.
+     * Returns a big json object containing all information.
+     */
+    private async fetchRawTests() {
+        await this.obtainApiToken()
+
+        const url = 'https://xray.cloud.getxray.app/api/v2/graphql'
+        const headers = {
+            'Authorization': 'Bearer ' + this.xrayApiToken
+        }
+        const data = {
+            query: getGraphQlQueryToGetAllTests()
+        }
+
+        const response = await axios
+            .post(url, data, {headers})
+            .catch((reason) => {
+                throw new Error(`Requesting the tests from the Xray API failed. Status Code: ${reason.status}`)
+            })
+
+        return response.data
+    }
+}
+
+/**
+ * Specifies the GraphQL query that is used to request all tests from Xray.
+ */
+function getGraphQlQueryToGetAllTests() {
+    return `query {
+              getTests(jql: "project = FP2PC AND testType = Cucumber", limit: 100)
+              {
+                  total
+                  results {
+                      issueId
+                      scenarioType
+                      gherkin
+                      jira(fields: ["key", "status", "issuelinks", "summary", "labels"])
+                  }
+              }
+          }`
 }
