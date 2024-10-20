@@ -22,6 +22,18 @@ export class XrayGherkinExtractor {
     private static extractTest(test: XrayTest) {
         let extractedTest: GherkinFeatureFileComponents
 
+        let requirementTitle = 'NONE';
+        let requirementId = 'NONE';
+
+        if (test.jira.issuelinks.length > 0) {
+            test.jira.issuelinks.forEach(link => {
+                if (link.type.outward === 'tests') {
+                    requirementId = link.outwardIssue.key;
+                    requirementTitle = link.outwardIssue.fields.summary;
+                }
+            });
+        }
+
         extractedTest = {
             scenario: {
                 id: test.jira.key,
@@ -30,9 +42,9 @@ export class XrayGherkinExtractor {
                 gherkin: test.gherkin
             },
             requirement: {
-                id: "TODO",
-                title: "TODO",
-                description: "TODO"
+                id: requirementId,
+                title: requirementTitle,
+                description: ""
             },
         }
 
