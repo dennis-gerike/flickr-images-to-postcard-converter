@@ -1,17 +1,21 @@
 import {RawGherkinComponents} from "./types/RawGherkinComponents.mjs"
+import {RenderedGherkin} from "./types/RenderedGherkin.mjs"
 
 export class GherkinRenderer {
     /**
      * Converting all the given tests into "Feature" descriptions, which can later be saved as regular Gherkin `*.feature` files.
      */
     static renderAll(rawGherkins: RawGherkinComponents[]) {
-        let renderedGherkinFiles: string[] = []
+        let renderedGherkinScenarios: RenderedGherkin[] = []
 
         rawGherkins.forEach(rawGherkin => {
-            renderedGherkinFiles.push(GherkinRenderer.renderOne(rawGherkin))
+            renderedGherkinScenarios.push({
+                rendered: GherkinRenderer.renderOne(rawGherkin),
+                reference: rawGherkin
+            })
         })
 
-        return renderedGherkinFiles
+        return renderedGherkinScenarios
     }
 
     /**
