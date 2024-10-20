@@ -95,7 +95,7 @@ export class XrayClient {
                 throw new Error(`Requesting the tests from the Xray API failed. Status Code: ${reason.status}`)
             })
 
-        return response.data
+        return response.data.data.getTests.results
     }
 }
 
