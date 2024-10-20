@@ -1,4 +1,5 @@
 import axios from "axios"
+import fs from "fs"
 
 /**
  * Providing simplified access to the Xray API, managing the credentials and dealing with the access tokens.
@@ -7,6 +8,7 @@ export class XrayClient {
     private xrayClientId: string | undefined
     private xrayClientSecret: string | undefined
     private xrayApiToken: string | undefined
+    private temporaryFolder = '.'
 
     /**
      * On instantiation this class it will automatically search for the API credentials in the environment variables.
@@ -30,7 +32,15 @@ export class XrayClient {
      */
     public async downloadTests() {
         const rawTests = await this.fetchRawTests()
-        console.log(rawTests)
+        this.storeRawTestsOnDisk(rawTests)
+    }
+
+    /**
+     * Writing the raw tests to disk.
+     * This makes debugging easier and allows to completely separate the jobs of downloading and processing the test information.
+     */
+    private storeRawTestsOnDisk(tests: any) {
+        fs.writeFileSync(`${this.temporaryFolder}/downloaded-scenarios.json`, JSON.stringify(tests, null, 2))
     }
 
     /**

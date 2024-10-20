@@ -5,4 +5,5 @@
 /data/
 /tests/behavior-tests/_data/
 /tests/functionality-tests/_data/
+/downloaded-scenarios.json
 /eng.traineddata
