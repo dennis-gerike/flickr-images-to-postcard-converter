@@ -38,6 +38,7 @@
   "scripts": {
     "start": "npx ts-node index.ts",
     "test": "npm run test-behavior && npm run unit-tests",
+    "behavior-tests:download": "npx tsx scripts/download-gherkin-scenarios.mts",
     "test-behavior": "npx cucumber-js",
     "test-behavior-and-publish": "npx cucumber-js --publish",
     "unit-tests": "npx jest --selectProjects unit",
