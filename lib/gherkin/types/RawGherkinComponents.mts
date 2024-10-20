@@ -1,4 +1,4 @@
-export type GherkinFeatureFileComponents = {
+export type RawGherkinComponents = {
     scenario: {
         id: string
         title: string
