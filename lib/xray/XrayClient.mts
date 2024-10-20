@@ -33,6 +33,8 @@ export class XrayClient {
     public async downloadTests() {
         const rawTests = await this.fetchRawTests()
         this.storeRawTestsOnDisk(rawTests)
+
+        return rawTests
     }
 
     /**
