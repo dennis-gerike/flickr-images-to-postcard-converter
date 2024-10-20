@@ -1,3 +1,4 @@
+import fs from "fs"
 import {GherkinFeatureFileComponents} from "./types/GherkinFeatureFileComponents.mjs"
 import {XrayTest} from "../xray/types/XrayTest.mjs"
 
@@ -10,13 +11,19 @@ export class XrayGherkinExtractor {
      * Returns an object containing the necessary data to build a Gherkin feature file for each test.
      */
     static extract(rawTests: Array<XrayTest>) {
-        let extracted: GherkinFeatureFileComponents[] = []
+        let extractedScenarios: GherkinFeatureFileComponents[] = []
 
         rawTests.forEach(test => {
-            extracted.push(XrayGherkinExtractor.extractTest(test))
+            extractedScenarios.push(XrayGherkinExtractor.extractTest(test))
         })
 
-        return extracted
+        XrayGherkinExtractor.storeExtractedGherkinScenariosOnDisk(extractedScenarios)
+
+        return extractedScenarios
+    }
+
+    static storeExtractedGherkinScenariosOnDisk(tests: GherkinFeatureFileComponents[]) {
+        fs.writeFileSync(`./extracted-scenarios.json`, JSON.stringify(tests, null, 2))
     }
 
     private static extractTest(test: XrayTest) {
