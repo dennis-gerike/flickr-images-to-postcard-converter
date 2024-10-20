@@ -1,4 +1,5 @@
 import {GherkinFeatureFileComponents} from "./types/GherkinFeatureFileComponents.mjs"
+import {GetAllTestsResponse} from "../xray/types/GetAllTestsResponse.mjs"
 
 /**
  * Takes a response from the Xray API and extracts all the information that is needed to later-on create a valid Gherkin feature file.
@@ -8,7 +9,7 @@ export class XrayGherkinExtractor {
      * Expects an array which contains the raw test case information from Jira/Xray.
      * Returns an object containing the necessary data to build a Gherkin feature file for each test.
      */
-    static extract(rawTests: any[]) {
+    static extract(rawTests: Array<GetAllTestsResponse>) {
         let extracted: GherkinFeatureFileComponents[] = []
 
         rawTests.forEach(test => {
@@ -18,13 +19,13 @@ export class XrayGherkinExtractor {
         return extracted
     }
 
-    private static extractTest(test: any) {
+    private static extractTest(test: GetAllTestsResponse) {
         let extractedTest: GherkinFeatureFileComponents
 
         extractedTest = {
             scenario: {
                 id: test.jira.key,
-                type: test.scenarioType,
+                type: test.scenarioType == 'scenario_outline' ? 'Scenario Outline' : 'Scenario',
                 title: test.jira.summary,
                 gherkin: test.gherkin
             },
